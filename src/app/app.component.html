@@ -1,24 +1,4 @@
 <div class="app">
-  <mat-form-field>
-    <mat-select [formControl]="playersCtrl" placeholder="Players" [multiple]="true" #multiSelect>
-      <mat-option>
-        <ngx-mat-select-search 
-          [formControl]="playersFilterCtrl"
-          placeholderLabel="Find player..."
-          noEntriesFoundLabel="No matching player found"
-          autofocus="false">
-        </ngx-mat-select-search>
-      </mat-option>
-      <button mat-icon-button class="btn btn__close_select" (click)="onCloseOptions()">
-        <mat-icon color="primary">home</mat-icon>
-      </button>
-      <mat-option *ngFor="let player of filteredPlayers | async" [value]="player">
-        {{player.name}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-  <p>Selected Players:</p>
-  <ul *ngFor="let player of playersCtrl?.value">
-    <li>{{player.name}}</li>
-  </ul>
+  <app-filter></app-filter>
+  <app-teams></app-teams>
 </div>

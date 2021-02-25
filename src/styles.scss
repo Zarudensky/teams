@@ -1,5 +1,6 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 ngx-mat-select-search {
   .mat-select-search-input.mat-input-element {
     padding: 16px 40px;
@@ -9,8 +10,4 @@ ngx-mat-select-search {
     height: 35px;
     line-height: 35px;
   }
-}
-.cdk-overlay-pane {
-  margin-top: 10px;
-  margin-left: 6px;
 }

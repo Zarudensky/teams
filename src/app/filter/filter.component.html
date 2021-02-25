@@ -1,0 +1,33 @@
+<mat-form-field>
+  <mat-select
+    (openedChange)="closedChangeSelect($event)"
+    panelClass="example-long-panel"
+    [formControl]="playersCtrl" 
+    placeholder="Players" 
+    [multiple]="true"
+    #multiSelect>
+    <button mat-icon-button class="btn btn__home" (click)="onCloseOptions()">
+      <mat-icon color="primary">home</mat-icon>
+    </button>
+    <mat-option>
+      <ngx-mat-select-search 
+        [formControl]="playersFilterCtrl"
+        placeholderLabel="Find player..."
+        noEntriesFoundLabel="No matching player found"
+        disableInitialFocus="false"
+        preventHomeEndKeyPropagation="false">
+      </ngx-mat-select-search>
+    </mat-option>
+    <mat-option *ngFor="let player of filteredPlayers | async" [value]="player">
+      {{player.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+<button
+  mat-button 
+  color="primary" 
+  class="btn btn__clear"
+  (click)="onResetForm()"
+  [disabled]="!playersCtrl.value || playersCtrl.value.length === 0">
+  Clear
+</button>
