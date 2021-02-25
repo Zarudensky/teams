@@ -11,13 +11,17 @@ export class TeamsComponent implements OnInit {
 
   public playersCtrl = this.teamsService.playersCtrl;
 
-  constructor(private teamsService: TeamsService) { }
+  constructor(private teamsService: TeamsService) {}
 
   ngOnInit(): void {
     this.teamsService.ganereteTeams.subscribe(() => {
       console.log('ganereteTeams - TeamsComponent');
+      console.log(this.playersCtrl.value);
     });
   }
   
-
+  public onDeletePlayer(index) {
+    const selectedPlayers = this.playersCtrl.value;
+    this.teamsService.onDeletePlayerService(index, selectedPlayers);
+  }
 }

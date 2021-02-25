@@ -1,7 +1,24 @@
 :host {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+}
+
+.selected__players {
+  position: absolute;
+  top: -6px;
+  left: 40px;
+  right: 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.54);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selected__players :last-child span {
+  display: none;
 }
 
 .mat-form-field {

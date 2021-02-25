@@ -1,3 +1,6 @@
+<div class="selected__players" *ngIf="openedOrClosedSelect">
+  <span *ngFor="let player of playersCtrl?.value">{{player.name}}<span>, </span></span>
+</div>
 <mat-form-field>
   <mat-select
     (openedChange)="closedChangeSelect($event)"

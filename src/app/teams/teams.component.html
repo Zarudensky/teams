@@ -1,4 +1,9 @@
 <p>Selected Players:</p>
-<ul *ngFor="let player of playersCtrl?.value">
-  <li>{{player.name}}</li>
-</ul>
+<div *ngFor="let player of playersCtrl?.value; let i = index">
+  <span>
+    {{player.name}} {{player.surname}}
+  </span>
+  <button mat-icon-button class="btn btn__delete" (click)="onDeletePlayer(i)">
+    <mat-icon>clear</mat-icon>
+  </button>
+</div>

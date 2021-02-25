@@ -20,7 +20,7 @@ export class FilterComponent implements OnInit, AfterViewInit, OnDestroy {
   public playersCtrl = this.teamsService.playersCtrl;
 
   /** control for the MatSelect filter keyword multi-selection */
-  public playersFilterCtrl: FormControl = new FormControl();
+  public playersFilterCtrl = this.teamsService.playersFilterCtrl;
 
   /** list of players filtered by search keyword */
   public filteredPlayers = this.teamsService.filteredPlayers;
@@ -30,9 +30,11 @@ export class FilterComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Subject that emits when the component has been destroyed. */
   private _onDestroy = new Subject<void>();
 
+  public openedOrClosedSelect: boolean;
+
   constructor(private teamsService: TeamsService) { }
 
-  ngOnInit() {
+  ngOnInit() :void {
     // set initial selection
     // this.playersCtrl.setValue([this.players[10], this.players[11], this.players[12]]);
 
@@ -78,6 +80,7 @@ export class FilterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     // get the search keyword
     let search = this.playersFilterCtrl.value;
+
     if (!search) {
       this.filteredPlayers.next(this.players.slice());
       return;
@@ -88,7 +91,6 @@ export class FilterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filteredPlayers.next(
       this.players.filter(player => player.name.toLowerCase().indexOf(search) > -1)
     );
-    console.log(this.playersFilterCtrl.value);
   }
 
   public onCloseOptions() {
@@ -100,6 +102,8 @@ export class FilterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public closedChangeSelect(value) {
+    this.openedOrClosedSelect = value;
+
     if (!value && this.playersCtrl.value) {
       if (this.playersCtrl.value.length > 0) {
         this.teamsService.generateTeemsService();

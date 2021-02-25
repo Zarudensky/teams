@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TeamsService } from '../../app/teams.service';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-players',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlayersComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private teamsService: TeamsService, public db: AngularFirestore) {
   }
-
+  ngOnInit():void {
+    this.teamsService.getpPlayers();
+  }
+  public onBtnClick():void {
+    console.log('onBtnClick');
+  }
 }
+
+
+  
+
