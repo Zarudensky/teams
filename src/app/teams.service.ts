@@ -5,8 +5,8 @@ import { Player, PLAYERS } from './demo-data';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 
-import { firebase } from '@firebase/app';
-import '@firebase/database';
+// import { firebase } from '@firebase/app';
+// import '@firebase/database';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +16,9 @@ export class TeamsService {
 
   constructor(private firestore: AngularFirestore) { }
 
-  public database = firebase.database();
-  public reference = firebase.database().app;
-  public reference2 = firebase.database().ref().child('\players');
+  // public database = firebase.database();
+  // public reference = firebase.database().app;
+  // public reference2 = firebase.database().ref().child('\players');
   // public docRef = db.collection("players").doc("SF");
 
   public ganereteTeams = new Subject();
@@ -43,10 +43,10 @@ export class TeamsService {
 
   public getpPlayers() {
     console.log('getUsers');
-    console.log(this.database);
-    console.log(this.reference);
-    console.log(this.reference2);
-    console.log(this.firestore.collection('/players').snapshotChanges());
+    // console.log(this.database);
+    // console.log(this.reference);
+    // console.log(this.reference2);
+    // console.log(this.firestore.collection('/players').snapshotChanges());
 
 
     // database.collection('/players').get().then((querySnapshot) => {

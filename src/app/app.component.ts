@@ -9,12 +9,12 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
 
-  item$: Observable<any[]>;
+  allPlayers: Observable<any[]>;
 
   constructor(firestore: AngularFirestore) {
-    this.item$ = firestore.collection('players').valueChanges();
+    this.allPlayers = firestore.collection('players').valueChanges();
   }
   ngOnInit() {
-    console.log(this.item$);
+    console.log(this.allPlayers);
   }
 }

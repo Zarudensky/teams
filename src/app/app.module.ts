@@ -24,6 +24,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { environment } from '../environments/environment';
     MainComponent,
     PlayersComponent,
     TeamsComponent,
-    FilterComponent
+    FilterComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
