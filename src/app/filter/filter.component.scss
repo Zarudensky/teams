@@ -37,6 +37,10 @@
   cursor: pointer;
 }
 
+::ng-deep .cdk-overlay-pane {
+  top: 80px !important;
+}
+
 @media screen and (max-width: 900px) {
   ::ng-deep .cdk-overlay-pane {
     top: 65px !important;
