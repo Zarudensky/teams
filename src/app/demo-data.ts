@@ -1,3 +1,14 @@
+export interface PlayersResponse  {
+  players: Array<PlayerInfo>;
+}
+
+export interface PlayerInfo {
+  id: string;
+  name: string;
+  surname: string;
+  isSelected: boolean;
+}
+
 export interface Player {
   id: string;
   name: string;

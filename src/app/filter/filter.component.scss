@@ -7,14 +7,24 @@
 
 .selected__players {
   position: absolute;
-  top: -6px;
-  left: 40px;
-  right: 0;
+  top: 15px;
+  left: 0px;
+  right: 20px;
+  height: 22px;
   font-size: 14px;
-  color: rgba(0, 0, 0, 0.54);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background: #fff;
+  z-index: 9;
+  pointer-events: none;
+
+  &.top {
+    top: -6px;
+    left: 40px;
+    right: 0;
+    color: rgba(0, 0, 0, 0.54);
+  }
 }
 
 .selected__players :last-child span {
@@ -36,14 +46,16 @@
   z-index: 999;
   cursor: pointer;
 }
-
+::ng-deep .mat-select-search-panel {
+  min-width: 100% !important;;
+}
 ::ng-deep .cdk-overlay-pane {
-  top: 80px !important;
+  top: 65px !important;
+  transform: none !important;
 }
 
 @media screen and (max-width: 900px) {
   ::ng-deep .cdk-overlay-pane {
-    top: 65px !important;
     left: 25px !important;
     transform: none !important;
   }

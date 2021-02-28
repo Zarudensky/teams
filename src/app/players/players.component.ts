@@ -9,16 +9,33 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class PlayersComponent implements OnInit {
 
-  constructor(private teamsService: TeamsService, public db: AngularFirestore) {
+  public allPlayersData = this.teamsService.allPlayersData;
+
+  constructor( 
+    private teamsService: TeamsService, 
+    private firestore: AngularFirestore
+    ) {}
+
+  ngOnInit():void {}
+
+  public addPlayer() {
+    console.log('addPlayer');
+    return this.firestore.collection('players')
+      .doc('pTest')
+      .set({ name: 'TestName', surname: 'TestSurname' }, { merge: true });
   }
-  ngOnInit():void {
-    this.teamsService.getpPlayers();
+
+  public deletePlayer(index) {
+    console.log('deletePlayer - ' + index);
+    return this.firestore.collection('players')
+      .doc('pTest')
+      .delete();
   }
-  public onBtnClick():void {
-    console.log('onBtnClick');
+
+  public updatePlayer(index) {
+    console.log('updatePlayer - ' + index);
+    return this.firestore.collection('players')
+      .doc('pTest')
+      .set({ surname: 'SurnameUpdate' }, { merge: true });
   }
 }
-
-
-  
-

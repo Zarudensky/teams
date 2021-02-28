@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 import { TeamsService } from '../../app/teams.service';
 
 @Component({
@@ -16,12 +15,6 @@ export class TeamsComponent implements OnInit {
   ngOnInit(): void {
     this.teamsService.ganereteTeams.subscribe(() => {
       console.log('ganereteTeams - TeamsComponent');
-      console.log(this.playersCtrl.value);
     });
-  }
-  
-  public onDeletePlayer(index) {
-    const selectedPlayers = this.playersCtrl.value;
-    this.teamsService.onDeletePlayerService(index, selectedPlayers);
   }
 }

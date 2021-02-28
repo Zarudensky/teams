@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-
-import { TeamsService } from '../../app/teams.service';
+import { FormControl } from '@angular/forms';
+import { TeamsService, PlayerInfo } from '../../app/teams.service';
+import { ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-filter',
@@ -12,97 +11,73 @@ import { TeamsService } from '../../app/teams.service';
   styleUrls: ['./filter.component.scss']
 })
 
-export class FilterComponent implements OnInit, AfterViewInit, OnDestroy {
-  /** list of players */
-  private players = this.teamsService.players;
-
-  /** control for the selected player for multi-selection */
+export class FilterComponent implements OnInit, OnDestroy {
+  public allPlayersData = this.teamsService.allPlayersData;
   public playersCtrl = this.teamsService.playersCtrl;
-
-  /** control for the MatSelect filter keyword multi-selection */
-  public playersFilterCtrl = this.teamsService.playersFilterCtrl;
-
-  /** list of players filtered by search keyword */
-  public filteredPlayers = this.teamsService.filteredPlayers;
+  public playersFilterCtrl: FormControl = new FormControl();
+  public openedOrClosedSelect: boolean;
+  public players: PlayerInfo[] = [];
+  public filteredPlayers: ReplaySubject<PlayerInfo[]> = new ReplaySubject<PlayerInfo[]>(1);
+  private _onDestroy = new Subject<void>();
 
   @ViewChild('multiSelect') multiSelect: MatSelect;
 
-  /** Subject that emits when the component has been destroyed. */
-  private _onDestroy = new Subject<void>();
-
-  public openedOrClosedSelect: boolean;
-
-  constructor(private teamsService: TeamsService) { }
+  constructor(private teamsService: TeamsService) {}
 
   ngOnInit() :void {
-    // set initial selection
-    // this.playersCtrl.setValue([this.players[10], this.players[11], this.players[12]]);
+    this.getPlayers();
 
-    // load the initial player list
-    this.filteredPlayers.next(this.players.slice());
-
-    // listen for search field value changes
     this.playersFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
-        this.filterPlayers();
+        this.filterOptions();
       });
   }
 
-  ngAfterViewInit() {
-    this.setInitialValue();
+  public getPlayers(): void {
+    this.allPlayersData.subscribe((results) => {
+      this.players = results;
+    });
+
+    this.filteredPlayers.next(this.players.slice());
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._onDestroy.next();
     this._onDestroy.complete();
   }
 
-  /**
-   * Sets the initial value after the filteredPlayers are loaded initially
-   */
-  private setInitialValue() {
-    this.filteredPlayers
-      .pipe(take(1), takeUntil(this._onDestroy))
-      .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredPlayers are loaded initially
-        // and after the mat-option elements are available
-        // this.multiSelect.compareWith = (a: Player, b: Player) => a && b && a.id === b.id;
-      });
-  }
-
-  private filterPlayers() {
+  public filterOptions(): void {
     if (!this.players) {
       return;
     }
-    // get the search keyword
-    let search = this.playersFilterCtrl.value;
 
-    if (!search) {
+    let searchValue = this.playersFilterCtrl.value;
+
+    if (!searchValue) {
       this.filteredPlayers.next(this.players.slice());
       return;
     } else {
-      search = search.toLowerCase();
+      searchValue = searchValue.toLowerCase();
     }
-    // filter the players
+
     this.filteredPlayers.next(
-      this.players.filter(player => player.name.toLowerCase().indexOf(search) > -1)
+      this.players.filter(player => player.name.toLowerCase().indexOf(searchValue) > -1)
     );
   }
 
-  public onCloseOptions() {
+  public onCloseOptions(): void {
     this.multiSelect.close();
   }
 
-  public onResetForm() {
+  public onResetForm(): void {
     this.playersCtrl.reset();
   }
 
-  public closedChangeSelect(value) {
+  public closedChangeSelect(value): void {
     this.openedOrClosedSelect = value;
+
+    this.filteredPlayers.next(this.players.slice());
 
     if (!value && this.playersCtrl.value) {
       if (this.playersCtrl.value.length > 0) {
@@ -111,4 +86,3 @@ export class FilterComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 }
-

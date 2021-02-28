@@ -1,2 +1,16 @@
-<p>players works!</p>
-<button class="test__btn" (click)="onBtnClick()">Test</button>
+<button 
+  mat-button 
+  class="btn arrow__btn"
+  routerLink="/" 
+  routerLinkActive="active">
+  <mat-icon>keyboard_backspace</mat-icon>
+</button>
+<ul>
+  <li class="text" *ngFor="let player of allPlayersData | async">
+    {{player.name}}
+    {{player.surname}}
+  </li>
+</ul>
+<button class="test__btn" (click)="addPlayer()">addPlayer</button>
+<button class="test__btn" (click)="deletePlayer(3)">deletePlayer</button>
+<button class="test__btn" (click)="updatePlayer(3)">updatePlayer</button>

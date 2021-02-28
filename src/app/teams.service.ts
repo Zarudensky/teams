@@ -1,66 +1,36 @@
 import { Injectable } from '@angular/core';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { Player, PLAYERS } from './demo-data';
-
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 
-// import { firebase } from '@firebase/app';
-// import '@firebase/database';
+export interface PlayerInfo {
+  name: string;
+  surname: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class TeamsService {
-
-  constructor(private firestore: AngularFirestore) { }
-
-  // public database = firebase.database();
-  // public reference = firebase.database().app;
-  // public reference2 = firebase.database().ref().child('\players');
-  // public docRef = db.collection("players").doc("SF");
-
+  public allPlayersData: Observable<any[]>;
+  public playersCtrl: FormControl = new FormControl();
+  private selectedPlayers = [];
   public ganereteTeams = new Subject();
 
-  public playersCtrl: FormControl = new FormControl();
-  public playersFilterCtrl: FormControl = new FormControl();
-
-  public players: Player[] = PLAYERS;
-  public filteredPlayers: ReplaySubject<Player[]> = new ReplaySubject<Player[]>(1);
-  public selectedPlayers = [];
-
-  public generateTeemsService() {
-    this.ganereteTeams.next();
+  constructor(private firestore: AngularFirestore) {
+    this.allPlayersData = firestore.collection('players').valueChanges();
   }
 
-  public onDeletePlayerService(index, selectedPlayers) {
-    this.selectedPlayers = selectedPlayers;
+  public onDeletePlayerService(index) {
+    this.selectedPlayers = this.playersCtrl.value;
     this.selectedPlayers.splice(index,1);
     this.playersCtrl.reset();
     this.playersCtrl.patchValue(this.selectedPlayers);
   }
 
-  public getpPlayers() {
-    console.log('getUsers');
-    // console.log(this.database);
-    // console.log(this.reference);
-    // console.log(this.reference2);
-    // console.log(this.firestore.collection('/players').snapshotChanges());
-
-
-    // database.collection('/players').get().then((querySnapshot) => {
-    //   querySnapshot.forEach((doc) => {
-    //       // doc.data() is never undefined for query doc snapshots
-    //       console.log(doc.id, " => ", doc.data());
-    //   });
-    // });
-    // return this.firestore.collection('players').snapshotChanges();
-    // return new Promise<any>((resolve, reject) => {
-    //   this.afs.collection('/players').snapshotChanges()
-    //   .subscribe(snapshots => {
-    //     resolve(snapshots)
-    //   })
-    // })
+  public generateTeemsService() {
+    this.ganereteTeams.next();
   }
 }

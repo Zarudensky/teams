@@ -1,9 +1,8 @@
-<p>Selected Players:</p>
-<div *ngFor="let player of playersCtrl?.value; let i = index">
-  <span>
-    {{player.name}} {{player.surname}}
-  </span>
-  <button mat-icon-button class="btn btn__delete" (click)="onDeletePlayer(i)">
-    <mat-icon>clear</mat-icon>
-  </button>
+<div class="teams" *ngIf="playersCtrl.value && playersCtrl.value.length > 0">
+  <p>Selected Players:</p>
+  <app-card *ngFor="let player of playersCtrl?.value; let i = index"
+    class="card player__id positon team"
+    [player]="player"
+    [index]="i">
+  </app-card>
 </div>
