@@ -8,7 +8,7 @@
     (openedChange)="closedChangeSelect($event)"
     panelClass="example-long-panel"
     [formControl]="playersCtrl" 
-    placeholder="Players" 
+    placeholder="Игроки" 
     [multiple]="true"
     #multiSelect>
     <button mat-icon-button class="btn btn__home" (click)="onCloseOptions()">
@@ -18,7 +18,7 @@
       <ngx-mat-select-search 
         [formControl]="playersFilterCtrl"
         placeholderLabel="Find player..."
-        noEntriesFoundLabel="No matching player found"
+        noEntriesFoundLabel="Соответствующий игрок не найден"
         disableInitialFocus="false"
         preventHomeEndKeyPropagation="false">
       </ngx-mat-select-search>
@@ -34,5 +34,5 @@
   class="btn btn__clear"
   (click)="onResetForm()"
   [disabled]="!playersCtrl.value || playersCtrl.value.length === 0">
-  Clear
+  Очистить
 </button>

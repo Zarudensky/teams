@@ -1,0 +1,77 @@
+<form class="form" 
+  [formGroup]="playerGroup"
+  (ngSubmit)="onFormSubmit()">
+  <div class="first__block">
+    <mat-form-field class="form__name">
+      <mat-label>Имя</mat-label>
+      <input matInput placeholder="Введите имя" formControlName="name">
+    </mat-form-field>
+    <mat-form-field class="form__surname">
+      <mat-label>Фамилия</mat-label>
+      <input matInput placeholder="Введите фамилию" formControlName="surname">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Сила</mat-label>
+      <mat-select formControlName="power">
+        <mat-option *ngFor="let power of powers" [value]="power.value">
+          {{ power.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Статус</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let status of statuses" [value]="status.value">
+          {{ status.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Позиция</mat-label>
+      <mat-select formControlName="position">
+        <mat-option *ngFor="let position of positions" [value]="position.value">
+          {{ position.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> 
+  <div class="second__block">
+    <mat-form-field appearance="fill">
+      <mat-label>Атака</mat-label>
+      <mat-select formControlName="attack">
+        <mat-option *ngFor="let point of points" [value]="point.value">
+          {{ point.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Защита</mat-label>
+      <mat-select formControlName="defense">
+        <mat-option *ngFor="let point of points" [value]="point.value">
+          {{ point.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Меткость</mat-label>
+      <mat-select formControlName="accuracy">
+        <mat-option *ngFor="let point of points" [value]="point.value">
+          {{ point.viewValue }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="form__name">
+      <mat-label>КК</mat-label>
+      <input matInput type="number" placeholder="Введите номер" formControlName="cc">
+    </mat-form-field>
+    <div class="form__actions">
+      <button mat-raised-button class="btn btn__save" color="primary" type="submit">
+        Сохранить
+      </button>
+      <button mat-raised-button class="btn btn__cancel" color="primary" (click)="cancelForm()">
+        Отмена
+      </button>
+    </div>
+  </div>
+
+</form>

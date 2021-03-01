@@ -7,35 +7,34 @@ import { AngularFirestore } from '@angular/fire/firestore';
   templateUrl: './players.component.html',
   styleUrls: ['./players.component.scss']
 })
-export class PlayersComponent implements OnInit {
 
+export class PlayersComponent implements OnInit {
   public allPlayersData = this.teamsService.allPlayersData;
+  public showOrHideForm: boolean;
+
+  displayedColumns: string[] = ['avatar', 'name', 'surname', 'power', 'position', 'attack', 'defense', 'accuracy', 'cc', 'level', 'actions'];
 
   constructor( 
     private teamsService: TeamsService, 
     private firestore: AngularFirestore
     ) {}
 
-  ngOnInit():void {}
+  ngOnInit():void {
 
-  public addPlayer() {
-    console.log('addPlayer');
-    return this.firestore.collection('players')
-      .doc('pTest')
-      .set({ name: 'TestName', surname: 'TestSurname' }, { merge: true });
   }
 
-  public deletePlayer(index) {
-    console.log('deletePlayer - ' + index);
-    return this.firestore.collection('players')
-      .doc('pTest')
-      .delete();
+  public openForm() {
+    console.log('openForm');
+    this.showOrHideForm = true;
   }
 
-  public updatePlayer(index) {
-    console.log('updatePlayer - ' + index);
-    return this.firestore.collection('players')
-      .doc('pTest')
-      .set({ surname: 'SurnameUpdate' }, { merge: true });
+
+  public chengePlayerClic(player) {
+    console.log('chengePlayerClic and open mini form');
+
+    
+  }
+  public deletePlayerClic(player) {
+    console.log('deletePlayerClic and open popup');
   }
 }

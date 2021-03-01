@@ -5,12 +5,91 @@
   routerLinkActive="active">
   <mat-icon>keyboard_backspace</mat-icon>
 </button>
-<ul>
-  <li class="text" *ngFor="let player of allPlayersData | async">
-    {{player.name}}
-    {{player.surname}}
-  </li>
-</ul>
-<button class="test__btn" (click)="addPlayer()">addPlayer</button>
-<button class="test__btn" (click)="deletePlayer(3)">deletePlayer</button>
-<button class="test__btn" (click)="updatePlayer(3)">updatePlayer</button>
+
+<table mat-table [dataSource]="allPlayersData" class="mat-elevation-z8">
+  <ng-container matColumnDef="avatar">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let player"> {{player.avatar}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Имя</th>
+    <td mat-cell *matCellDef="let player"> {{player.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="surname">
+    <th mat-header-cell *matHeaderCellDef>Фамилия</th>
+    <td mat-cell *matCellDef="let player"> {{player.surname}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="power">
+    <th mat-header-cell *matHeaderCellDef>Супер сила</th>
+    <td mat-cell *matCellDef="let player"> {{player.power}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="position">
+    <th mat-header-cell *matHeaderCellDef>Позиция</th>
+    <td mat-cell *matCellDef="let player"> {{player.position}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="attack">
+    <th mat-header-cell *matHeaderCellDef>Атака</th>
+    <td mat-cell *matCellDef="let player"> {{player.attack}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="defense">
+    <th mat-header-cell *matHeaderCellDef>Защита</th>
+    <td mat-cell *matCellDef="let player"> {{player.defense}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="accuracy">
+    <th mat-header-cell *matHeaderCellDef>Меткость</th>
+    <td mat-cell *matCellDef="let player"> {{player.accuracy}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="cc">
+    <th mat-header-cell *matHeaderCellDef>КК</th>
+    <td mat-cell *matCellDef="let player"> {{player.cc}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="level">
+    <th mat-header-cell *matHeaderCellDef>Уровень</th>
+    <td mat-cell *matCellDef="let player"> {{player.level}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let player">
+      <button 
+        mat-icon-button 
+        class="btn btn__chenge" 
+        (click)="chengePlayerClic(player)"
+        title="Chenge player">
+        <mat-icon color="primary">more_vert</mat-icon>
+      </button>
+      <button 
+        mat-icon-button 
+        class="btn btn__delete" 
+        (click)="deletePlayerClic(player)"
+        title="Delete player">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <!-- <app-form class="form form__chenge"></app-form> -->
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<app-form 
+  *ngIf="showOrHideForm"
+  class="form form__add">
+</app-form>
+<button 
+  *ngIf="!showOrHideForm"
+  mat-icon-button 
+  class="btn btn__add" 
+  (click)="openForm()" 
+  title="Добавить нового игрока">
+  <mat-icon color="primary">add_circle_outline</mat-icon>
+</button>

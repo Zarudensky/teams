@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { FormControl } from '@angular/forms';
-import { TeamsService, PlayerInfo } from '../../app/teams.service';
+import { TeamsService, PlayerInfo } from '../../teams.service';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-filter',
-  templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.scss']
+  selector: 'app-select',
+  templateUrl: './select.component.html',
+  styleUrls: ['./select.component.scss']
 })
 
-export class FilterComponent implements OnInit, OnDestroy {
+export class SelectComponent implements OnInit, OnDestroy {
   public allPlayersData = this.teamsService.allPlayersData;
   public playersCtrl = this.teamsService.playersCtrl;
   public playersFilterCtrl: FormControl = new FormControl();

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TeamsService } from '../../app/teams.service';
+import { TeamsService } from '../../../teams.service';
 
 @Component({
   selector: 'app-card',
@@ -17,6 +17,6 @@ export class CardComponent implements OnInit {
   }
 
   public onDeletePlayer(index) {
-    this.teamsService.onDeletePlayerService(index);
+    this.teamsService.onDeletePlayerTeamsService(index);
   }
 }
