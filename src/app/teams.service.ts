@@ -40,7 +40,7 @@ export class TeamsService {
   }
 
   public savePlayerService(player) {
-    console.log('savePlayerService');
+    console.log('savePlayerServices');
     console.log(player);
 
     // return this.firestore.collection('players')

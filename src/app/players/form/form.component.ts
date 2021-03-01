@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TeamsService } from '../../../app/teams.service';
 
@@ -18,17 +18,25 @@ interface NumberOption {
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
-  public playerGroup;
+  private _bool: boolean;
+  @Output() boolChange = new EventEmitter();
 
+  set bool(value) { this._bool = value; this.boolChange.emit(value); }
+  @Input() get bool() { return this.bool; }
+
+  public filledFields: boolean;
+  public playerGroup;
+  
   public powers: StringOption[] = [
     {value: 'speed', viewValue: 'Скорость'},
     {value: 'tank', viewValue: 'Танк'},
-    {value: 'throw', viewValue: 'Бросок'}
+    {value: 'throw', viewValue: 'Бросок'},
+    {value: 'nо', viewValue: 'Нет'}
   ];
 
   public statuses: StringOption[] = [
-    {value: 'young', viewValue: 'Молодой'},
     {value: 'veteran', viewValue: 'Ветеран'},
+    {value: 'young', viewValue: 'Молодой'},
     {value: 'newcomer', viewValue: 'Новичек'}
   ];
 
@@ -69,32 +77,42 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.playerGroup.patchValue(this.playerGroup.value);
-    console.log(this.powers);
-    // this.playerGroup.setControl(
-      
-    //    {name = new FormControl('')}
-    //   // 'surname': new FormControl(''),
-    //   // 'power': new FormControl(powerOptions),
-    //   // // 'status': new FormControl(statusOptions),
-    //   // // 'position': new FormControl(positionOptions),
-    //   // // 'attack': new FormControl(numberOptions),
-    //   // // 'defense': new FormControl(numberOptions),
-    //   // // 'accuracy': new FormControl(numberOptions),
-    //   // 'cc': new FormControl('')
-    // );
-  
+    this.playerGroup.reset();
+    this.playerGroup.valueChanges.subscribe(selectedValue => {
+      if(selectedValue.name && 
+        selectedValue.surname && 
+        selectedValue.power && 
+        selectedValue.status && 
+        selectedValue.position && 
+        selectedValue.attack && 
+        selectedValue.defense && 
+        selectedValue.accuracy) {
+        this.filledFields = true;
+      }
+    });
   }
 
   public onFormSubmit() {
     console.log('onFormSubmit');
+
+    // generate and add id
+    
     this.teamsService.savePlayerService(this.playerGroup.value);
+    this.resetForm();
+    this.hideModal();
   }
 
   public cancelForm() {
     console.log('cancelForm');
     this.resetForm();
+    
+    this.hideModal();
   }
+
+  public hideModal() {
+    this.bool = false;
+  }
+
   public resetForm() {
     this.playerGroup.reset();
   }

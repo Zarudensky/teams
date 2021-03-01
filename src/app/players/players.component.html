@@ -1,10 +1,25 @@
 <button 
   mat-button 
-  class="btn arrow__btn"
+  class="btn btn__arrow"
   routerLink="/" 
   routerLinkActive="active">
   <mat-icon>keyboard_backspace</mat-icon>
 </button>
+
+<button 
+  *ngIf="!showOrHideForm"
+  mat-icon-button 
+  class="btn btn__add" 
+  (click)="openForm()" 
+  title="Добавить нового игрока">
+  <mat-icon color="primary">add_circle_outline</mat-icon>
+</button>
+
+<app-form 
+  [(bool)]="showOrHideForm"
+  *ngIf="showOrHideForm"
+  class="form form__add">
+</app-form>
 
 <table mat-table [dataSource]="allPlayersData" class="mat-elevation-z8">
   <ng-container matColumnDef="avatar">
@@ -81,15 +96,3 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<app-form 
-  *ngIf="showOrHideForm"
-  class="form form__add">
-</app-form>
-<button 
-  *ngIf="!showOrHideForm"
-  mat-icon-button 
-  class="btn btn__add" 
-  (click)="openForm()" 
-  title="Добавить нового игрока">
-  <mat-icon color="primary">add_circle_outline</mat-icon>
-</button>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { TeamsService } from '../../app/teams.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 
@@ -10,13 +10,15 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 export class PlayersComponent implements OnInit {
   public allPlayersData = this.teamsService.allPlayersData;
-  public showOrHideForm: boolean;
+
+  public showOrHideForm = false;
+
+  // @Input() showOrHideForm: boolean;
 
   displayedColumns: string[] = ['avatar', 'name', 'surname', 'power', 'position', 'attack', 'defense', 'accuracy', 'cc', 'level', 'actions'];
 
   constructor( 
-    private teamsService: TeamsService, 
-    private firestore: AngularFirestore
+    private teamsService: TeamsService
     ) {}
 
   ngOnInit():void {
@@ -25,6 +27,9 @@ export class PlayersComponent implements OnInit {
 
   public openForm() {
     console.log('openForm');
+    this.showPopup();
+  }
+  public showPopup() {
     this.showOrHideForm = true;
   }
 
