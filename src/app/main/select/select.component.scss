@@ -26,15 +26,12 @@
     color: rgba(0, 0, 0, 0.54);
   }
 }
-
 .selected__players :last-child span {
   display: none;
 }
-
 .mat-form-field {
   width: 100%;
 }
-
 .btn__home {
   position: absolute;
   top: 3px;
@@ -47,11 +44,27 @@
   cursor: pointer;
 }
 ::ng-deep .mat-select-search-panel {
-  min-width: 100% !important;;
+  position: relative;
+  min-width: 100% !important;
+
+  &::before {
+    content: "";
+    position: absolute;
+    background-image: url(../../../assets/fon_select.svg);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 360px;
+    background-position: 50% 140px;
+    width: 100%;
+    height: 100vh;
+  }
 }
 ::ng-deep .cdk-overlay-pane {
   top: 65px !important;
   transform: none !important;
+}
+::ng-deep .mat-select-panel.example-long-panel { 
+  max-height: 500px;
 }
 
 @media screen and (max-width: 900px) {
@@ -63,6 +76,11 @@
   ::ng-deep .mat-select-panel.example-long-panel { 
     min-width: calc(100% + 50px) !important;
     max-height: 380px;
+
+    &::before {
+      background-position-x: 70%;
+      background-position-y: 110px;
+    }
   }
 }
 
@@ -74,6 +92,10 @@
   
   ::ng-deep .mat-select-panel.example-long-panel { 
     min-width: calc(100% + 20px) !important;
+
+    &::before {
+      background-position-x: 80%;
+    }
   }
   
   .btn__clear.mat-button {

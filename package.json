@@ -22,6 +22,8 @@
     "@angular/platform-browser": "~11.2.3",
     "@angular/platform-browser-dynamic": "~11.2.3",
     "@angular/router": "~11.2.3",
+    "@material-ui/core": "^5.0.0-alpha.26",
+    "angular2-uuid": "^1.1.1",
     "angularfire2": "^5.4.2",
     "expo-firebase-app": "^2.0.0",
     "firebase": "^8.2.9",

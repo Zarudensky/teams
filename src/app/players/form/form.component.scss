@@ -3,6 +3,10 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 20px;
+  background-image: url(../../../assets/fon_form.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 
   ::ng-deep {
     .mat-form-field {
@@ -56,7 +60,39 @@
   }
 }
 
-@media screen and (max-width: 560px) {
-  
+@media screen and (max-width: 520px) {
+  .form {
+    ::ng-deep {
+      .mat-form-field {
+        width: calc(50% - 10px);
+        padding-top: 15px;
+        margin-bottom: 15px;
+      }
+    }
+    .form__actions {
+      width: calc(50% - 10px);
+
+      .btn {
+        width: calc(50% - 5px);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .form {
+    ::ng-deep {
+      .mat-form-field {
+        width: 100%;
+      }
+    }
+    .form__actions {
+      width: 100%;
+
+      .btn {
+        width: calc(50% - 10px);
+      }
+    }
+  }
 }
 

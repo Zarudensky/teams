@@ -1,6 +1,7 @@
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TeamsService } from '../../../app/teams.service';
+import { UUID } from 'angular2-uuid';
 
 interface StringOption {
   value: string;
@@ -20,12 +21,13 @@ interface NumberOption {
 export class FormComponent implements OnInit {
   private _bool: boolean;
   @Output() boolChange = new EventEmitter();
-
   set bool(value) { this._bool = value; this.boolChange.emit(value); }
   @Input() get bool() { return this.bool; }
 
+  public uuidValue:string;
+
   public filledFields: boolean;
-  public playerGroup;
+  public playerGroup: FormGroup;
   
   public powers: StringOption[] = [
     {value: 'speed', viewValue: 'Скорость'},
@@ -41,8 +43,8 @@ export class FormComponent implements OnInit {
   ];
 
   public positions: StringOption[] = [
-    {value: 'attack', viewValue: 'Атака'},
-    {value: 'defense', viewValue: 'Защита'},
+    {value: 'attack', viewValue: 'Атакующий'},
+    {value: 'defense', viewValue: 'Защитник'},
     {value: 'universal', viewValue: 'Универсал'}
   ];
 
@@ -54,67 +56,98 @@ export class FormComponent implements OnInit {
     {value: 25, viewValue: '0'},
   ];
 
-  public powerCtrl = new FormControl(this.powers);
-  public statusCtrl = new FormControl(this.statuses);
-  public positionCtrl = new FormControl(this.positions);
-  public attackCtrl = new FormControl(this.points);
-  public defenseCtrl = new FormControl(this.points);
-  public accuracyCtrl = new FormControl(this.points);
-
-
   constructor(private teamsService: TeamsService) {
     this.playerGroup = new FormGroup({
+      id: new FormControl(''),
+      avatar: new FormControl('avatar'),
       name: new FormControl(''),
       surname: new FormControl(''),
-      power: this.powerCtrl,
-      status: this.statusCtrl,
-      position: this.positionCtrl,
-      attack: this.attackCtrl,
-      defense: this.defenseCtrl,
-      accuracy: this.accuracyCtrl,
-      cc: new FormControl('')
+      power: new FormControl(this.powers),
+      status: new FormControl(this.statuses),
+      position: new FormControl(this.positions),
+      attack: new FormControl(this.points),
+      defense: new FormControl(this.points),
+      accuracy: new FormControl(this.points),
+      level: new FormControl(''),
+      cc: new FormControl(0)
     });
   }
 
   ngOnInit(): void {
-    this.playerGroup.reset();
+    if (this.teamsService.player) {
+      this.setValuesForm(this.teamsService.player);
+      this.filledFields = true;
+    }
     this.playerGroup.valueChanges.subscribe(selectedValue => {
       if(selectedValue.name && 
         selectedValue.surname && 
-        selectedValue.power && 
-        selectedValue.status && 
-        selectedValue.position && 
-        selectedValue.attack && 
-        selectedValue.defense && 
-        selectedValue.accuracy) {
+        typeof selectedValue.power === 'string' && 
+        typeof selectedValue.status === 'string' && 
+        typeof selectedValue.position === 'string' && 
+        typeof selectedValue.attack === 'number' && 
+        typeof selectedValue.defense === 'number' && 
+        typeof selectedValue.accuracy === 'number') {
         this.filledFields = true;
       }
     });
   }
 
-  public onFormSubmit() {
-    console.log('onFormSubmit');
+  public setValuesForm(player): void {
+    this.playerGroup.patchValue({
+      id: player.id,
+      avatar: player.avatar,
+      name: player.name,
+      surname: player.surname,
+      power: player.power,
+      status: player.status,
+      position: player.position,
+      attack: player.attack,
+      defense: player.defense,
+      accuracy: player.accuracy,
+      cc: player.cc
+    });
+  }
 
-    // generate and add id
-    
+  public onFormSubmit(): void {
+    this.addNewPlayer();
+    this.resetForm();
+    this.hideModal();
+  }
+
+  public addNewPlayer(): void {
+    this.generateId();
+    this.countLevel();
     this.teamsService.savePlayerService(this.playerGroup.value);
+  }
+
+  public generateId(): void {
+    if (!this.teamsService.player) {
+      const id = this.uuidValue=UUID.UUID();
+      this.playerGroup.value.id = id;
+    }
+  }
+
+  public countLevel(): void {
+    let level: number;
+    level = this.playerGroup.value.attack + 
+      this.playerGroup.value.defense + 
+      this.playerGroup.value.accuracy + 
+      this.playerGroup.value.cc;
+
+    this.playerGroup.value.level = level;
+  }
+
+  public cancelForm(): void {
     this.resetForm();
     this.hideModal();
   }
 
-  public cancelForm() {
-    console.log('cancelForm');
-    this.resetForm();
-    
-    this.hideModal();
-  }
-
-  public hideModal() {
+  public hideModal(): void {
     this.bool = false;
   }
 
-  public resetForm() {
+  public resetForm(): void {
     this.playerGroup.reset();
+    this.teamsService.player = null;
   }
-
 }

@@ -15,84 +15,99 @@
   <mat-icon color="primary">add_circle_outline</mat-icon>
 </button>
 
-<app-form 
+<app-form
   [(bool)]="showOrHideForm"
   *ngIf="showOrHideForm"
   class="form form__add">
 </app-form>
 
-<table mat-table [dataSource]="allPlayersData" class="mat-elevation-z8">
-  <ng-container matColumnDef="avatar">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let player"> {{player.avatar}} </td>
-  </ng-container>
+<div class="table__wrapper">
+  <table mat-table [dataSource]="allPlayersData" class="mat-elevation-z8">
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let player">
+        <button 
+          mat-icon-button 
+          class="btn btn__delete"
+          (click)="deletePlayerClic(player)"
+          [disabled]="showOrHideForm"
+          title="Удалить игрока">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <button 
+          mat-icon-button
+          class="btn btn__chenge"
+          (click)="chengePlayerClic(player)"
+          [disabled]="showOrHideForm"
+          title="Изменить игрока">
+          <mat-icon color="primary">more_vert</mat-icon>
+        </button>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef>Имя</th>
-    <td mat-cell *matCellDef="let player"> {{player.name}} </td>
-  </ng-container>
+    <ng-container matColumnDef="avatar">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let player">
+        <div class="avatar">
+          <img class="img__avatar" src="" alt="">
+          <button mat-icon-button class="btn btn__avatar" title="Изменить фото" (click)="uploadAvatar(player)">
+            <mat-icon color="primary">camera_alt</mat-icon>
+          </button>
+        </div>
+      </td>
+    </ng-container>
 
-  <ng-container matColumnDef="surname">
-    <th mat-header-cell *matHeaderCellDef>Фамилия</th>
-    <td mat-cell *matCellDef="let player"> {{player.surname}} </td>
-  </ng-container>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Имя</th>
+      <td mat-cell *matCellDef="let player"> {{player.name}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="power">
-    <th mat-header-cell *matHeaderCellDef>Супер сила</th>
-    <td mat-cell *matCellDef="let player"> {{player.power}} </td>
-  </ng-container>
+    <ng-container matColumnDef="surname">
+      <th mat-header-cell *matHeaderCellDef>Фамилия</th>
+      <td mat-cell *matCellDef="let player"> {{player.surname}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef>Позиция</th>
-    <td mat-cell *matCellDef="let player"> {{player.position}} </td>
-  </ng-container>
+    <ng-container matColumnDef="power">
+      <th mat-header-cell *matHeaderCellDef>Супер сила</th>
+      <td mat-cell *matCellDef="let player"> {{player.power}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="attack">
-    <th mat-header-cell *matHeaderCellDef>Атака</th>
-    <td mat-cell *matCellDef="let player"> {{player.attack}} </td>
-  </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Статус</th>
+      <td mat-cell *matCellDef="let player"> {{player.status}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="defense">
-    <th mat-header-cell *matHeaderCellDef>Защита</th>
-    <td mat-cell *matCellDef="let player"> {{player.defense}} </td>
-  </ng-container>
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef>Позиция</th>
+      <td mat-cell *matCellDef="let player"> {{player.position}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="accuracy">
-    <th mat-header-cell *matHeaderCellDef>Меткость</th>
-    <td mat-cell *matCellDef="let player"> {{player.accuracy}} </td>
-  </ng-container>
+    <ng-container matColumnDef="attack">
+      <th mat-header-cell *matHeaderCellDef>Атака</th>
+      <td mat-cell *matCellDef="let player"> {{player.attack}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="cc">
-    <th mat-header-cell *matHeaderCellDef>КК</th>
-    <td mat-cell *matCellDef="let player"> {{player.cc}} </td>
-  </ng-container>
+    <ng-container matColumnDef="defense">
+      <th mat-header-cell *matHeaderCellDef>Защита</th>
+      <td mat-cell *matCellDef="let player"> {{player.defense}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="level">
-    <th mat-header-cell *matHeaderCellDef>Уровень</th>
-    <td mat-cell *matCellDef="let player"> {{player.level}} </td>
-  </ng-container>
+    <ng-container matColumnDef="accuracy">
+      <th mat-header-cell *matHeaderCellDef>Меткость</th>
+      <td mat-cell *matCellDef="let player"> {{player.accuracy}} </td>
+    </ng-container>
 
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let player">
-      <button 
-        mat-icon-button 
-        class="btn btn__chenge" 
-        (click)="chengePlayerClic(player)"
-        title="Chenge player">
-        <mat-icon color="primary">more_vert</mat-icon>
-      </button>
-      <button 
-        mat-icon-button 
-        class="btn btn__delete" 
-        (click)="deletePlayerClic(player)"
-        title="Delete player">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <!-- <app-form class="form form__chenge"></app-form> -->
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="cc">
+      <th mat-header-cell *matHeaderCellDef>КК</th>
+      <td mat-cell *matCellDef="let player"> {{player.cc}} </td>
+    </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    <ng-container matColumnDef="level">
+      <th mat-header-cell *matHeaderCellDef>Уровень</th>
+      <td mat-cell *matCellDef="let player"> {{player.level}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

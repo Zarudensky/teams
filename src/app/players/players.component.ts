@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
-import { TeamsService } from '../../app/teams.service';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Component, OnInit } from '@angular/core';
+import { TeamsService, PlayerInfo } from '../../app/teams.service';
 
 @Component({
   selector: 'app-players',
@@ -10,36 +9,34 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 export class PlayersComponent implements OnInit {
   public allPlayersData = this.teamsService.allPlayersData;
-
   public showOrHideForm = false;
+  public displayedColumns: string[] = ['actions', 'avatar', 'name', 'surname', 'power', 'status', 'position', 'attack', 'defense', 'accuracy', 'cc', 'level'];
 
-  // @Input() showOrHideForm: boolean;
+  public player: PlayerInfo[];
 
-  displayedColumns: string[] = ['avatar', 'name', 'surname', 'power', 'position', 'attack', 'defense', 'accuracy', 'cc', 'level', 'actions'];
-
-  constructor( 
-    private teamsService: TeamsService
-    ) {}
+  constructor(private teamsService: TeamsService) {}
 
   ngOnInit():void {
-
   }
 
   public openForm() {
-    console.log('openForm');
-    this.showPopup();
+    this.showForm();
   }
-  public showPopup() {
+  public showForm() {
     this.showOrHideForm = true;
   }
 
-
   public chengePlayerClic(player) {
-    console.log('chengePlayerClic and open mini form');
-
-    
+    this.showForm();
+    this.teamsService.player = player;
   }
+
   public deletePlayerClic(player) {
     console.log('deletePlayerClic and open popup');
+    this.teamsService.deletePlayerService(player);
+  }
+
+  public uploadAvatar() {
+    console.log('uploadAvatar');
   }
 }

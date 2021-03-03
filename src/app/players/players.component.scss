@@ -4,12 +4,73 @@
   left: 0;
 }
 .btn__add {
-  margin: 0 25px 10px;
+  margin: 0 10px 10px;
 }
-table {
-  width: 100%;
+.table__wrapper {
+  overflow: scroll;
+  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+
+  table {
+    width: 100%;
+    min-width: 800px;
+
+    .avatar {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-image: url(../../assets/photos/default_avatar.svg);
+      background-repeat: no-repeat;
+      background-size: contain;
+      background-position: center;
+      background-color: #d5d5d5;
+      margin-right: 15px;
+      cursor: pointer;
+
+      .img__avatar {
+
+      }
+      &:hover .btn__avatar {
+        display: inline-block;
+      }
+      .btn__avatar {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+
+      }
+    }
+  }
+}
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+  padding-left: 10px !important;
+  width: 80px;
+  padding-right: 10px;
 }
 th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
-  width: 80px;
   padding-right: 0 !important;
+}
+
+.btn__delete {
+  &:hover .material-icons {
+    color: #3f51b5;
+  }
+  .material-icons {
+    font-size: 20px;
+    color: #ccc;
+  }
+}
+.btn__chenge:hover {
+  background: #f5f5f5;
+}
+.btn__chenge.mat-button-disabled:hover {
+  background: transparent;
+}
+.btn__delete.mat-button-disabled .material-icons,
+.btn__chenge.mat-button-disabled .material-icons {
+  color: #f5f5f5;
 }

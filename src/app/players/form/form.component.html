@@ -12,7 +12,7 @@
   <mat-form-field appearance="fill" class="form__select">
     <mat-label>Сила</mat-label>
     <mat-select formControlName="power">
-      <mat-option *ngFor="let power of powers" [value]="power.value">
+      <mat-option *ngFor="let power of powers" [value]="power.viewValue">
         {{ power.viewValue }}
       </mat-option>
     </mat-select>
@@ -20,7 +20,7 @@
   <mat-form-field appearance="fill" class="form__select">
     <mat-label>Статус</mat-label>
     <mat-select formControlName="status">
-      <mat-option *ngFor="let status of statuses" [value]="status.value">
+      <mat-option *ngFor="let status of statuses" [value]="status.viewValue">
         {{ status.viewValue }}
       </mat-option>
     </mat-select>
@@ -28,7 +28,7 @@
   <mat-form-field appearance="fill" class="form__select">
     <mat-label>Позиция</mat-label>
     <mat-select formControlName="position">
-      <mat-option *ngFor="let position of positions" [value]="position.value">
+      <mat-option *ngFor="let position of positions" [value]="position.viewValue">
         {{ position.viewValue }}
       </mat-option>
     </mat-select>
