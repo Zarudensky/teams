@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TeamsService, PlayerInfo } from '../../app/teams.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupComponent } from '../popup/popup.component'
 
 @Component({
   selector: 'app-players',
@@ -14,7 +16,16 @@ export class PlayersComponent implements OnInit {
 
   public player: PlayerInfo[];
 
-  constructor(private teamsService: TeamsService) {}
+  public title: string;
+  public content: string;
+  public btnYes: string;
+  public btnNo: string;
+  public status: boolean;
+
+  constructor(
+    private teamsService: TeamsService, 
+    public dialog: MatDialog
+    ) {}
 
   ngOnInit():void {
   }
@@ -22,6 +33,7 @@ export class PlayersComponent implements OnInit {
   public openForm() {
     this.showForm();
   }
+
   public showForm() {
     this.showOrHideForm = true;
   }
@@ -32,11 +44,31 @@ export class PlayersComponent implements OnInit {
   }
 
   public deletePlayerClic(player) {
-    console.log('deletePlayerClic and open popup');
-    this.teamsService.deletePlayerService(player);
+    console.log('deletePlayerClic');
+    this.openDialog(player);
   }
 
   public uploadAvatar() {
     console.log('uploadAvatar');
   }
+
+  public openDialog(player) {
+    const dialogRef = this.dialog.open(PopupComponent, {
+      // width: '300px',
+      data: {
+        title: `Удалить игрока ${player.name}?`, 
+        content: `После подтверждения, игрока ${player.name} востановить будет не возможно!`,
+        yes: 'Удалить',
+        no: 'Отмена',
+        status: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.teamsService.deletePlayerService(player);
+      }
+    });
+  }
+
 }

@@ -1,4 +1,3 @@
 Chenge color theme - https://medium.com/wineofbits/how-to-change-angular-material-theme-in-just-5-minutes-d8719d1f026
-Add popap for delete
-
+Add sorting table
 

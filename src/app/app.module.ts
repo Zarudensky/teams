@@ -22,12 +22,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { PopupComponent } from './popup/popup.component';
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { environment } from '../environments/environment';
     SelectComponent,
     TeamsComponent,
     CardComponent,
-    FormComponent
+    FormComponent,
+    PopupComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ import { environment } from '../environments/environment';
     NgxMatSelectSearchModule,
     MatTableModule,
     MatInputModule,
+    MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
     AngularFirestoreModule
