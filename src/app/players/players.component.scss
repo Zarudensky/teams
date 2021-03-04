@@ -28,21 +28,6 @@
       background-position: center;
       background-color: #d5d5d5;
       margin-right: 15px;
-      cursor: pointer;
-
-      .img__avatar {
-
-      }
-      &:hover .btn__avatar {
-        display: inline-block;
-      }
-      .btn__avatar {
-        display: none;
-        position: absolute;
-        top: 0;
-        right: 0;
-
-      }
     }
   }
 }
@@ -54,7 +39,6 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
 th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
   padding-right: 0 !important;
 }
-
 .btn__delete {
   &:hover svg {
     fill: #3f51b5;
@@ -62,6 +46,20 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
   svg {
     fill: #ccc;
   }
+  
+}
+::ng-deep {
+  .btn__delete {
+    .mat-button-focus-overlay {
+      background: none;
+    }
+  }
+}
+.btn__delete.mat-button-disabled svg {
+  fill: #f5f5f5;
+}
+.btn__delete.mat-button-disabled:hover svg {
+  fill: #f5f5f5;
 }
 .btn__chenge:hover {
   background: #f5f5f5;
@@ -69,7 +67,6 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
 .btn__chenge.mat-button-disabled:hover {
   background: transparent;
 }
-.btn__delete.mat-button-disabled .material-icons,
 .btn__chenge.mat-button-disabled .material-icons {
   color: #f5f5f5;
 }

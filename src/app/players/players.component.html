@@ -31,7 +31,7 @@
           class="btn btn__delete"
           (click)="deletePlayerClic(player)"
           [disabled]="showOrHideForm"
-          title="Удалить игрока">
+          title="Удалить ничтожество!">
           <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
             <path d="m8.21302,17.40972c0.69694,-2.54191 3.02383,-4.40972 5.78698,-4.40972l1,0l0,0l0,2l3,0l0,-2l10,0l0,3l-8.13197,1.74257l0,0c0.08647,0.40549 0.13197,0.82614 0.13197,1.25743c0,3.31371 -2.68629,6 -6,6c-2.76315,0 -5.09004,-1.86781 -5.78698,-4.40972c-0.33647,0.25704 -0.75691,0.40972 -1.21302,0.40972c-1.10457,0 -2,-0.89543 -2,-2c0,-1.10457 0.89543,-2 2,-2c0.45611,0 0.87655,0.15268 1.21302,0.40972l0,0l0,0zm-1.21302,0.59028c-0.55228,0 -1,0.44386 -1,1c0,0.55228 0.44386,1 1,1c0.55228,0 1,-0.44386 1,-1c0,-0.55228 -0.44386,-1 -1,-1l0,0zm9,-11l0,4l1,0l0,-4l-1,0l0,0zm5.11968,1.02099l-2.11968,3.3922l0.84805,0.52992l2.11968,-3.3922l-0.84805,-0.52992l0,0zm-9.27163,0l2.11968,3.3922l-0.84805,0.52992l-2.11968,-3.3922l0.84805,-0.52992l0,0z"/>
           </svg>
@@ -41,7 +41,7 @@
           class="btn btn__chenge"
           (click)="chengePlayerClic(player)"
           [disabled]="showOrHideForm"
-          title="Изменить игрока">
+          title="Редактировать параметры игрока">
           <mat-icon color="primary">more_vert</mat-icon>
         </button>
       </td>
@@ -51,10 +51,7 @@
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let player">
         <div class="avatar">
-          <img class="img__avatar" src="" alt="">
-          <button mat-icon-button class="btn btn__avatar" title="Изменить фото" (click)="uploadAvatar(player)">
-            <mat-icon color="primary">camera_alt</mat-icon>
-          </button>
+          <img class="img img__avatar" src="" alt="">
         </div>
       </td>
     </ng-container>
@@ -113,3 +110,6 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 </div>
+
+<!-- <input type="file" (chenge)="onFileSelected($event)">
+<button (click)="onUpload()">onUpload</button> -->

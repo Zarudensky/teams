@@ -2,17 +2,110 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   background-image: url(../../../assets/fon_form.svg);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
 
   ::ng-deep {
-    .mat-form-field {
+    .form__block.form__block_ans {
+      align-items: flex-end;
+      order: 1;
+
+      .field__avatar {
+        width: 100px;
+        margin-right: 20px;
+
+        .avatar {
+          position: relative;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          background-image: url(../../../assets/photos/default_avatar.svg);
+          background-repeat: no-repeat;
+          background-size: contain;
+          background-position: center;
+          background-color: #d5d5d5;
+          cursor: pointer;
+  
+          .input__avatar {
+            display: none;
+          }
+          .img__avatar {
+  
+          }
+          &:hover .btn__avatar {
+            display: inline-flex;
+          }
+          .btn__avatar {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            border: 50px solid transparent;
+            top: 0;
+            right: 0;
+          }  
+        }
+        .mat-form-field-underline {
+          display: none;
+        }
+        .mat-form-field-infix {
+          padding: 0;
+        }
+      }
+      .name__info_block {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 120px);
+      }
+    }
+    .form__block.form__block_ps {
+      flex-direction: column;
+      justify-content: flex-end;
+      order: 2;
+    }
+    .form__block.form__block_ad {
+      justify-content: space-between;
+      order: 3;
+      .field {
+        width: calc(50% - 10px);
+      }
+    }
+    .form__block.form__block_p {
+      order: 4;
+      .field {
+        width: 100%;
+      }
+    }
+    .form__block.form__block_ac {
+      justify-content: space-between;
+      order: 5;
+      .field {
+        width: calc(50% - 10px);
+      }
+    }
+    .form__block.form__block_actions {
+      justify-content: space-between;
+      order: 6;
+      .btn {
+        height: 26px;
+        line-height: 26px;
+        width: calc(50% - 20px);
+      }
+    }
+
+    .form__block {
+      display: flex;
       width: calc(50% - 40px);
-      padding-top: 20px;
-      margin-bottom: 20px;
+      
+      .field {
+        margin-bottom: 20px;
+      }
 
       .mat-form-field-wrapper {
         padding: 0;
@@ -30,69 +123,43 @@
         border: 0;
       }
     }
-  }
-  .form__actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    width: calc(50% - 40px);
-    padding-bottom: 20px;
 
-    .btn {
-      width: calc(50% - 20px);
-    }
+    
   }
 }
-@media screen and (max-width: 900px) {
+
+@media screen and (max-width: 800px) {
   .form {
     ::ng-deep {
-      .mat-form-field {
+      .form__block {
         width: calc(50% - 20px);
       }
-    }
-    .form__actions {
-      width: calc(50% - 20px);
-
-      .btn {
-        width: calc(50% - 10px);
+      .form__block.form__block_actions {
+        .btn {
+          width: calc(50% - 10px);
+        }
       }
     }
   }
 }
-
-@media screen and (max-width: 520px) {
+@media screen and (max-width: 740px) {
   .form {
-    ::ng-deep {
-      .mat-form-field {
-        width: calc(50% - 10px);
-        padding-top: 15px;
-        margin-bottom: 15px;
-      }
-    }
-    .form__actions {
-      width: calc(50% - 10px);
+    flex-direction: column;
+    max-width: 300px;
+    width: 100%;
+    margin: 0 auto 30px;
 
-      .btn {
-        width: calc(50% - 5px);
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 490px) {
-  .form {
     ::ng-deep {
-      .mat-form-field {
+      .form__block {
         width: 100%;
       }
-    }
-    .form__actions {
-      width: 100%;
-
-      .btn {
-        width: calc(50% - 10px);
+      .form__block.form__block_p {
+        order: 3;
+      }
+      .form__block.form__block_ad {
+        order: 4;
       }
     }
   }
+  
 }
-

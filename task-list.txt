@@ -1,3 +1,9 @@
 Chenge color theme - https://medium.com/wineofbits/how-to-change-angular-material-theme-in-just-5-minutes-d8719d1f026
+Add avatar function
+Add avatar in select
 Add sorting table
+To split mdules
+Delete not used images
+Autoscroll after click update player in table
+Autoscroll and focused queues new player
 

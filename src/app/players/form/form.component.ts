@@ -69,7 +69,7 @@ export class FormComponent implements OnInit {
       defense: new FormControl(this.points),
       accuracy: new FormControl(this.points),
       level: new FormControl(''),
-      cc: new FormControl(0)
+      cc: new FormControl('')
     });
   }
 
@@ -109,14 +109,15 @@ export class FormComponent implements OnInit {
   }
 
   public onFormSubmit(): void {
-    this.addNewPlayer();
+    this.savePlayer();
     this.resetForm();
     this.hideModal();
   }
 
-  public addNewPlayer(): void {
+  public savePlayer(): void {
     this.generateId();
     this.countLevel();
+    this.replaceCc();
     this.teamsService.savePlayerService(this.playerGroup.value);
   }
 
@@ -137,6 +138,12 @@ export class FormComponent implements OnInit {
     this.playerGroup.value.level = level;
   }
 
+  public replaceCc(): void {
+    if(this.playerGroup.value.cc === '') {
+      this.playerGroup.value.cc = 0;
+    }
+  }
+
   public cancelForm(): void {
     this.resetForm();
     this.hideModal();
@@ -149,5 +156,9 @@ export class FormComponent implements OnInit {
   public resetForm(): void {
     this.playerGroup.reset();
     this.teamsService.player = null;
+  }
+
+  public uploadAvatar() {
+    console.log('uploadAvatar');
   }
 }

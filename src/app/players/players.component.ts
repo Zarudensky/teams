@@ -3,6 +3,7 @@ import { TeamsService, PlayerInfo } from '../../app/teams.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component'
 
+
 @Component({
   selector: 'app-players',
   templateUrl: './players.component.html',
@@ -22,8 +23,10 @@ export class PlayersComponent implements OnInit {
   public btnNo: string;
   public status: boolean;
 
+  public selectedFile: File = null;
+
   constructor(
-    private teamsService: TeamsService, 
+    private teamsService: TeamsService,
     public dialog: MatDialog
     ) {}
 
@@ -48,16 +51,11 @@ export class PlayersComponent implements OnInit {
     this.openDialog(player);
   }
 
-  public uploadAvatar() {
-    console.log('uploadAvatar');
-  }
-
   public openDialog(player) {
     const dialogRef = this.dialog.open(PopupComponent, {
-      // width: '300px',
       data: {
         title: `Удалить игрока ${player.name}?`, 
-        content: `После подтверждения, игрока ${player.name} востановить будет не возможно!`,
+        content: "Это действие приведет к удалению из базы данных всей информации об игроке.",
         yes: 'Удалить',
         no: 'Отмена',
         status: true
@@ -70,5 +68,15 @@ export class PlayersComponent implements OnInit {
       }
     });
   }
+
+  // public onFileSelected(event) {
+  //   console.log('onFileSelected');
+  //   this.selectedFile = <File>event.target.files[0];
+  //   console.log(event);
+  // }
+
+  // public onUpload() {
+  //   console.log('onUpload');
+  // }
 
 }
