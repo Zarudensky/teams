@@ -2,20 +2,23 @@
   [formGroup]="playerGroup"
   (ngSubmit)="onFormSubmit()">
   <div class="form__block form__block_ans">
-    <mat-form-field class="field field__avatar">
+    <div class="field field__avatar">
       <div class="avatar">
-        <img class="img img__avatar" src="" alt="">
-        <input matInput class="input__avatar" formControlName="name">
+        <input
+          class="input__avatar"
+          type="file"
+          (change)="onFileSelected($event)"
+          title="Загрузить фото профиля">
         <button 
           mat-icon-button 
           class="btn btn__avatar" 
           type="button"
-          (click)="uploadAvatar()"
           title="Изменить фото профиля">
           <mat-icon color="primary">camera_alt</mat-icon>
         </button>
+        <img class="img img__avatar" [src]="fileUrl | async" alt="">
       </div>
-    </mat-form-field>
+    </div>
     <div class="name__info_block">
       <mat-form-field class="field field__name">
         <mat-label>Имя</mat-label>

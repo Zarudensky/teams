@@ -2,6 +2,8 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { TeamsService } from '../../../app/teams.service';
 import { UUID } from 'angular2-uuid';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
 
 interface StringOption {
   value: string;
@@ -24,7 +26,9 @@ export class FormComponent implements OnInit {
   set bool(value) { this._bool = value; this.boolChange.emit(value); }
   @Input() get bool() { return this.bool; }
 
+  public selectedFile: File = null;
   public uuidValue:string;
+  public fileUrl: Observable<string | null>;
 
   public filledFields: boolean;
   public playerGroup: FormGroup;
@@ -56,10 +60,13 @@ export class FormComponent implements OnInit {
     {value: 25, viewValue: '0'},
   ];
 
-  constructor(private teamsService: TeamsService) {
+  constructor(
+    private teamsService: TeamsService,
+    private storage: AngularFireStorage
+    ) {
     this.playerGroup = new FormGroup({
       id: new FormControl(''),
-      avatar: new FormControl('avatar'),
+      avatar: new FormControl(''),
       name: new FormControl(''),
       surname: new FormControl(''),
       power: new FormControl(this.powers),
@@ -67,18 +74,23 @@ export class FormComponent implements OnInit {
       position: new FormControl(this.positions),
       attack: new FormControl(this.points),
       defense: new FormControl(this.points),
-      accuracy: new FormControl(this.points),
+      accuracy: new FormControl(this.points),   
+      cc: new FormControl(''),
       level: new FormControl(''),
-      cc: new FormControl('')
+      selected: new FormControl(false)
     });
   }
 
   ngOnInit(): void {
     if (this.teamsService.player) {
       this.setValuesForm(this.teamsService.player);
-      this.filledFields = true;
     }
     this.playerGroup.valueChanges.subscribe(selectedValue => {
+      this.valideteForm(selectedValue);
+    });
+  }
+  
+  public valideteForm(selectedValue): void {
       if(selectedValue.name && 
         selectedValue.surname && 
         typeof selectedValue.power === 'string' && 
@@ -89,7 +101,6 @@ export class FormComponent implements OnInit {
         typeof selectedValue.accuracy === 'number') {
         this.filledFields = true;
       }
-    });
   }
 
   public setValuesForm(player): void {
@@ -106,6 +117,7 @@ export class FormComponent implements OnInit {
       accuracy: player.accuracy,
       cc: player.cc
     });
+    this.dowloadAvatarFile(player.id, player.avatar);
   }
 
   public onFormSubmit(): void {
@@ -118,6 +130,7 @@ export class FormComponent implements OnInit {
     this.generateId();
     this.countLevel();
     this.replaceCc();
+    this.uploadNewAvatar();
     this.teamsService.savePlayerService(this.playerGroup.value);
   }
 
@@ -145,6 +158,7 @@ export class FormComponent implements OnInit {
   }
 
   public cancelForm(): void {
+    this.deletePreviewFile();
     this.resetForm();
     this.hideModal();
   }
@@ -158,7 +172,60 @@ export class FormComponent implements OnInit {
     this.teamsService.player = null;
   }
 
-  public uploadAvatar() {
-    console.log('uploadAvatar');
+  public onFileSelected(event) {
+    this.selectedFile = <File>event.target.files[0];
+    this.uploadPreviewFile();
+  }
+
+  public dowloadAvatarFile(id, fileName) {
+    if(fileName) {
+      const filePath = 'avatars/' + id + '/' + fileName;
+      const ref = this.storage.ref(filePath);
+      this.fileUrl = ref.getDownloadURL();
+    }
+    
+  }
+
+  public uploadPreviewFile() {
+    const filePath = 'avatars/preview/' + this.selectedFile.name;
+    const ref = this.storage.ref(filePath);
+    ref.put(this.selectedFile).then((snapshot) => {
+      this.dowloadPreviewFile(ref);
+    });
+  }
+
+  public dowloadPreviewFile(ref) {
+    this.fileUrl = ref.getDownloadURL();
+    if (this.teamsService.player) {
+      this.valideteForm(this.teamsService.player);
+    }
+  }
+
+  public deletePreviewFile() {
+    if(this.selectedFile) {
+      this.storage.ref('avatars/preview/').child(this.selectedFile.name).delete();
+      this.selectedFile = null;
+    }
+  }
+
+  public uploadNewAvatar() {
+    if (this.selectedFile) {
+      this.deleteOldAvatar();
+      const filePath = 'avatars/'+ this.playerGroup.value.id +'/' + this.selectedFile.name;
+      const ref = this.storage.ref(filePath);
+      ref.put(this.selectedFile).then((snapshot) => {
+        this.dowloadPreviewFile(ref);
+      });
+      this.playerGroup.value.avatar = this.selectedFile.name;
+      this.deletePreviewFile();
+    }
+  }
+
+
+  public deleteOldAvatar() {
+    
+    if(this.playerGroup.value.avatar) {
+      this.storage.ref('avatars/' + this.playerGroup.value.id).child(this.playerGroup.value.avatar).delete();
+    }
   }
 }

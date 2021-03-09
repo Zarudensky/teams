@@ -9,14 +9,14 @@ import { TeamsService } from '../../../teams.service';
 export class CardComponent implements OnInit {
 
   @Input() player: any;
-  @Input() index: number;
 
   constructor(private teamsService: TeamsService) {}
 
   ngOnInit(): void {
   }
 
-  public onDeletePlayer(index) {
-    this.teamsService.onDeletePlayerTeamsService(index);
+  public onDeletePlayer(player) {
+    console.log('onDeletePlayer');
+    // this.teamsService.onSelectedChangeService(player, false);
   }
 }

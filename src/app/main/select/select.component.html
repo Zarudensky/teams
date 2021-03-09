@@ -1,38 +1,49 @@
-<div class="selected__players" 
-  *ngIf="playersCtrl.value"
-  [ngClass]="{'top': openedOrClosedSelect}">
-  <span *ngFor="let player of playersCtrl?.value">{{player.name}}<span>, </span></span>
+<div class="main__select">
+  <label class="selected__label"
+    [ngClass]="{'top': openedOrClosedSelect || 
+      playersCtrl.value && playersCtrl.value.length > 0}">
+    Игроки:
+  </label>
+  <div class="selected__players" 
+    [ngClass]="{'top': openedOrClosedSelect}">
+    <span *ngFor="let player of playersCtrl?.value">{{player.name}}<span>, </span></span>
+  </div>
+  <mat-form-field>
+    <mat-select
+      (openedChange)="closedChangeSelect($event)"
+      panelClass="example-long-panel"
+      [formControl]="playersCtrl"
+      [multiple]="true"
+      #multiSelect>
+      <button mat-icon-button class="btn btn__home" (click)="onCloseOptions()">
+        <mat-icon color="primary">home</mat-icon>
+      </button>
+      <mat-option>
+        <ngx-mat-select-search 
+          [formControl]="playersFilterCtrl"
+          placeholderLabel="Find player..."
+          noEntriesFoundLabel="Соответствующий игрок не найден"
+          disableInitialFocus="false"
+          preventHomeEndKeyPropagation="false">
+        </ngx-mat-select-search>
+      </mat-option>
+      <mat-option 
+        *ngFor="let player of filteredPlayers | async"
+        [value]="player">
+        <app-avatar 
+          class="avatar__min" 
+          [player]="player">
+        </app-avatar> 
+        {{player.name}} {{player.surname}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button
+    mat-button 
+    color="primary" 
+    class="btn btn__clear"
+    (click)="onResetForm()"
+    [disabled]="!playersCtrl.value || playersCtrl.value.length === 0">
+    Очистить
+  </button>
 </div>
-<mat-form-field>
-  <mat-select
-    (openedChange)="closedChangeSelect($event)"
-    panelClass="example-long-panel"
-    [formControl]="playersCtrl" 
-    placeholder="Игроки" 
-    [multiple]="true"
-    #multiSelect>
-    <button mat-icon-button class="btn btn__home" (click)="onCloseOptions()">
-      <mat-icon color="primary">home</mat-icon>
-    </button>
-    <mat-option>
-      <ngx-mat-select-search 
-        [formControl]="playersFilterCtrl"
-        placeholderLabel="Find player..."
-        noEntriesFoundLabel="Соответствующий игрок не найден"
-        disableInitialFocus="false"
-        preventHomeEndKeyPropagation="false">
-      </ngx-mat-select-search>
-    </mat-option>
-    <mat-option *ngFor="let player of filteredPlayers | async" [value]="player">
-      {{player.name}} {{player.surname}}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-<button
-  mat-button 
-  color="primary" 
-  class="btn btn__clear"
-  (click)="onResetForm()"
-  [disabled]="!playersCtrl.value || playersCtrl.value.length === 0">
-  Очистить
-</button>

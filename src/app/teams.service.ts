@@ -16,6 +16,7 @@ export interface PlayerInfo {
   accuracy: number;
   cc: number;
   level: number;
+  selected: boolean;
 }
 
 @Injectable({
@@ -24,47 +25,66 @@ export interface PlayerInfo {
 
 export class TeamsService {
   public allPlayersData: Observable<any[]>;
-  public players: PlayerInfo[] = [];
+  public players = [];
   public player: PlayerInfo[];
   public playersCtrl: FormControl = new FormControl();
-  private selectedPlayers = [];
   public ganereteTeams = new Subject();
+  public deleteOldAvatarService = new Subject();
+
+  public fileUrl: Observable<string | null>;
 
   constructor(private firestore: AngularFirestore) {
     this.allPlayersData = firestore.collection('players').valueChanges();
-  }
-
-  public onDeletePlayerTeamsService(index) {
-    this.selectedPlayers = this.playersCtrl.value;
-    this.selectedPlayers.splice(index,1);
-    this.playersCtrl.reset();
-    this.playersCtrl.patchValue(this.selectedPlayers);
+    firestore.collection('players').get().toPromise().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        this.players.push(doc.data());
+      });
+  });
   }
 
   public savePlayerService(player) {
-    console.log(player);
     return this.firestore.collection('players')
       .doc(player.id)
       .set({
         id: player.id,
         avatar: player.avatar,
-        name: player.name, 
-        surname: player.surname, 
+        name: player.name,
+        surname: player.surname,
         power: player.power,
         status: player.status,
-        position: player.position, 
-        attack: player.attack, 
-        defense: player.defense, 
-        accuracy: player.accuracy, 
+        position: player.position,
+        attack: player.attack,
+        defense: player.defense,
+        accuracy: player.accuracy,
         cc: player.cc, 
-        level: player.level
+        level: player.level,
+        selected: player.selected
       }, { merge: true });
   }
 
   public deletePlayerService(player) {
+    this.deleteOldAvatarService.next();
     return this.firestore.collection('players')
       .doc(player.id)
       .delete();
+  }
+
+  public onSelectedChangeService(player, selected) {
+    return this.firestore.collection('players')
+      .doc(player.id)
+      .set({ selected: selected }, { merge: true });
+  }
+
+  public setInitialSelectionService() {
+    const selectedPlayers: PlayerInfo[] = [];
+    this.allPlayersData.subscribe(() => {
+      this.players.forEach((player) => {
+        if (player.selected) {
+          selectedPlayers.push(player);
+        }
+      });
+    });
+    this.playersCtrl.setValue(selectedPlayers);
   }
 
   public generateTeemsService() {

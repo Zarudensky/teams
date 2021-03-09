@@ -13,22 +13,6 @@
   table {
     width: 100%;
     min-width: 800px;
-
-    .avatar {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background-image: url(../../assets/photos/default_avatar.svg);
-      background-repeat: no-repeat;
-      background-size: contain;
-      background-position: center;
-      background-color: #d5d5d5;
-      margin-right: 15px;
-    }
   }
 }
 th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {

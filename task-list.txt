@@ -1,9 +1,17 @@
 Chenge color theme - https://medium.com/wineofbits/how-to-change-angular-material-theme-in-just-5-minutes-d8719d1f026
-Add avatar function
-Add avatar in select
+Add avatar function:
+1) When create new player add default avatar
+2) Create storage servise
+3) When delete player deleete avatar
 Add sorting table
-To split mdules
-Delete not used images
+To split modules
+Delete not used images in assets folder
 Autoscroll after click update player in table
 Autoscroll and focused queues new player
-
+Transfer options in form to new file
+Styled 404 page
+Edit scrolling main select
+Add loader and search states - https://codepen.io/joshuarule/pen/yYXQRP
+Add animation game to main page????:
+https://codepen.io/dipscom/details/amxYvB
+https://codepen.io/natewiley/pen/RNGdzm

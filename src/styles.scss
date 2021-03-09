@@ -24,3 +24,24 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }
+
+mat-option .mat-option-text {
+  display: flex !important;
+  align-items: center;
+}
+
+.avatar__min .avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.avatar__max .avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 25%;
+}
+
+.disabled__scroll {
+  overflow: hidden;
+}

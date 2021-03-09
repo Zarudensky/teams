@@ -1,0 +1,17 @@
+.avatar {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(../../assets/default_avatar.svg);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  background-color: #d5d5d5;
+  overflow: hidden;
+  margin-right: 15px;
+}
+.img__avatar {
+  width: 100%;
+  background: #f5f5f5;
+}

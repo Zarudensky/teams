@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TeamsService, PlayerInfo } from '../../app/teams.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component'
-
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-players',
@@ -23,7 +23,7 @@ export class PlayersComponent implements OnInit {
   public btnNo: string;
   public status: boolean;
 
-  public selectedFile: File = null;
+  public avatarUrl: Observable<string | null>;
 
   constructor(
     private teamsService: TeamsService,
@@ -47,7 +47,6 @@ export class PlayersComponent implements OnInit {
   }
 
   public deletePlayerClic(player) {
-    console.log('deletePlayerClic');
     this.openDialog(player);
   }
 
@@ -68,15 +67,4 @@ export class PlayersComponent implements OnInit {
       }
     });
   }
-
-  // public onFileSelected(event) {
-  //   console.log('onFileSelected');
-  //   this.selectedFile = <File>event.target.files[0];
-  //   console.log(event);
-  // }
-
-  // public onUpload() {
-  //   console.log('onUpload');
-  // }
-
 }

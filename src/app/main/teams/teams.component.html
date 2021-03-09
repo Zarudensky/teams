@@ -1,8 +1,7 @@
 <div class="teams" *ngIf="playersCtrl.value && playersCtrl.value.length > 0">
   <p>Selected Players:</p>
-  <app-card *ngFor="let player of playersCtrl?.value; let i = index"
+  <app-card *ngFor="let player of playersCtrl?.value"
     class="card player__id positon team"
-    [player]="player"
-    [index]="i">
+    [player]="player">
   </app-card>
 </div>

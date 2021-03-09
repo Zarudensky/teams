@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { MatSelect } from '@angular/material/select';
 import { FormControl } from '@angular/forms';
 import { TeamsService, PlayerInfo } from '../../teams.service';
@@ -11,12 +11,11 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./select.component.scss']
 })
 
-export class SelectComponent implements OnInit, OnDestroy {
-  public allPlayersData = this.teamsService.allPlayersData;
+export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
+  public players = this.teamsService.players;
   public playersCtrl = this.teamsService.playersCtrl;
   public playersFilterCtrl: FormControl = new FormControl();
   public openedOrClosedSelect: boolean;
-  public players: PlayerInfo[] = [];
   public filteredPlayers: ReplaySubject<PlayerInfo[]> = new ReplaySubject<PlayerInfo[]>(1);
   private _onDestroy = new Subject<void>();
 
@@ -25,8 +24,9 @@ export class SelectComponent implements OnInit, OnDestroy {
   constructor(private teamsService: TeamsService) {}
 
   ngOnInit() :void {
-    this.getPlayers();
-
+    this.setFilteredPlayers();
+    this.teamsService.setInitialSelectionService();
+    
     this.playersFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
@@ -34,12 +34,26 @@ export class SelectComponent implements OnInit, OnDestroy {
       });
   }
 
-  public getPlayers(): void {
-    this.allPlayersData.subscribe((results) => {
-      this.players = results;
-    });
-
+  public setFilteredPlayers(): void {
     this.filteredPlayers.next(this.players.slice());
+  }
+
+  ngAfterViewInit() {
+    this.playersFilterCtrl.valueChanges.subscribe(() => {
+      this.selectedPlayers(this.playersCtrl.value, true);
+      const notSelectedPlayers = this.players.filter(player => !this.playersCtrl.value.find(obj => player.id === obj.id));
+      this.selectedPlayers(notSelectedPlayers, false);
+    });
+  }
+
+  public selectedPlayers(players, selected) {
+    players.forEach((player) => {
+      this.teamsService.onSelectedChangeService(player, selected);
+    });
+  }
+
+  public onSelectedChange(player, selected) {
+    this.teamsService.onSelectedChangeService(player, selected);
   }
 
   ngOnDestroy(): void {
@@ -71,18 +85,27 @@ export class SelectComponent implements OnInit, OnDestroy {
   }
 
   public onResetForm(): void {
+    this.selectedPlayers(this.playersCtrl.value, false);
     this.playersCtrl.reset();
   }
 
   public closedChangeSelect(value): void {
     this.openedOrClosedSelect = value;
-
+    this.disabledScrollBody();
     this.filteredPlayers.next(this.players.slice());
 
     if (!value && this.playersCtrl.value) {
       if (this.playersCtrl.value.length > 0) {
         this.teamsService.generateTeemsService();
       }
+    }
+  }
+
+  public disabledScrollBody() {
+    if(this.openedOrClosedSelect) {
+      document.body.classList.add('disabled__scroll');
+    } else {
+      document.body.classList.remove('disabled__scroll');
     }
   }
 }

@@ -15,6 +15,7 @@ import { SelectComponent } from './main/select/select.component';
 import { TeamsComponent } from './main/teams/teams.component';
 import { CardComponent } from './main/teams/card/card.component';
 import { FormComponent } from './players/form/form.component';
+import { PopupComponent } from './popup/popup.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -29,8 +30,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
-import { PopupComponent } from './popup/popup.component';
+import { AvatarComponent } from './avatar/avatar.component';
+
 
 
 @NgModule({
@@ -43,7 +46,8 @@ import { PopupComponent } from './popup/popup.component';
     TeamsComponent,
     CardComponent,
     FormComponent,
-    PopupComponent
+    PopupComponent,
+    AvatarComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,8 @@ import { PopupComponent } from './popup/popup.component';
     MatDialogModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   providers: [TeamsService],
   bootstrap: [AppComponent]
