@@ -4,9 +4,14 @@
       playersCtrl.value && playersCtrl.value.length > 0}">
     Игроки:
   </label>
-  <div class="selected__players" 
+  <div class="selected__players"
+    *ngIf="playersCtrl.value && playersCtrl.value.length > 0"
     [ngClass]="{'top': openedOrClosedSelect}">
-    <span *ngFor="let player of playersCtrl?.value">{{player.name}}<span>, </span></span>
+    <span>({{playersCtrl.value.length || null}})</span>
+    <span *ngFor="let player of playersCtrl?.value">
+      {{player.name}}
+      <span>, </span>
+    </span>
   </div>
   <mat-form-field>
     <mat-select
@@ -39,12 +44,4 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <button
-    mat-button 
-    color="primary" 
-    class="btn btn__clear"
-    (click)="onResetForm()"
-    [disabled]="!playersCtrl.value || playersCtrl.value.length === 0">
-    Очистить
-  </button>
 </div>

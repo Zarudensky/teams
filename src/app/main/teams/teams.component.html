@@ -1,7 +1,97 @@
-<div class="teams" *ngIf="selectedPlayers.length >= 1">
-  <p>Selected Players:</p>
-  <app-card *ngFor="let player of selectedPlayersData | async"
-    class="card player__id positon team"
-    [player]="player">
-  </app-card>
+<div class="teams">
+  <div class="teams__actions">
+    <button
+      mat-mini-fab 
+      color="primary" 
+      class="btn btn__divide"
+      (click)="onDivideTeams()"
+      title="Поделить на две команды"
+      *ngIf="selectedPlayers.length >= 12 && 
+        nameClassTeams === 'three__teams'">
+      ||
+    </button>
+    <button
+      mat-mini-fab
+      color="primary" 
+      class="btn btn__divide"
+      (click)="onDivideTeams()"
+      title="Поделить на три команды"
+      *ngIf="selectedPlayers.length >= 12 && 
+        nameClassTeams === 'two__teams' || 
+        nameClassTeams === 'four__teams'">
+      |||
+    </button>
+
+    <button
+      mat-button 
+      color="primary" 
+      class="btn btn__clear"
+      (click)="deleteAllSelectedPlayers()"
+      *ngIf="selectedPlayers && selectedPlayers.length > 0">
+      Очистить
+    </button>
+  </div>
+  <div class="message__block">
+    <p class="massage massage__first" 
+      *ngIf="selectedPlayers.length === 0">
+      Чтобы сформировать комады выбирите ироков
+    </p>
+    <p class="massage massage__second" 
+      *ngIf="selectedPlayers.length >= 1 && selectedPlayers.length <= 7">
+      Нужно больше игроков для формирования команд
+    </p>
+  </div>
+
+  <div class="teams__block {{nameClassTeams}}"
+    *ngIf="selectedPlayers.length >= 8">
+    <p class="title title__teams">Рекомендованные составы команд</p>
+
+    <!-- <app-team></app-team> -->
+
+    <div class="team team__first">
+      <div class="team__container">
+        <p class="title title__team title__team-first">
+          Команда 1
+        </p>
+        <app-card *ngFor="let player of selectedPlayersData | async"
+          [player]="player">
+        </app-card>
+      </div>
+    </div>
+
+    <div class="team team__second">
+      <div class="team__container">
+        <p class="title title__team title__team-second">
+          Команда 2
+        </p>
+        <app-card *ngFor="let player of selectedPlayersData | async"
+          [player]="player">
+        </app-card>
+      </div>
+    </div>
+
+    <div class="team team__third"
+      *ngIf="nameClassTeams === 'three__teams' || nameClassTeams === 'four__teams'">
+      <div class="team__container">
+        <p class="title title__team title__team-third">
+          Команда 3
+        </p>
+        <app-card *ngFor="let player of selectedPlayersData | async"
+          [player]="player">
+        </app-card>
+      </div>
+    </div>
+
+    <div class="team team__fourth"
+      *ngIf="nameClassTeams === 'four__teams'">
+      <div class="team__container">
+        <p class="title title__team title__team-fourth">
+          Команда 4
+        </p>
+        <app-card *ngFor="let player of selectedPlayersData | async"
+          [player]="player">
+        </app-card>
+      </div>
+    </div>
+  </div>
 </div>

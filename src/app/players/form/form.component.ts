@@ -188,7 +188,7 @@ export class FormComponent implements OnInit {
   public uploadPreviewFile() {
     const filePath = 'avatars/preview/' + this.selectedFile.name;
     const ref = this.storage.ref(filePath);
-    ref.put(this.selectedFile).then((snapshot) => {
+    ref.put(this.selectedFile).then(() => {
       this.dowloadPreviewFile(ref);
     });
   }

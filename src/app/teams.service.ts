@@ -14,7 +14,6 @@ export class TeamsService {
   public player: PlayerInfo[];
   
   public ganereteTeams = new Subject();
-  public deleteOldAvatarService = new Subject();
 
   constructor(private firestore: AngularFirestore) {
     this.allPlayersData = firestore.collection('players').valueChanges();
@@ -42,7 +41,6 @@ export class TeamsService {
   }
 
   public deleteDataPlayerService(player) {
-    this.deleteOldAvatarService.next();
     return this.firestore.collection('players')
       .doc(player.id)
       .delete();

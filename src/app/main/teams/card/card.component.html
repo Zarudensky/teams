@@ -1,7 +1,9 @@
 <div class="card">
   <app-avatar class="avatar__max" [player]="player"></app-avatar>
-  <span class="card__name">{{player.name}}</span>
-  <span class="card__surname">{{player.surname}}</span>
+  <p class="player__info">
+    <span class="player__name">{{player.name}} </span>
+    <span class="player__surname">{{player.surname}}</span>
+  </p>
   <button mat-icon-button class="btn btn__delete" (click)="onDeletePlayer(player)">
     <mat-icon>clear</mat-icon>
   </button>

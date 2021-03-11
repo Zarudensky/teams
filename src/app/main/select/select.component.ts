@@ -91,10 +91,6 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     this.multiSelect.close();
   }
 
-  public onResetForm(): void {
-    this.teamsService.deleteAllSelectedPlayersService();
-  }
-
   public openedChangeSelect(value): void {
     this.openedOrClosedSelect = value;
     this.disabledScrollBody();

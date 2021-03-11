@@ -1,0 +1,82 @@
+.teams {
+
+  .teams__actions {
+    display: flex;
+    align-items: flex-start;
+    height: 60px;
+
+    .btn__divide {
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+    }
+    ::ng-deep .mat-mini-fab .mat-button-wrapper {
+      padding: 0;
+    }
+    
+
+    .btn__clear {
+      margin-left: auto;
+    }
+  }
+
+  .message__block {
+    text-align: center;
+
+    .massage {
+
+    }
+  }
+  
+  .teams__block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .title__teams {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .team {
+      display: flex;
+      justify-content: center;
+      width: 50%;
+      box-sizing: border-box;
+      .team__container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 20px;
+
+        .title__team {
+          position: absolute;
+          top: -10px;
+          left: calc(50% - 50px);
+          width: 100px;
+          text-align: center;
+          background: #fff;
+          
+        }
+      }
+      
+    }
+  }
+  .teams__block.three__teams {
+    .team {
+      width: calc(33.33% - 20px);
+    }
+  }
+  .teams__block.four__teams {
+    .team {
+      width: calc(25% - 20px);
+    }
+  }
+}
+
+@media screen and (max-width: 860px) {
+
+}

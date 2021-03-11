@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http'
 
 import { AppRoutingModule } from './app-routing.module';
 import { TeamsService } from './teams.service';
+import { GenerateTeemsService } from './main/teams/generateTeems.service';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -34,6 +35,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { environment } from '../environments/environment';
+import { TeamComponent } from './main/teams/team/team.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,8 @@ import { environment } from '../environments/environment';
     CardComponent,
     FormComponent,
     PopupComponent,
-    AvatarComponent
+    AvatarComponent,
+    TeamComponent
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,7 @@ import { environment } from '../environments/environment';
     AngularFirestoreModule,
     AngularFireStorageModule
   ],
-  providers: [TeamsService],
+  providers: [TeamsService, GenerateTeemsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
