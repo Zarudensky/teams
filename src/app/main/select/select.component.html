@@ -10,10 +10,10 @@
   </div>
   <mat-form-field>
     <mat-select
-      (openedChange)="closedChangeSelect($event)"
-      panelClass="example-long-panel"
       [formControl]="playersCtrl"
       [multiple]="true"
+      (openedChange)="openedChangeSelect($event)"
+      panelClass="example-long-panel"
       #multiSelect>
       <button mat-icon-button class="btn btn__home" (click)="onCloseOptions()">
         <mat-icon color="primary">home</mat-icon>
@@ -21,7 +21,7 @@
       <mat-option>
         <ngx-mat-select-search 
           [formControl]="playersFilterCtrl"
-          placeholderLabel="Find player..."
+          placeholderLabel="Найти игрока..."
           noEntriesFoundLabel="Соответствующий игрок не найден"
           disableInitialFocus="false"
           preventHomeEndKeyPropagation="false">
@@ -29,6 +29,7 @@
       </mat-option>
       <mat-option 
         *ngFor="let player of filteredPlayers | async"
+        (click)="onSelectedPlayer(player)"
         [value]="player">
         <app-avatar 
           class="avatar__min" 

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { TeamsService, PlayerInfo } from '../../app/teams.service';
+import { Component } from '@angular/core';
+import { TeamsService } from '../../app/teams.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component'
 import { Observable } from 'rxjs';
+import { PlayerInfo } from '../entities';
 
 @Component({
   selector: 'app-players',
@@ -10,7 +11,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./players.component.scss']
 })
 
-export class PlayersComponent implements OnInit {
+export class PlayersComponent {
   public allPlayersData = this.teamsService.allPlayersData;
   public showOrHideForm = false;
   public displayedColumns: string[] = ['actions', 'avatar', 'name', 'surname', 'power', 'status', 'position', 'attack', 'defense', 'accuracy', 'cc', 'level'];
@@ -25,13 +26,7 @@ export class PlayersComponent implements OnInit {
 
   public avatarUrl: Observable<string | null>;
 
-  constructor(
-    private teamsService: TeamsService,
-    public dialog: MatDialog
-    ) {}
-
-  ngOnInit():void {
-  }
+  constructor(private teamsService: TeamsService, public dialog: MatDialog) {}
 
   public openForm() {
     this.showForm();
@@ -63,7 +58,7 @@ export class PlayersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.teamsService.deletePlayerService(player);
+        this.teamsService.deleteDataPlayerService(player);
       }
     });
   }

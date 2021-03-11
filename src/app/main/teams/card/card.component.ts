@@ -16,7 +16,6 @@ export class CardComponent implements OnInit {
   }
 
   public onDeletePlayer(player) {
-    console.log('onDeletePlayer');
-    // this.teamsService.onSelectedChangeService(player, false);
+    this.teamsService.onSelectedPlayerService(player);
   }
 }

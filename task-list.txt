@@ -1,17 +1,32 @@
-Chenge color theme - https://medium.com/wineofbits/how-to-change-angular-material-theme-in-just-5-minutes-d8719d1f026
-Add avatar function:
-1) When create new player add default avatar
-2) Create storage servise
+!!!Complete the full tour of the application!!!!
+
+Add form function:
+1) Create storage servise
+2) When create new player add default avatar on data
 3) When delete player deleete avatar
-Add sorting table
-To split modules
-Delete not used images in assets folder
-Autoscroll after click update player in table
-Autoscroll and focused queues new player
-Transfer options in form to new file
-Styled 404 page
-Edit scrolling main select
+4) Limit uploaded file size and add types
+
+Add players function:
+1) Add sorting table
+2) Autoscroll after click update player in table
+3) Autoscroll and focused queues new player
+4) Transfer options in form to entities.ts file or use enum
+5) Remake function show/hide popup
+
+To split modules:
+1) Components and servises module
+2) Material module
+3) Firebase module
+
 Add loader and search states - https://codepen.io/joshuarule/pen/yYXQRP
+
+Styled 404 page
+
+Delete not used images in assets folder
+
+Chenge color theme:
+https://medium.com/wineofbits/how-to-change-angular-material-theme-in-just-5-minutes-d8719d1f026
+
 Add animation game to main page????:
 https://codepen.io/dipscom/details/amxYvB
 https://codepen.io/natewiley/pen/RNGdzm

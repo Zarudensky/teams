@@ -1,6 +1,6 @@
-<div class="teams" *ngIf="playersCtrl.value && playersCtrl.value.length > 0">
+<div class="teams" *ngIf="selectedPlayers.length >= 1">
   <p>Selected Players:</p>
-  <app-card *ngFor="let player of playersCtrl?.value"
+  <app-card *ngFor="let player of selectedPlayersData | async"
     class="card player__id positon team"
     [player]="player">
   </app-card>

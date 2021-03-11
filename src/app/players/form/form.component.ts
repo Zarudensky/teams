@@ -20,6 +20,7 @@ interface NumberOption {
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
+
 export class FormComponent implements OnInit {
   private _bool: boolean;
   @Output() boolChange = new EventEmitter();
@@ -76,8 +77,7 @@ export class FormComponent implements OnInit {
       defense: new FormControl(this.points),
       accuracy: new FormControl(this.points),   
       cc: new FormControl(''),
-      level: new FormControl(''),
-      selected: new FormControl(false)
+      level: new FormControl('')
     });
   }
 
@@ -131,7 +131,7 @@ export class FormComponent implements OnInit {
     this.countLevel();
     this.replaceCc();
     this.uploadNewAvatar();
-    this.teamsService.savePlayerService(this.playerGroup.value);
+    this.teamsService.saveDataPlayerService(this.playerGroup.value);
   }
 
   public generateId(): void {
@@ -183,7 +183,6 @@ export class FormComponent implements OnInit {
       const ref = this.storage.ref(filePath);
       this.fileUrl = ref.getDownloadURL();
     }
-    
   }
 
   public uploadPreviewFile() {
@@ -221,9 +220,7 @@ export class FormComponent implements OnInit {
     }
   }
 
-
   public deleteOldAvatar() {
-    
     if(this.playerGroup.value.avatar) {
       this.storage.ref('avatars/' + this.playerGroup.value.id).child(this.playerGroup.value.avatar).delete();
     }

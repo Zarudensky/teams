@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TeamsService } from '../../../app/teams.service';
+import { PlayerInfo } from '../../entities';
 
 @Component({
   selector: 'app-teams',
@@ -7,10 +8,14 @@ import { TeamsService } from '../../../app/teams.service';
   styleUrls: ['./teams.component.scss']
 })
 export class TeamsComponent implements OnInit {
+  public selectedPlayersData = this.teamsService.selectedPlayersData;
+  public selectedPlayers: PlayerInfo[] = [];
 
-  public playersCtrl = this.teamsService.playersCtrl;
-
-  constructor(private teamsService: TeamsService) {}
+  constructor(private teamsService: TeamsService) {
+    this.teamsService.selectedPlayersData.subscribe((players) => {
+      this.selectedPlayers = players;
+    })
+  }
 
   ngOnInit(): void {
     this.teamsService.ganereteTeams.subscribe(() => {

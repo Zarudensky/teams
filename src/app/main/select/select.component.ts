@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
-import { MatSelect } from '@angular/material/select';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild  } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { TeamsService, PlayerInfo } from '../../teams.service';
 import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil} from 'rxjs/operators';
+import { MatSelect } from '@angular/material/select';
+import { TeamsService } from '../../teams.service';
+import { PlayerInfo } from '../../entities';
 
 @Component({
   selector: 'app-select',
@@ -12,21 +13,22 @@ import { takeUntil } from 'rxjs/operators';
 })
 
 export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
-  public players = this.teamsService.players;
-  public playersCtrl = this.teamsService.playersCtrl;
+  protected players: PlayerInfo[] = this.teamsService.allPlayers;
+  public playersCtrl: FormControl = new FormControl();
   public playersFilterCtrl: FormControl = new FormControl();
-  public openedOrClosedSelect: boolean;
   public filteredPlayers: ReplaySubject<PlayerInfo[]> = new ReplaySubject<PlayerInfo[]>(1);
-  private _onDestroy = new Subject<void>();
+  public openedOrClosedSelect: boolean;
 
   @ViewChild('multiSelect') multiSelect: MatSelect;
 
+  protected _onDestroy = new Subject<void>();
+
   constructor(private teamsService: TeamsService) {}
 
-  ngOnInit() :void {
-    this.setFilteredPlayers();
-    this.teamsService.setInitialSelectionService();
-    
+  ngOnInit():void {
+    this.setInitialSelection();
+    this.loadInitialPlayerList();
+
     this.playersFilterCtrl.valueChanges
       .pipe(takeUntil(this._onDestroy))
       .subscribe(() => {
@@ -34,26 +36,8 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  public setFilteredPlayers(): void {
-    this.filteredPlayers.next(this.players.slice());
-  }
-
-  ngAfterViewInit() {
-    this.playersFilterCtrl.valueChanges.subscribe(() => {
-      this.selectedPlayers(this.playersCtrl.value, true);
-      const notSelectedPlayers = this.players.filter(player => !this.playersCtrl.value.find(obj => player.id === obj.id));
-      this.selectedPlayers(notSelectedPlayers, false);
-    });
-  }
-
-  public selectedPlayers(players, selected) {
-    players.forEach((player) => {
-      this.teamsService.onSelectedChangeService(player, selected);
-    });
-  }
-
-  public onSelectedChange(player, selected) {
-    this.teamsService.onSelectedChangeService(player, selected);
+  ngAfterViewInit(): void {
+    this.setInitialValue();
   }
 
   ngOnDestroy(): void {
@@ -61,22 +45,45 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     this._onDestroy.complete();
   }
 
+  protected setInitialValue(): void {
+    this.filteredPlayers
+      .pipe(take(1), takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.multiSelect.compareWith = (a: PlayerInfo, b: PlayerInfo) => a && b && a.id === b.id;
+      });
+  }
+
+  public setInitialSelection(): void {
+    this.teamsService.selectedPlayersData.subscribe((players) => {
+      this.playersCtrl.setValue(players);
+    })
+  }
+
+  public loadInitialPlayerList(): void {
+    this.teamsService.allPlayersData.subscribe((players) => {
+      this.filteredPlayers.next(players.slice());
+    })
+  }
+
+  public onSelectedPlayer(player): void {
+    this.teamsService.onSelectedPlayerService(player);
+  }
+
   public filterOptions(): void {
     if (!this.players) {
       return;
     }
 
-    let searchValue = this.playersFilterCtrl.value;
-
-    if (!searchValue) {
-      this.filteredPlayers.next(this.players.slice());
+    let search = this.playersFilterCtrl.value;
+    if (!search) {
+      this.loadInitialPlayerList();
       return;
     } else {
-      searchValue = searchValue.toLowerCase();
+      search = search.trim().toLowerCase();
     }
 
     this.filteredPlayers.next(
-      this.players.filter(player => player.name.toLowerCase().indexOf(searchValue) > -1)
+      this.players.filter(player => player.name.toLowerCase().indexOf(search) > -1)
     );
   }
 
@@ -85,14 +92,12 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onResetForm(): void {
-    this.selectedPlayers(this.playersCtrl.value, false);
-    this.playersCtrl.reset();
+    this.teamsService.deleteAllSelectedPlayersService();
   }
 
-  public closedChangeSelect(value): void {
+  public openedChangeSelect(value): void {
     this.openedOrClosedSelect = value;
     this.disabledScrollBody();
-    this.filteredPlayers.next(this.players.slice());
 
     if (!value && this.playersCtrl.value) {
       if (this.playersCtrl.value.length > 0) {
@@ -101,7 +106,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  public disabledScrollBody() {
+  public disabledScrollBody(): void {
     if(this.openedOrClosedSelect) {
       document.body.classList.add('disabled__scroll');
     } else {

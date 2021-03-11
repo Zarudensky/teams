@@ -16,6 +16,7 @@ import { TeamsComponent } from './main/teams/teams.component';
 import { CardComponent } from './main/teams/card/card.component';
 import { FormComponent } from './players/form/form.component';
 import { PopupComponent } from './popup/popup.component';
+import { AvatarComponent } from './avatar/avatar.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -31,10 +32,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+
 import { environment } from '../environments/environment';
-import { AvatarComponent } from './avatar/avatar.component';
-
-
 
 @NgModule({
   declarations: [
@@ -72,4 +71,4 @@ import { AvatarComponent } from './avatar/avatar.component';
   providers: [TeamsService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
