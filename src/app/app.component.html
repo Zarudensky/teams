@@ -1,3 +1,19 @@
 <div class="app">
+  <header class="header">
+    <nav mat-tab-nav-bar class="nav">
+      <a mat-tab-link
+        class="tab"
+        *ngFor="let link of navLinks"
+        [routerLink]="link.link"
+        routerLinkActive #rla="routerLinkActive"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [active]="rla.isActive"
+        queryParamsHandling="merge">
+        {{ 'header.tab.' + link.label | translate}}
+      </a>
+    </nav>
+    <app-languages></app-languages>
+  </header>
+
   <router-outlet></router-outlet>
 </div>

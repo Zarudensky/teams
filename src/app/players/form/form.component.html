@@ -8,12 +8,12 @@
           class="input__avatar"
           type="file"
           (change)="onFileSelected($event)"
-          title="Загрузить фото профиля">
+          title="{{ 'form.avatar.upload' | translate}}">
         <button 
           mat-icon-button 
           class="btn btn__avatar" 
           type="button"
-          title="Изменить фото профиля">
+          title="{{ 'form.avatar.edit' | translate}}">
           <mat-icon color="primary">camera_alt</mat-icon>
         </button>
         <img class="img img__avatar" [src]="fileUrl | async" alt="">
@@ -21,29 +21,29 @@
     </div>
     <div class="name__info_block">
       <mat-form-field class="field field__name">
-        <mat-label>Имя</mat-label>
-        <input matInput placeholder="Введите имя" formControlName="name" autocomplete="off">
+        <mat-label>{{ 'form.name.lable' | translate}}</mat-label>
+        <input matInput placeholder="{{ 'form.name.placeholder' | translate}}" formControlName="name" autocomplete="off">
       </mat-form-field>
       <mat-form-field class="field field__surname">
-        <mat-label>Фамилия</mat-label>
-        <input matInput placeholder="Введите фамилию" formControlName="surname" autocomplete="off">
+        <mat-label>{{ 'form.surname.lable' | translate}}</mat-label>
+        <input matInput placeholder="{{ 'form.surname.placeholder' | translate}}" formControlName="surname" autocomplete="off">
       </mat-form-field>
     </div>
   </div>
   <div class="form__block form__block_ps">
     <mat-form-field appearance="fill" class="field field__select">
-      <mat-label>Супер сила</mat-label>
+      <mat-label>{{ 'form.power.lable' | translate}}</mat-label>
       <mat-select formControlName="power">
-        <mat-option *ngFor="let power of powers" [value]="power.viewValue">
-          {{ power.viewValue }}
+        <mat-option *ngFor="let power of powers" [value]="power.value">
+          {{ 'form.power.' + power.value | translate}}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill" class="field field__select">
-      <mat-label>Статус</mat-label>
+      <mat-label>{{ 'form.status.lable' | translate}}</mat-label>
       <mat-select formControlName="status">
-        <mat-option *ngFor="let status of statuses" [value]="status.viewValue">
-          {{ status.viewValue }}
+        <mat-option *ngFor="let status of statuses" [value]="status.value">
+          {{ 'form.status.' + status.value | translate}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -51,10 +51,10 @@
 
   <div class="form__block form__block_p">
     <mat-form-field appearance="fill" class="field field__select">
-      <mat-label>Позиция</mat-label>
+      <mat-label>{{ 'form.position.lable' | translate}}</mat-label>
       <mat-select formControlName="position">
-        <mat-option *ngFor="let position of positions" [value]="position.viewValue">
-          {{ position.viewValue }}
+        <mat-option *ngFor="let position of positions" [value]="position.value">
+          {{ 'form.position.' + position.value | translate}}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -62,18 +62,18 @@
 
   <div class="form__block form__block_ad">
     <mat-form-field appearance="fill" class="field field__select">
-      <mat-label>Атака</mat-label>
+      <mat-label>{{ 'form.attack' | translate}}</mat-label>
       <mat-select formControlName="attack">
         <mat-option *ngFor="let point of points" [value]="point.value">
-          {{ point.viewValue }}
+          {{ point.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill" class="field field__select">
-      <mat-label>Защита</mat-label>
+      <mat-label>{{ 'form.defense' | translate}}</mat-label>
       <mat-select formControlName="defense">
         <mat-option *ngFor="let point of points" [value]="point.value">
-          {{ point.viewValue }}
+          {{ point.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
@@ -81,25 +81,25 @@
 
   <div class="form__block form__block_ac">
     <mat-form-field appearance="fill" class="field field__select">
-      <mat-label>Меткость</mat-label>
+      <mat-label>{{ 'form.accuracy' | translate}}</mat-label>
       <mat-select formControlName="accuracy">
         <mat-option *ngFor="let point of points" [value]="point.value">
-          {{ point.viewValue }}
+          {{ point.value }}
         </mat-option>
       </mat-select>
     </mat-form-field>
     <mat-form-field class="field field__cc">
-      <mat-label>КК</mat-label>
-      <input matInput type="number" placeholder="Введите номер" formControlName="cc" autocomplete="off">
+      <mat-label>{{ 'form.cc.lable' | translate}}</mat-label>
+      <input matInput type="number" placeholder="{{ 'form.cc.placeholder' | translate}}" formControlName="cc" autocomplete="off">
     </mat-form-field>
   </div>
 
   <div class="form__block form__block_actions">
     <button mat-raised-button class="btn btn__save" color="primary" type="submit" [disabled]="!filledFields">
-      Сохранить
+      {{ 'form.actions.save' | translate}}
     </button>
     <button mat-raised-button class="btn btn__cancel" color="primary" type="button" (click)="cancelForm()">
-      Отмена
+      {{ 'form.actions.cancel' | translate}}
     </button>
   </div>
 </form>

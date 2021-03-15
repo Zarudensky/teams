@@ -1,17 +1,9 @@
 <button 
-  mat-button 
-  class="btn btn__arrow"
-  routerLink="/" 
-  routerLinkActive="active">
-  <mat-icon>keyboard_backspace</mat-icon>
-</button>
-
-<button 
   *ngIf="!showOrHideForm"
   mat-icon-button 
   class="btn btn__add" 
   (click)="openForm()" 
-  title="Добавить нового игрока">
+  title="{{ 'players.add' | translate}}">
   <mat-icon color="primary">add_circle_outline</mat-icon>
 </button>
 
@@ -31,7 +23,7 @@
           class="btn btn__delete"
           (click)="deletePlayerClic(player)"
           [disabled]="showOrHideForm"
-          title="Удалить ничтожество!">
+          title="{{ 'players.delete' | translate}}">
           <svg width="32" height="32" xmlns="http://www.w3.org/2000/svg">
             <path d="m8.21302,17.40972c0.69694,-2.54191 3.02383,-4.40972 5.78698,-4.40972l1,0l0,0l0,2l3,0l0,-2l10,0l0,3l-8.13197,1.74257l0,0c0.08647,0.40549 0.13197,0.82614 0.13197,1.25743c0,3.31371 -2.68629,6 -6,6c-2.76315,0 -5.09004,-1.86781 -5.78698,-4.40972c-0.33647,0.25704 -0.75691,0.40972 -1.21302,0.40972c-1.10457,0 -2,-0.89543 -2,-2c0,-1.10457 0.89543,-2 2,-2c0.45611,0 0.87655,0.15268 1.21302,0.40972l0,0l0,0zm-1.21302,0.59028c-0.55228,0 -1,0.44386 -1,1c0,0.55228 0.44386,1 1,1c0.55228,0 1,-0.44386 1,-1c0,-0.55228 -0.44386,-1 -1,-1l0,0zm9,-11l0,4l1,0l0,-4l-1,0l0,0zm5.11968,1.02099l-2.11968,3.3922l0.84805,0.52992l2.11968,-3.3922l-0.84805,-0.52992l0,0zm-9.27163,0l2.11968,3.3922l-0.84805,0.52992l-2.11968,-3.3922l0.84805,-0.52992l0,0z"/>
           </svg>
@@ -41,7 +33,7 @@
           class="btn btn__chenge"
           (click)="chengePlayerClic(player)"
           [disabled]="showOrHideForm"
-          title="Редактировать параметры игрока">
+          title="{{ 'players.chenge' | translate}}">
           <mat-icon color="primary">more_vert</mat-icon>
         </button>
       </td>
@@ -55,52 +47,52 @@
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Имя</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.name.lable' | translate}}</th>
       <td mat-cell *matCellDef="let player"> {{player.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="surname">
-      <th mat-header-cell *matHeaderCellDef>Фамилия</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.surname.lable' | translate}}</th>
       <td mat-cell *matCellDef="let player"> {{player.surname}} </td>
     </ng-container>
 
     <ng-container matColumnDef="power">
-      <th mat-header-cell *matHeaderCellDef>Супер сила</th>
-      <td mat-cell *matCellDef="let player"> {{player.power}} </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.power.lable' | translate}}</th>
+      <td mat-cell *matCellDef="let player">{{ 'form.power.' + player.power | translate}}</td>
     </ng-container>
 
     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef>Статус</th>
-      <td mat-cell *matCellDef="let player"> {{player.status}} </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.status.lable' | translate}}</th>
+      <td mat-cell *matCellDef="let player">{{ 'form.status.' + player.status | translate}}</td>
     </ng-container>
 
     <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>Позиция</th>
-      <td mat-cell *matCellDef="let player"> {{player.position}} </td>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.position.lable' | translate}}</th>
+      <td mat-cell *matCellDef="let player">{{ 'form.position.' + player.position | translate}}</td>
     </ng-container>
 
     <ng-container matColumnDef="attack">
-      <th mat-header-cell *matHeaderCellDef>Атака</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.attack' | translate}}</th>
       <td mat-cell *matCellDef="let player"> {{player.attack}} </td>
     </ng-container>
 
     <ng-container matColumnDef="defense">
-      <th mat-header-cell *matHeaderCellDef>Защита</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.defense' | translate}}</th>
       <td mat-cell *matCellDef="let player"> {{player.defense}} </td>
     </ng-container>
 
     <ng-container matColumnDef="accuracy">
-      <th mat-header-cell *matHeaderCellDef>Меткость</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.accuracy' | translate}}</th>
       <td mat-cell *matCellDef="let player"> {{player.accuracy}} </td>
     </ng-container>
 
     <ng-container matColumnDef="cc">
-      <th mat-header-cell *matHeaderCellDef>К.К.</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'form.cc.lable' | translate}}</th>
       <td mat-cell *matCellDef="let player"> {{player.cc}} </td>
     </ng-container>
 
     <ng-container matColumnDef="level">
-      <th mat-header-cell *matHeaderCellDef>Уровень</th>
+      <th mat-header-cell *matHeaderCellDef>{{ 'players.level' | translate}}</th>
       <td mat-cell *matCellDef="let player"> {{player.level}} </td>
     </ng-container>
 

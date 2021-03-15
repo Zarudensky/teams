@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component'
 import { Observable } from 'rxjs';
 import { PlayerInfo } from '../entities';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-players',
@@ -26,7 +27,10 @@ export class PlayersComponent {
 
   public avatarUrl: Observable<string | null>;
 
-  constructor(private teamsService: TeamsService, public dialog: MatDialog) {}
+  constructor(
+    private translateService: TranslateService,
+    private teamsService: TeamsService, 
+    public dialog: MatDialog) {}
 
   public openForm() {
     this.showForm();
@@ -48,10 +52,10 @@ export class PlayersComponent {
   public openDialog(player) {
     const dialogRef = this.dialog.open(PopupComponent, {
       data: {
-        title: `Удалить игрока ${player.name}?`, 
-        content: "Это действие приведет к удалению из базы данных всей информации об игроке.",
-        yes: 'Удалить',
-        no: 'Отмена',
+        title: this.translateService.instant('players.dialog.title')+" "+player.name+"?", 
+        content: this.translateService.instant('players.dialog.content'),
+        yes: this.translateService.instant('players.dialog.yes'),
+        no: this.translateService.instant('players.dialog.no'),
         status: true
       }
     });

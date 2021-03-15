@@ -2,7 +2,7 @@
   <label class="selected__label"
     [ngClass]="{'top': openedOrClosedSelect || 
       playersCtrl.value && playersCtrl.value.length > 0}">
-    Игроки:
+      {{ 'select.lable' | translate}}
   </label>
   <div class="selected__players"
     *ngIf="playersCtrl.value && playersCtrl.value.length > 0"
@@ -26,8 +26,8 @@
       <mat-option>
         <ngx-mat-select-search 
           [formControl]="playersFilterCtrl"
-          placeholderLabel="Найти игрока..."
-          noEntriesFoundLabel="Соответствующий игрок не найден"
+          placeholderLabel="{{ 'select.placeholder' | translate}}"
+          noEntriesFoundLabel="{{ 'select.no.found.label' | translate}}"
           disableInitialFocus="false"
           preventHomeEndKeyPropagation="false">
         </ngx-mat-select-search>

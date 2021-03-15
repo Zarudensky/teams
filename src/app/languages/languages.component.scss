@@ -1,0 +1,39 @@
+.languages__menu {
+  margin-top: 12px;
+}
+button {
+  display: flex;
+  align-items: center;
+  
+  .button__img-wrapp {
+    display: inline-flex;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+  }
+  .button__img {
+    width: auto;
+    height: 100%;
+  }
+}
+button.languages__button {
+  min-width: 22px;
+  min-height: 22px;
+  line-height: 22px;
+  border-radius: 50%;
+  padding: 0;
+  
+  .button__img-wrapp {
+    margin: 0;
+  }
+}
+.language__select {
+  display: none;
+}
+::ng-deep .mat-menu-content:not(:empty) {
+  padding: 0 !important;
+}

@@ -1,10 +1,10 @@
-.btn__arrow {
-  position: absolute;
-  top: 0;
-  left: 0;
+:host {
+  position: relative;
 }
 .btn__add {
-  margin: 0 10px 10px;
+  position: absolute;
+  top: 7px;
+  left: 12px;
 }
 .table__wrapper {
   overflow: scroll;

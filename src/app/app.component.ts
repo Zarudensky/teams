@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +7,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  public navLinks: any[];
+  public activeLinkIndex = -1;
 
-  constructor() {
+  constructor(private router: Router) {
+    this.navLinks = [
+      {
+        label: 'main',
+        link: '/',
+        index: 0
+      }, {
+        label: 'table',
+        link: '/players',
+        index: 1
+      }
+    ];
   }
-  ngOnInit() {
+
+  ngOnInit(): void {
+    this.router.events.subscribe((res) => {
+      this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === this.router.url));
+    });
   }
 }

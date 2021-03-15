@@ -5,7 +5,7 @@
       color="primary" 
       class="btn btn__divide"
       (click)="onDivideTeams()"
-      title="Поделить на две команды"
+      title="{{ 'teams.divide.two' | translate}}"
       *ngIf="selectedPlayers.length >= 12 && 
         nameClassTeams === 'three__teams'">
       ||
@@ -15,7 +15,7 @@
       color="primary" 
       class="btn btn__divide"
       (click)="onDivideTeams()"
-      title="Поделить на три команды"
+      title="{{ 'teams.divide.three' | translate}}"
       *ngIf="selectedPlayers.length >= 12 && 
         nameClassTeams === 'two__teams' || 
         nameClassTeams === 'four__teams'">
@@ -28,30 +28,30 @@
       class="btn btn__clear"
       (click)="deleteAllSelectedPlayers()"
       *ngIf="selectedPlayers && selectedPlayers.length > 0">
-      Очистить
+      {{ 'teams.clear' | translate}}
     </button>
   </div>
   <div class="message__block">
     <p class="massage massage__first" 
       *ngIf="selectedPlayers.length === 0">
-      Чтобы сформировать комады выбирите ироков
+      {{ 'teams.message.first' | translate}}
     </p>
     <p class="massage massage__second" 
       *ngIf="selectedPlayers.length >= 1 && selectedPlayers.length <= 7">
-      Нужно больше игроков для формирования команд
+      {{ 'teams.message.second' | translate}}
     </p>
   </div>
 
   <div class="teams__block {{nameClassTeams}}"
     *ngIf="selectedPlayers.length >= 8">
-    <p class="title title__teams">Рекомендованные составы команд</p>
+    <p class="title title__teams">{{ 'teams.title' | translate}}</p>
 
     <!-- <app-team></app-team> -->
 
     <div class="team team__first">
       <div class="team__container">
         <p class="title title__team title__team-first">
-          Команда 1
+          {{ 'team.title' | translate}} 1
         </p>
         <app-card *ngFor="let player of selectedPlayersData | async"
           [player]="player">
@@ -62,7 +62,7 @@
     <div class="team team__second">
       <div class="team__container">
         <p class="title title__team title__team-second">
-          Команда 2
+          {{ 'team.title' | translate}} 2
         </p>
         <app-card *ngFor="let player of selectedPlayersData | async"
           [player]="player">
@@ -74,7 +74,7 @@
       *ngIf="nameClassTeams === 'three__teams' || nameClassTeams === 'four__teams'">
       <div class="team__container">
         <p class="title title__team title__team-third">
-          Команда 3
+          {{ 'team.title' | translate}} 3
         </p>
         <app-card *ngFor="let player of selectedPlayersData | async"
           [player]="player">
@@ -86,7 +86,7 @@
       *ngIf="nameClassTeams === 'four__teams'">
       <div class="team__container">
         <p class="title title__team title__team-fourth">
-          Команда 4
+          {{ 'team.title' | translate}} 4
         </p>
         <app-card *ngFor="let player of selectedPlayersData | async"
           [player]="player">

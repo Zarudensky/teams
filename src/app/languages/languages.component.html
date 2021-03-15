@@ -1,0 +1,44 @@
+<div class="languages__menu">
+  <button mat-button [matMenuTriggerFor]="menu" class="languages__button">
+    <span class="button__img-wrapp">
+      <img class="img button__img"
+      src="../../assets/images/{{selectedLanguage}}.svg">
+    </span> 
+  </button>
+  <mat-menu #menu="matMenu">
+    <button 
+      mat-menu-item
+      (click)="changeLocale('ua')">
+      <span class="button__img-wrapp">
+        <img class="img button__img"
+        src="../../assets/images/ua.svg">
+      </span> 
+      <span class="button__lable">{{ 'languages.ua' | translate}}</span>
+    </button>
+    <button 
+      mat-menu-item
+      (click)="changeLocale('ru')">
+      <span class="button__img-wrapp">
+        <img class="img button__img"
+        src="../../assets/images/ru.svg">
+      </span> 
+      <span class="button__lable">{{ 'languages.ru' | translate}}</span>
+    </button>
+    <button 
+      mat-menu-item
+      (click)="changeLocale('en')">
+      <span class="button__img-wrapp">
+        <img class="img button__img"
+        src="../../assets/images/en.svg">
+      </span> 
+      <span class="button__lable">{{ 'languages.en' | translate}}</span>
+    </button>
+  </mat-menu>
+</div>
+
+<select class="language__select"
+  [formControl]="languageCtrl">
+  <option *ngFor="let language of languages" [value]="language.id">
+    {{ 'languages.' + language.id | translate}}
+  </option>
+</select>

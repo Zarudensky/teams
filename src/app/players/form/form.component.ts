@@ -4,15 +4,14 @@ import { TeamsService } from '../../../app/teams.service';
 import { UUID } from 'angular2-uuid';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 interface StringOption {
   value: string;
-  viewValue: string;
 }
 
 interface NumberOption {
   value: number;
-  viewValue: string;
 }
 
 @Component({
@@ -35,35 +34,38 @@ export class FormComponent implements OnInit {
   public playerGroup: FormGroup;
   
   public powers: StringOption[] = [
-    {value: 'speed', viewValue: 'Скорость'},
-    {value: 'tank', viewValue: 'Танк'},
-    {value: 'throw', viewValue: 'Бросок'},
-    {value: 'nо', viewValue: 'Нет'}
+    { value: 'speed' },
+    { value: 'tank' },
+    { value: 'throw' },
+    { value: 'nо' }
   ];
 
   public statuses: StringOption[] = [
-    {value: 'veteran', viewValue: 'Ветеран'},
-    {value: 'young', viewValue: 'Молодой'},
-    {value: 'newcomer', viewValue: 'Новичек'}
+    { value: 'young' },
+    { value: 'veteran' },
+    { value: 'newcomer' }
   ];
 
   public positions: StringOption[] = [
-    {value: 'attack', viewValue: 'Атакующий'},
-    {value: 'defense', viewValue: 'Защитник'},
-    {value: 'universal', viewValue: 'Универсал'}
+    { value: 'attack' },
+    { value: 'defense' },
+    { value: 'universal' }
   ];
 
   public points: NumberOption[] = [
-    {value: 100, viewValue: '100'},
-    {value: 75, viewValue: '75'},
-    {value: 50, viewValue: '50'},
-    {value: 25, viewValue: '25'},
-    {value: 25, viewValue: '0'},
+    { value: 100 },
+    { value: 75 },
+    { value: 50 },
+    { value: 25 },
+    { value: 0 },
   ];
+
+  public languages: {id: string, title: string}[] = [];
 
   constructor(
     private teamsService: TeamsService,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private translateService: TranslateService,
     ) {
     this.playerGroup = new FormGroup({
       id: new FormControl(''),
@@ -91,16 +93,16 @@ export class FormComponent implements OnInit {
   }
   
   public valideteForm(selectedValue): void {
-      if(selectedValue.name && 
-        selectedValue.surname && 
-        typeof selectedValue.power === 'string' && 
-        typeof selectedValue.status === 'string' && 
-        typeof selectedValue.position === 'string' && 
-        typeof selectedValue.attack === 'number' && 
-        typeof selectedValue.defense === 'number' && 
-        typeof selectedValue.accuracy === 'number') {
-        this.filledFields = true;
-      }
+    if(selectedValue.name && 
+      selectedValue.surname && 
+      typeof selectedValue.power === 'string' && 
+      typeof selectedValue.status === 'string' && 
+      typeof selectedValue.position === 'string' && 
+      typeof selectedValue.attack === 'number' && 
+      typeof selectedValue.defense === 'number' && 
+      typeof selectedValue.accuracy === 'number') {
+      this.filledFields = true;
+    }
   }
 
   public setValuesForm(player): void {

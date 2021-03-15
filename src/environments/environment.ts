@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  locales: ['en', 'ru', 'ua'],
+  defaultLocale: 'en',
   firebase: {
     apiKey: 'AIzaSyCA6D-uC_WJlk3tRkZDPIzuPGos-dyKBUY',
     authDomain: 'teams-d98f6.firebaseapp.com',

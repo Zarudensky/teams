@@ -67,17 +67,17 @@
     background: #F5F5F5;
   }
 }
-::ng-deep .mat-select-panel-wrap::before {
+.mat-form-field.mat-focused::before {
   content: "";
   position: absolute;
-  background-image: url(../../../assets/fon_select.svg);
+  background-image: url(../../../assets/images/fon_select.svg);
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: 200px;
-  background-position: 62% 130px;
+  background-position: 62% 160px;
   width: calc(100% + 20px);
   height: 500px;
-  z-index: 9;
+  z-index: 9999;
   pointer-events: none;
   animation: opacity 0.7s ease-in alternate;
 }
@@ -101,33 +101,21 @@ app-avatar {
 }
 
 @media screen and (max-width: 900px) {
-  ::ng-deep .cdk-overlay-pane {
-    left: 25px !important;
-  }
-  
   ::ng-deep .mat-select-panel.example-long-panel { 
-    min-width: calc(100% + 50px) !important;
     max-height: 380px;
   }
 
-  ::ng-deep .mat-select-panel-wrap::before {
+  .mat-form-field.mat-focused::before {
     background-size: 147px;
-    background-position-y: 127px;
+    background-position-y: 157px;
   }
 }
 
 @media screen and (max-width: 560px) {
-  ::ng-deep .cdk-overlay-pane {
-    top: 55px !important;
-    left: 10px !important;
-  }
-  ::ng-deep .mat-select-panel.example-long-panel { 
-    min-width: calc(100% + 20px) !important;
-  }
   .btn__clear.mat-button {
     line-height: 30px;
   }
-  ::ng-deep .mat-select-panel-wrap::before {
-    background-position: 90% 120px;
+  .mat-form-field.mat-focused::before {
+    background-position-x: 90%;
   }
 }

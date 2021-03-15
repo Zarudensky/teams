@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { TeamsService } from './teams.service';
@@ -19,6 +19,7 @@ import { FormComponent } from './players/form/form.component';
 import { PopupComponent } from './popup/popup.component';
 import { AvatarComponent } from './avatar/avatar.component';
 
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,6 +28,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 import { AngularFireModule } from '@angular/fire';
@@ -36,6 +38,15 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 
 import { environment } from '../environments/environment';
 import { TeamComponent } from './main/teams/team/team.component';
+
+
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguagesComponent } from './languages/languages.component';
+
+export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
+  return new TranslateHttpLoader(http, './assets/locale/', '.json');
+}
 
 @NgModule({
   declarations: [
@@ -49,7 +60,8 @@ import { TeamComponent } from './main/teams/team/team.component';
     FormComponent,
     PopupComponent,
     AvatarComponent,
-    TeamComponent
+    TeamComponent,
+    LanguagesComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +70,7 @@ import { TeamComponent } from './main/teams/team/team.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatTabsModule,
     MatFormFieldModule,
     MatSelectModule,
     MatButtonModule,
@@ -66,10 +79,19 @@ import { TeamComponent } from './main/teams/team/team.component';
     MatTableModule,
     MatInputModule,
     MatDialogModule,
+    MatMenuModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      useDefaultLang: false,
+    })
   ],
   providers: [TeamsService, GenerateTeemsService],
   bootstrap: [AppComponent]
