@@ -30,7 +30,7 @@ export class TeamsComponent implements OnInit {
       // if teams were generate, add new players in teams and display massage about it
       console.log(this.selectedPlayers);
       let attackPlsArr = this.selectedPlayers.filter(obj => {
-        return obj.position === 'Атакующий'
+        return obj.position === 'attack'
       })
       console.log(attackPlsArr);
       this.countNumberOfTeams();

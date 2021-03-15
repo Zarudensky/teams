@@ -2,7 +2,7 @@
   <button mat-button [matMenuTriggerFor]="menu" class="languages__button">
     <span class="button__img-wrapp">
       <img class="img button__img"
-      src="../../assets/images/{{selectedLanguage}}.svg">
+      src="assets/images/{{selectedLanguage}}.svg">
     </span> 
   </button>
   <mat-menu #menu="matMenu">
@@ -11,7 +11,7 @@
       (click)="changeLocale('ua')">
       <span class="button__img-wrapp">
         <img class="img button__img"
-        src="../../assets/images/ua.svg">
+        src="assets/images/ua.svg">
       </span> 
       <span class="button__lable">{{ 'languages.ua' | translate}}</span>
     </button>
@@ -20,7 +20,7 @@
       (click)="changeLocale('ru')">
       <span class="button__img-wrapp">
         <img class="img button__img"
-        src="../../assets/images/ru.svg">
+        src="assets/images/ru.svg">
       </span> 
       <span class="button__lable">{{ 'languages.ru' | translate}}</span>
     </button>
@@ -29,7 +29,7 @@
       (click)="changeLocale('en')">
       <span class="button__img-wrapp">
         <img class="img button__img"
-        src="../../assets/images/en.svg">
+        src="assets/images/en.svg">
       </span> 
       <span class="button__lable">{{ 'languages.en' | translate}}</span>
     </button>
