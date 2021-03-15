@@ -1,0 +1,88 @@
+{
+	"languages": {
+    "ua": "Ukrainian",
+		"en": "English",
+		"ru": "Russian"
+	},
+	"header": {
+		"tab.main": "Main",
+		"tab.table": "Table"
+	},
+	"select": {
+		"lable": "Players:",
+		"placeholder": "Find players...",
+		"no.found.label": "No matching player found"
+	},
+	"form": {
+		"avatar": {
+			"upload": "Upload profile photo",
+			"edit": "Change profile photo"
+		},
+		"name": {
+			"lable": "Name",
+			"placeholder": "Enter name"
+		},
+		"surname": {
+			"lable": "Surname",
+			"placeholder": "Enter surname"
+		},
+		"power": {
+			"lable": "Superpower",
+			"speed": "Speed",
+			"tank": "Tank",
+			"throw": "Throw",
+			"nо": "No"
+		},
+		"status": {
+			"lable": "Status",
+			"young": "Young",
+			"veteran": "Veteran",
+			"newcomer": "Newcomer"
+		},
+		"position": {
+			"lable": "Position",
+			"attack": "Attacking",
+			"defense": "Defender",
+			"universal": "Universal"
+		},
+		"attack": "Attack",
+		"defense": "Defense",
+		"accuracy": "Accuracy",
+		"cc": {
+			"lable": "C.C.",
+			"placeholder": "Enter number"
+		},
+		"actions": {
+			"save": "Save",
+			"cancel": "Cancel"
+		}
+	},
+	"players": {
+		"add": "Add new player",
+		"delete": "Remove nonentity!",
+		"chenge": "Edit player parameters",
+		"level": "Level",
+		"dialog": {
+			"title": "Remove player",
+			"content": "This action will remove all information about the player from the database.",
+			"yes": "Remove",
+			"no": "Cancel"
+		}
+	},
+	"teams": {
+		"divide": {
+			"two": "Divide into two teams",
+			"three": "Divide into three teams",
+			"four": "Divide into four teams"
+		},
+		"clear": "Clear",
+		"message": {
+			"first": "To form teams, choose players",
+			"second": "Need more players to form teams"
+		},
+		"title": "Recommended teams"
+	},
+	"team": {
+		"title": "Team"
+	}
+}

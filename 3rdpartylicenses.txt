@@ -327,6 +327,12 @@ Apache-2.0
 @firebase/webchannel-wrapper
 Apache-2.0
 
+@ngx-translate/core
+MIT
+
+@ngx-translate/http-loader
+MIT
+
 angular2-uuid
 MIT
 The MIT License (MIT)
