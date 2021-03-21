@@ -4,22 +4,33 @@
       mat-mini-fab 
       color="primary" 
       class="btn btn__divide"
-      (click)="onDivideTeams()"
+      (click)="onDivideTeams(2)"
       title="{{ 'teams.divide.two' | translate}}"
       *ngIf="selectedPlayers.length >= 12 && 
-        nameClassTeams === 'three__teams'">
-      ||
+        numberOfTeams === 3">
+      II
     </button>
     <button
       mat-mini-fab
       color="primary" 
       class="btn btn__divide"
-      (click)="onDivideTeams()"
+      (click)="onDivideTeams(3)"
       title="{{ 'teams.divide.three' | translate}}"
       *ngIf="selectedPlayers.length >= 12 && 
-        nameClassTeams === 'two__teams' || 
-        nameClassTeams === 'four__teams'">
-      |||
+        numberOfTeams === 2 || 
+        numberOfTeams === 4">
+      III
+    </button>
+    <button
+      mat-mini-fab
+      color="primary" 
+      class="btn btn__divide"
+      (click)="onDivideTeams(4)"
+      title="{{ 'teams.divide.four' | translate}}"
+      *ngIf="selectedPlayers.length >= 16 &&
+        numberOfTeams === 2 ||
+        numberOfTeams === 3">
+      IV
     </button>
 
     <button
@@ -46,52 +57,10 @@
     *ngIf="selectedPlayers.length >= 8">
     <p class="title title__teams">{{ 'teams.title' | translate}}</p>
 
-    <!-- <app-team></app-team> -->
-
-    <div class="team team__first">
-      <div class="team__container">
-        <p class="title title__team title__team-first">
-          {{ 'team.title' | translate}} 1
-        </p>
-        <app-card *ngFor="let player of selectedPlayersData | async"
-          [player]="player">
-        </app-card>
-      </div>
-    </div>
-
-    <div class="team team__second">
-      <div class="team__container">
-        <p class="title title__team title__team-second">
-          {{ 'team.title' | translate}} 2
-        </p>
-        <app-card *ngFor="let player of selectedPlayersData | async"
-          [player]="player">
-        </app-card>
-      </div>
-    </div>
-
-    <div class="team team__third"
-      *ngIf="nameClassTeams === 'three__teams' || nameClassTeams === 'four__teams'">
-      <div class="team__container">
-        <p class="title title__team title__team-third">
-          {{ 'team.title' | translate}} 3
-        </p>
-        <app-card *ngFor="let player of selectedPlayersData | async"
-          [player]="player">
-        </app-card>
-      </div>
-    </div>
-
-    <div class="team team__fourth"
-      *ngIf="nameClassTeams === 'four__teams'">
-      <div class="team__container">
-        <p class="title title__team title__team-fourth">
-          {{ 'team.title' | translate}} 4
-        </p>
-        <app-card *ngFor="let player of selectedPlayersData | async"
-          [player]="player">
-        </app-card>
-      </div>
-    </div>
+    <app-team class="team"
+      *ngFor="let team of teams; let i = index"
+      [teamInfo]="team"
+      [index]="i">
+    </app-team>
   </div>
 </div>

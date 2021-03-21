@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input  } from '@angular/core';
 
 @Component({
   selector: 'app-team',
@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./team.component.scss']
 })
 export class TeamComponent implements OnInit {
+  public teamLevel: number;
+  
+  @Input() teamInfo: any;
+  @Input() index: any;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.teamLevel = this.teamInfo.team.reduce((sum, player) => sum + player.level,0);
   }
+
 
 }

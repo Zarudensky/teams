@@ -78,8 +78,8 @@ export class FormComponent implements OnInit {
       attack: new FormControl(this.points),
       defense: new FormControl(this.points),
       accuracy: new FormControl(this.points),   
-      cc: new FormControl(''),
-      level: new FormControl('')
+      cc: new FormControl(0),
+      level: new FormControl(0)
     });
   }
 

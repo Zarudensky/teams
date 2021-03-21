@@ -3,17 +3,17 @@
   .teams__actions {
     display: flex;
     align-items: flex-start;
-    height: 60px;
+    height: 45px;
 
     .btn__divide {
       width: 30px;
       height: 30px;
       line-height: 30px;
+      margin-right: 15px;
     }
     ::ng-deep .mat-mini-fab .mat-button-wrapper {
       padding: 0;
     }
-    
 
     .btn__clear {
       margin-left: auto;
@@ -43,26 +43,6 @@
       justify-content: center;
       width: 50%;
       box-sizing: border-box;
-      .team__container {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid #ccc;
-        border-radius: 20px;
-        padding: 20px;
-
-        .title__team {
-          position: absolute;
-          top: -10px;
-          left: calc(50% - 50px);
-          width: 100px;
-          text-align: center;
-          background: #fff;
-          
-        }
-      }
-      
     }
   }
   .teams__block.three__teams {

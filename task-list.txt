@@ -5,6 +5,7 @@ Add form function:
 2) When create new player add default avatar on data
 3) When delete player deleete avatar
 4) Limit uploaded file size and add types
+5) Add name to storege folder name
 
 Add players function:
 1) Add sorting table
@@ -12,6 +13,14 @@ Add players function:
 3) Autoscroll and focused queues new player
 4) Transfer options in form to entities.ts file or use enum
 5) Remake function show/hide popup
+
+Add main function:
+1) Autoscroll after chenge select to recommended teams
+2) Add button autoscroll up
+3) Design main page
+
+Add teams function:
+1) Sorting players in position
 
 To split modules:
 1) Components and servises module

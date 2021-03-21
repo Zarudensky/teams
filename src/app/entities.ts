@@ -12,3 +12,7 @@ export interface PlayerInfo {
   cc: number;
   level: number;
 }
+
+export interface TeamsInfo {
+  team?: Array<PlayerInfo>;
+}
