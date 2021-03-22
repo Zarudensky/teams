@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { TeamsService } from '../../../app/teams.service';
+import { PlayersService } from '../../players.service';
 import { UUID } from 'angular2-uuid';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
@@ -63,7 +63,7 @@ export class FormComponent implements OnInit {
   public languages: {id: string, title: string}[] = [];
 
   constructor(
-    private teamsService: TeamsService,
+    private playersService: PlayersService,
     private storage: AngularFireStorage,
     private translateService: TranslateService,
     ) {
@@ -84,8 +84,8 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.teamsService.player) {
-      this.setValuesForm(this.teamsService.player);
+    if (this.playersService.player) {
+      this.setValuesForm(this.playersService.player);
     }
     this.playerGroup.valueChanges.subscribe(selectedValue => {
       this.valideteForm(selectedValue);
@@ -133,11 +133,11 @@ export class FormComponent implements OnInit {
     this.countLevel();
     this.replaceCc();
     this.uploadNewAvatar();
-    this.teamsService.saveDataPlayerService(this.playerGroup.value);
+    this.playersService.saveDataPlayerService(this.playerGroup.value);
   }
 
   public generateId(): void {
-    if (!this.teamsService.player) {
+    if (!this.playersService.player) {
       const id = this.uuidValue=UUID.UUID();
       this.playerGroup.value.id = id;
     }
@@ -171,7 +171,7 @@ export class FormComponent implements OnInit {
 
   public resetForm(): void {
     this.playerGroup.reset();
-    this.teamsService.player = null;
+    this.playersService.player = null;
   }
 
   public onFileSelected(event) {
@@ -197,8 +197,8 @@ export class FormComponent implements OnInit {
 
   public dowloadPreviewFile(ref) {
     this.fileUrl = ref.getDownloadURL();
-    if (this.teamsService.player) {
-      this.valideteForm(this.teamsService.player);
+    if (this.playersService.player) {
+      this.valideteForm(this.playersService.player);
     }
   }
 

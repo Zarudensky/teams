@@ -3,9 +3,9 @@
     {{ 'team.title' | translate}} {{ this.index+1 }}
   </p>
   <p class="title title__level">
-    Level: {{ teamLevel }}
+    {{ teamLevel }}
   </p>
-  <app-card *ngFor="let player of teamInfo.team"
+  <app-card *ngFor="let player of team.teamInfo"
     [player]="player">
   </app-card>
 </div>

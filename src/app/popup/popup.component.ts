@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TeamsService } from '../../app/teams.service';
+import { PlayersService } from '../players.service';
 
 export interface DialogData {
   title: string;
@@ -17,8 +17,8 @@ export interface DialogData {
 })
 export class PopupComponent {
     constructor(
-      private teamsService: TeamsService,
-      public dialogRef: MatDialogRef<TeamsService>,
+      private playersService: PlayersService,
+      public dialogRef: MatDialogRef<PlayersService>,
       @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
   
     onNoClick(): void {

@@ -7,7 +7,7 @@ import { PlayerInfo } from './entities';
   providedIn: 'root'
 })
 
-export class TeamsService {
+export class PlayersService {
   public allPlayersData: Observable<any[]>;
   public selectedPlayersData: Observable<any[]>;
   public allPlayers: PlayerInfo[] = [];

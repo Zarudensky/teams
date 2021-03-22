@@ -21,6 +21,7 @@ Add main function:
 
 Add teams function:
 1) Sorting players in position
+2) if teams were generate, add new players in teams and display massage about it
 
 To split modules:
 1) Components and servises module

@@ -1,3 +1,7 @@
+export interface TeamInfo {
+  teamInfo?: Array<PlayerInfo>;
+}
+
 export interface PlayerInfo {
   id: string;
   avatar: string;
@@ -11,8 +15,4 @@ export interface PlayerInfo {
   accuracy: number;
   cc: number;
   level: number;
-}
-
-export interface TeamsInfo {
-  team?: Array<PlayerInfo>;
 }

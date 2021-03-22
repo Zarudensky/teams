@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil} from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
-import { TeamsService } from '../../teams.service';
+import { PlayersService } from '../../players.service';
 import { PlayerInfo } from '../../entities';
 
 @Component({
@@ -13,7 +13,7 @@ import { PlayerInfo } from '../../entities';
 })
 
 export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
-  protected players: PlayerInfo[] = this.teamsService.allPlayers;
+  protected players: PlayerInfo[] = this.playersService.allPlayers;
   public playersCtrl: FormControl = new FormControl();
   public playersFilterCtrl: FormControl = new FormControl();
   public filteredPlayers: ReplaySubject<PlayerInfo[]> = new ReplaySubject<PlayerInfo[]>(1);
@@ -23,7 +23,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   protected _onDestroy = new Subject<void>();
 
-  constructor(private teamsService: TeamsService) {}
+  constructor(private playersService: PlayersService) {}
 
   ngOnInit():void {
     this.setInitialSelection();
@@ -54,19 +54,19 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public setInitialSelection(): void {
-    this.teamsService.selectedPlayersData.subscribe((players) => {
+    this.playersService.selectedPlayersData.subscribe((players) => {
       this.playersCtrl.setValue(players);
     })
   }
 
   public loadInitialPlayerList(): void {
-    this.teamsService.allPlayersData.subscribe((players) => {
+    this.playersService.allPlayersData.subscribe((players) => {
       this.filteredPlayers.next(players.slice());
     })
   }
 
   public onSelectedPlayer(player): void {
-    this.teamsService.onSelectedPlayerService(player);
+    this.playersService.onSelectedPlayerService(player);
   }
 
   public filterOptions(): void {
@@ -97,7 +97,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (!value && this.playersCtrl.value) {
       if (this.playersCtrl.value.length > 0) {
-        this.teamsService.generateTeemsService();
+        this.playersService.generateTeemsService();
       }
     }
   }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TeamsService } from '../../../app/teams.service';
-import { GenerateTeemsService } from './generateTeems.service';
-import { PlayerInfo, TeamsInfo } from '../../entities';
+import { PlayersService } from '../../players.service';
+import { TeamsService } from './teams.service';
+import { TeamInfo, PlayerInfo } from '../../entities';
 
 @Component({
   selector: 'app-teams',
@@ -9,43 +9,41 @@ import { PlayerInfo, TeamsInfo } from '../../entities';
   styleUrls: ['./teams.component.scss']
 })
 export class TeamsComponent implements OnInit {
-  public selectedPlayersData = this.teamsService.selectedPlayersData;
+  public selectedPlayersData = this.playersService.selectedPlayersData;
   public selectedPlayers: PlayerInfo[] = [];
   public nameClassTeams: string;
   public numberOfPlayers: number;
   public numberOfTeams: number;
 
-  public defensePlayers: PlayerInfo[] = [];
-  public universalPlayers: PlayerInfo[] = [];
-  public attackPlayers: PlayerInfo[] = [];
+  public defensePlayers: PlayerInfo[];
+  public universalPlayers: PlayerInfo[];
+  public attackingPlayers: PlayerInfo[];
 
-  public firstTeam: PlayerInfo[] = [];
-  public secondTeam: PlayerInfo[] = [];
-  public thirdTeam: PlayerInfo[] = [];
-  public fourthTeam: PlayerInfo[] = [];
+  public firstTeam: PlayerInfo[];
+  public secondTeam: PlayerInfo[];
+  public thirdTeam: PlayerInfo[];
+  public fourthTeam: PlayerInfo[];
 
-  public firstTeamLevel: number = 0;
-  public secondTeamLevel: number = 0;
-  public thirdTeamLevel: number = 0;
-  public fourthTeamLevel: number = 0;
+  public firstTeamLevel: number;
+  public secondTeamLevel: number;
+  public thirdTeamLevel: number;
+  public fourthTeamLevel: number;
 
-
-  public teams: Array<TeamsInfo> = [];
+  public teams: TeamInfo[];
+  public relocatedPlayer: PlayerInfo;
 
   constructor(
-    private teamsService: TeamsService,
-    private generateTeemsService: GenerateTeemsService
+    private playersService: PlayersService,
+    private teamsService: TeamsService
     ) {
-    this.teamsService.selectedPlayersData.subscribe((players) => {
+    this.playersService.selectedPlayersData.subscribe((players) => {
       this.selectedPlayers = players;
       this.numberOfPlayers = this.selectedPlayers.length;
     })
   }
 
   ngOnInit(): void {
-    this.teamsService.ganereteTeams.subscribe(() => {
-      console.log('ganereteTeams - TeamsComponent');
-      // if teams were generate, add new players in teams and display massage about it
+    this.playersService.ganereteTeams.subscribe(() => {
       if(this.selectedPlayers.length >= 8) {
         this.countTeams();
         this.ganereteTeams();
@@ -56,47 +54,37 @@ export class TeamsComponent implements OnInit {
   public ganereteTeams(): void {
     this.clearOldTeams();
     this.filteredPlayersPosition();
+    
+    this.addPlayersToTeamsByLevel(this.defensePlayers);
+    this.addPlayersToTeamsByLevel(this.universalPlayers);
+    this.addPlayersToTeamsByLevel(this.attackingPlayers);
 
-    this.addPlayersTeams(this.defensePlayers);
-    this.addPlayersTeams(this.universalPlayers);
-    this.addPlayersTeams(this.attackPlayers);
-
-    this.correctedTeams();
+    this.correctedTeamsByNumberOf();
 
     switch (this.numberOfTeams) {
       case 2:
         this.teams = [
-          { team: this.firstTeam },
-          { team: this.secondTeam }
+          { teamInfo: this.firstTeam },
+          { teamInfo: this.secondTeam }
         ];
         break;
       case 3:
         this.teams = [
-          { team: this.firstTeam },
-          { team: this.secondTeam },
-          { team: this.thirdTeam },
+          { teamInfo: this.firstTeam },
+          { teamInfo: this.secondTeam },
+          { teamInfo: this.thirdTeam },
         ];
         break;
       case 4:
         this.teams = [
-          { team: this.firstTeam },
-          { team: this.secondTeam },
-          { team: this.thirdTeam },
-          { team: this.fourthTeam }
+          { teamInfo: this.firstTeam },
+          { teamInfo: this.secondTeam },
+          { teamInfo: this.thirdTeam },
+          { teamInfo: this.fourthTeam }
         ];
         break;
     }
-
-    console.log(this.firstTeamLevel);
-    console.log(this.firstTeam);
-    console.log(this.secondTeamLevel);
-    console.log(this.secondTeam);
-    console.log(this.thirdTeamLevel);
-    console.log(this.thirdTeam);
-    console.log(this.fourthTeamLevel);
-    console.log(this.fourthTeam);
-
-    console.log(this.teams);
+    this.teamsService.setTeams(this.teams);
   }
 
   public countTeams(): void {
@@ -120,18 +108,18 @@ export class TeamsComponent implements OnInit {
   }
 
   public filteredPlayersPosition(): void {
-    this.defensePlayers = this.selectedPlayers.filter(obj => {
-      return obj.position === 'defense'
+    this.defensePlayers = this.selectedPlayers.filter(player => {
+      return player.position === 'defense'
     });
-    this.universalPlayers = this.selectedPlayers.filter(obj => {
-      return obj.position === 'universal'
+    this.universalPlayers = this.selectedPlayers.filter(player => {
+      return player.position === 'universal'
     });
-    this.attackPlayers = this.selectedPlayers.filter(obj => {
-      return obj.position === 'attack'
+    this.attackingPlayers = this.selectedPlayers.filter(player => {
+      return player.position === 'attack'
     });
   }
 
-  public addPlayersTeams(players): void {
+  public addPlayersToTeamsByLevel(players): void {
     players.forEach(player => {
       this.firstTeamLevel = this.countLevelTeam(this.firstTeam);
       this.secondTeamLevel = this.countLevelTeam(this.secondTeam);
@@ -140,161 +128,129 @@ export class TeamsComponent implements OnInit {
 
       if(this.numberOfTeams === 2) {
         switch (true) {
-          // Level divide
-          case this.firstTeamLevel === 0 && this.secondTeamLevel === 0:
+          case this.firstTeamLevel <= this.secondTeamLevel:
             this.firstTeam.push(player);
             break;
-          case this.firstTeamLevel > this.secondTeamLevel:
+          case this.secondTeamLevel <= this.firstTeamLevel:
             this.secondTeam.push(player);
             break;
-          case this.firstTeamLevel < this.secondTeamLevel:
+          default:
             this.firstTeam.push(player);
-            break;
-          // Default length divide
-          case this.firstTeam.length === this.secondTeam.length:
-            this.firstTeam.push(player);
-            break;
-          case this.firstTeam.length > this.secondTeam.length:
-            this.secondTeam.push(player);
-            break;
-          case this.firstTeam.length < this.secondTeam.length:
-            this.firstTeam.push(player);
-            break;
         }
       }
       if(this.numberOfTeams === 3) {
         switch (true) {
-          // Level divide first
-          case this.firstTeamLevel === 0 && 
-               this.secondTeamLevel === 0 && 
-               this.thirdTeamLevel === 0:
+          case this.firstTeamLevel <= this.secondTeamLevel && 
+               this.firstTeamLevel <= this.thirdTeamLevel:
             this.firstTeam.push(player);
             break;
-          case this.secondTeamLevel === 0:
+          case this.secondTeamLevel <= this.firstTeamLevel && 
+               this.secondTeamLevel <= this.thirdTeamLevel:
             this.secondTeam.push(player);
             break;
-          case this.thirdTeamLevel === 0:
+          case this.thirdTeamLevel <= this.firstTeamLevel && 
+               this.thirdTeamLevel <= this.secondTeamLevel:
             this.thirdTeam.push(player);
             break;
-          // Level divide second
-          case this.firstTeamLevel < this.secondTeamLevel && 
-               this.firstTeamLevel < this.thirdTeamLevel:
+          default:
             this.firstTeam.push(player);
-            break;
-          case this.secondTeamLevel < this.firstTeamLevel && 
-               this.secondTeamLevel < this.thirdTeamLevel:
-            this.secondTeam.push(player);
-            break;
-          case this.thirdTeamLevel < this.firstTeamLevel && 
-               this.thirdTeamLevel < this.secondTeamLevel:
-            this.thirdTeam.push(player);
-            break;
-          // Default length divide
-          case this.firstTeam.length === this.secondTeam.length && 
-               this.firstTeam.length === this.thirdTeam.length:
-            this.firstTeam.push(player);
-            break;
-          case this.firstTeam.length < this.secondTeam.length && 
-               this.firstTeam.length < this.thirdTeam.length:
-            this.firstTeam.push(player);
-            break;
-          case this.secondTeam.length < this.firstTeam.length && 
-               this.secondTeam.length < this.thirdTeam.length:
-            this.secondTeam.push(player);
-            break;
-          case this.thirdTeam.length < this.firstTeam.length && 
-               this.thirdTeam.length < this.secondTeam.length:
-            this.thirdTeam.push(player);
-            break;
         }
       }
       if(this.numberOfTeams === 4) {
         switch (true) {
-          // Level divide first
-          case this.firstTeamLevel === 0 && 
-               this.secondTeamLevel === 0 && 
-               this.thirdTeamLevel === 0 && 
-               this.fourthTeamLevel === 0:
+          case this.firstTeamLevel <= this.secondTeamLevel &&
+               this.firstTeamLevel <= this.thirdTeamLevel && 
+               this.firstTeamLevel <= this.fourthTeamLevel:
             this.firstTeam.push(player);
             break;
-          case this.secondTeamLevel === 0:
+          case this.secondTeamLevel <= this.firstTeamLevel && 
+               this.secondTeamLevel <= this.thirdTeamLevel && 
+               this.secondTeamLevel <= this.fourthTeamLevel:
             this.secondTeam.push(player);
             break;
-          case this.thirdTeamLevel === 0:
+          case this.thirdTeamLevel <= this.firstTeamLevel && 
+               this.thirdTeamLevel <= this.secondTeamLevel && 
+               this.thirdTeamLevel <= this.fourthTeamLevel:
             this.thirdTeam.push(player);
             break;
-          case this.fourthTeamLevel === 0:
-               this.fourthTeam.push(player);
-            break;
-          // Level divide second
-          case this.firstTeamLevel < this.secondTeamLevel &&
-               this.firstTeamLevel < this.thirdTeamLevel && 
-               this.firstTeamLevel < this.fourthTeamLevel:
-            this.firstTeam.push(player);
-            break;
-          case this.secondTeamLevel < this.firstTeamLevel && 
-               this.secondTeamLevel < this.thirdTeamLevel && 
-               this.secondTeamLevel < this.fourthTeamLevel:
-            this.secondTeam.push(player);
-            break;
-          case this.thirdTeamLevel < this.firstTeamLevel && 
-               this.thirdTeamLevel < this.secondTeamLevel && 
-               this.thirdTeamLevel < this.fourthTeamLevel:
-            this.thirdTeam.push(player);
-            break;
-          case this.fourthTeamLevel < this.firstTeamLevel && 
-               this.fourthTeamLevel < this.secondTeamLevel && 
-               this.fourthTeamLevel < this.thirdTeamLevel:
+          case this.fourthTeamLevel <= this.firstTeamLevel && 
+               this.fourthTeamLevel <= this.secondTeamLevel && 
+               this.fourthTeamLevel <= this.thirdTeamLevel:
             this.fourthTeam.push(player);
             break;
-          // Default length divide
-          case this.firstTeam.length === this.secondTeam.length && 
-               this.firstTeam.length === this.thirdTeam.length && 
-               this.firstTeam.length === this.fourthTeam.length:
+          default:
             this.firstTeam.push(player);
-            break;
-          case this.firstTeam.length < this.secondTeam.length && 
-               this.firstTeam.length < this.thirdTeam.length && 
-               this.firstTeam.length < this.fourthTeam.length:
-            this.firstTeam.push(player);
-            break;
-          case this.secondTeam.length < this.firstTeam.length && 
-               this.secondTeam.length < this.thirdTeam.length && 
-               this.secondTeam.length < this.fourthTeam.length:
-            this.secondTeam.push(player);
-            break;
-          case this.thirdTeam.length < this.firstTeam.length && 
-               this.thirdTeam.length < this.secondTeam.length && 
-               this.thirdTeam.length < this.fourthTeam.length:
-            this.thirdTeam.push(player);
-            break;
-          case this.fourthTeam.length < this.firstTeam.length && 
-               this.fourthTeam.length < this.secondTeam.length && 
-               this.fourthTeam.length < this.thirdTeam.length:
-            this.fourthTeam.push(player);
-            break;
         }
       }
     });
   }
 
-  public correctedTeams(): void {
-    console.log('correctedTeams');
+  public correctedTeamsByNumberOf(): void {
+    let lengthArr = [];
+    let lengthMin:number;
+    let lengthMax:number;
+
+    if (this.firstTeam.length > 0) {
+      lengthArr.push(this.firstTeam.length);
+    }
+    if (this.secondTeam.length > 0) {
+      lengthArr.push(this.secondTeam.length);
+    }
+    if (this.thirdTeam.length > 0) {
+      lengthArr.push(this.thirdTeam.length);
+    }
+    if (this.fourthTeam.length > 0) {
+      lengthArr.push(this.fourthTeam.length);
+    }
+
+    lengthMin = Math.min(...lengthArr);
+    lengthMax = Math.max(...lengthArr);
+
+    if(lengthMax - lengthMin >= 2) {
+      switch (lengthMax) {
+        case this.firstTeam.length:
+          this.getRelocatePlayer(this.firstTeam);
+          this.firstTeam.splice(this.firstTeam.indexOf(this.relocatedPlayer),1);
+          break;
+        case this.secondTeam.length:
+          this.getRelocatePlayer(this.secondTeam);
+          this.secondTeam.splice(this.secondTeam.indexOf(this.relocatedPlayer),1);
+          break;
+        case this.thirdTeam.length:
+          this.getRelocatePlayer(this.thirdTeam);
+          this.thirdTeam.splice(this.thirdTeam.indexOf(this.relocatedPlayer),1);
+          break;
+        case this.thirdTeam.length:
+          this.getRelocatePlayer(this.thirdTeam);
+          this.fourthTeam.splice(this.fourthTeam.indexOf(this.relocatedPlayer),1);
+          break;
+      }
+
+      switch (lengthMin) {
+        case this.firstTeam.length:
+          this.firstTeam.push(this.relocatedPlayer);
+          break;
+        case this.secondTeam.length:
+          this.secondTeam.push(this.relocatedPlayer);
+          break;
+        case this.thirdTeam.length:
+          this.thirdTeam.push(this.relocatedPlayer);
+          break;
+        case this.fourthTeam.length:
+          this.fourthTeam.push(this.relocatedPlayer);
+          break;
+      }
+    }
+  }
+
+  public getRelocatePlayer(team): void {
+    this.relocatedPlayer = team.reduce(function(res, player) {
+      return (player.level < res.level) ? player : res;
+    });
   }
 
   public countLevelTeam(team): number {
     return team.reduce((sum, player) => sum + player.level,0);
-  }
-
-  public clearOldTeams(): void {
-    this.firstTeam = [];
-    this.secondTeam = [];
-    this.thirdTeam = [];
-    this.fourthTeam = [];
-    this.firstTeamLevel = 0;
-    this.secondTeamLevel = 0;
-    this.thirdTeamLevel = 0;
-    this.fourthTeamLevel = 0;
   }
 
   public onDivideTeams(dividedInto): void {
@@ -313,10 +269,21 @@ export class TeamsComponent implements OnInit {
     this.ganereteTeams();
   }
 
+  public clearOldTeams(): void {
+    this.firstTeam = [];
+    this.secondTeam = [];
+    this.thirdTeam = [];
+    this.fourthTeam = [];
+    this.firstTeamLevel = 0;
+    this.secondTeamLevel = 0;
+    this.thirdTeamLevel = 0;
+    this.fourthTeamLevel = 0;
+  }
+
   public deleteAllSelectedPlayers(): void {
-    this.selectedPlayers = [];
     this.numberOfTeams = 0;
+    this.nameClassTeams = '';
     this.clearOldTeams();
-    this.teamsService.deleteAllSelectedPlayersService();
+    this.playersService.deleteAllSelectedPlayersService();
   }
 }

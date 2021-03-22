@@ -57,9 +57,10 @@
     *ngIf="selectedPlayers.length >= 8">
     <p class="title title__teams">{{ 'teams.title' | translate}}</p>
 
+    <!-- *ngFor="let team of teams | async; let i = index" -->
     <app-team class="team"
       *ngFor="let team of teams; let i = index"
-      [teamInfo]="team"
+      [team]="team"
       [index]="i">
     </app-team>
   </div>

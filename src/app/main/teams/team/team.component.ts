@@ -8,13 +8,13 @@ import { Component, OnInit, Input  } from '@angular/core';
 export class TeamComponent implements OnInit {
   public teamLevel: number;
   
-  @Input() teamInfo: any;
+  @Input() team: any;
   @Input() index: any;
 
   constructor() { }
 
   ngOnInit(): void {
-    this.teamLevel = this.teamInfo.team.reduce((sum, player) => sum + player.level,0);
+    this.teamLevel = this.team.teamInfo.reduce((sum, player) => sum + player.level,0);
   }
 
 

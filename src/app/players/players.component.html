@@ -1,12 +1,3 @@
-<button 
-  *ngIf="!showOrHideForm"
-  mat-icon-button 
-  class="btn btn__add" 
-  (click)="openForm()" 
-  title="{{ 'players.add' | translate}}">
-  <mat-icon color="primary">add_circle_outline</mat-icon>
-</button>
-
 <app-form
   [(bool)]="showOrHideForm"
   *ngIf="showOrHideForm"
@@ -16,9 +7,18 @@
 <div class="table__wrapper">
   <table mat-table [dataSource]="allPlayersData" class="mat-elevation-z8">
     <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let player">
+      <th mat-header-cell *matHeaderCellDef>
         <button 
+          *ngIf="!showOrHideForm"
+          mat-icon-button 
+          class="btn btn__add" 
+          (click)="openForm()" 
+          title="{{ 'players.add' | translate}}">
+          <mat-icon color="primary">add_circle_outline</mat-icon>
+        </button>
+      </th>
+      <td mat-cell *matCellDef="let player">
+        <button
           mat-icon-button 
           class="btn btn__delete"
           (click)="deletePlayerClic(player)"

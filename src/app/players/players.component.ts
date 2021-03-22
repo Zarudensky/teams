@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TeamsService } from '../../app/teams.service';
+import { PlayersService } from '../players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component'
 import { Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 
 export class PlayersComponent {
-  public allPlayersData = this.teamsService.allPlayersData;
+  public allPlayersData = this.playersService.allPlayersData;
   public showOrHideForm = false;
   public displayedColumns: string[] = ['actions', 'avatar', 'name', 'surname', 'power', 'status', 'position', 'attack', 'defense', 'accuracy', 'cc', 'level'];
 
@@ -29,7 +29,7 @@ export class PlayersComponent {
 
   constructor(
     private translateService: TranslateService,
-    private teamsService: TeamsService, 
+    private playersService: PlayersService, 
     public dialog: MatDialog) {}
 
   public openForm() {
@@ -42,7 +42,7 @@ export class PlayersComponent {
 
   public chengePlayerClic(player) {
     this.showForm();
-    this.teamsService.player = player;
+    this.playersService.player = player;
   }
 
   public deletePlayerClic(player) {
@@ -62,7 +62,7 @@ export class PlayersComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.teamsService.deleteDataPlayerService(player);
+        this.playersService.deleteDataPlayerService(player);
       }
     });
   }

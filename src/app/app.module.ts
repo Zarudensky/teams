@@ -5,8 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { TeamsService } from './teams.service';
-import { GenerateTeemsService } from './main/teams/generateTeems.service';
+import { PlayersService } from './players.service';
+import { TeamsService } from './main/teams/teams.service';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -93,7 +93,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
       useDefaultLang: false,
     })
   ],
-  providers: [TeamsService, GenerateTeemsService],
+  providers: [PlayersService, TeamsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
