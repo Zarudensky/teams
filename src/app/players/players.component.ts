@@ -62,7 +62,7 @@ export class PlayersComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.playersService.deleteDataPlayerService(player);
+        this.playersService.deleteOnePlayerService(player, 'players');
       }
     });
   }

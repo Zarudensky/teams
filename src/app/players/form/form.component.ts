@@ -133,7 +133,7 @@ export class FormComponent implements OnInit {
     this.countLevel();
     this.replaceCc();
     this.uploadNewAvatar();
-    this.playersService.saveDataPlayerService(this.playerGroup.value);
+    this.playersService.saveDataPlayerService(this.playerGroup.value, 'players');
   }
 
   public generateId(): void {

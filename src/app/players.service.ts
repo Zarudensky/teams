@@ -21,8 +21,8 @@ export class PlayersService {
     this.getAllPlayersService();
   }
 
-  public saveDataPlayerService(player) {
-    return this.firestore.collection('players')
+  public saveDataPlayerService(player, collection) {
+    return this.firestore.collection(collection)
       .doc(player.id)
       .set({
         id: player.id,
@@ -40,8 +40,8 @@ export class PlayersService {
       }, { merge: true });
   }
 
-  public deleteDataPlayerService(player) {
-    return this.firestore.collection('players')
+  public deleteOnePlayerService(player, collection) {
+    return this.firestore.collection(collection)
       .doc(player.id)
       .delete();
   }
@@ -50,7 +50,7 @@ export class PlayersService {
     const playerDoc = this.firestore.collection('selected').doc(player.id);
     playerDoc.get().toPromise().then((doc) => {
       if (doc.exists) {
-        playerDoc.delete()
+        playerDoc.delete();
       } else {
         playerDoc.set(player);
       }
@@ -58,19 +58,19 @@ export class PlayersService {
   }
 
   private getAllPlayersService() {
-    const playerDocAll = this.firestore.collection<PlayerInfo>('players');
-    playerDocAll.get().toPromise().then((querySnapshot) => {
+    const playersDocAll = this.firestore.collection<PlayerInfo>('players');
+    playersDocAll.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         this.allPlayers.push(<PlayerInfo>doc.data()); 
       });
     });
   }
 
-  public deleteAllSelectedPlayersService() {
-    const selectedDocAll = this.firestore.collection<PlayerInfo>('selected');
-    selectedDocAll.get().toPromise().then((querySnapshot) => {
+  public deleteSeveralPlayersService(collection) {
+    const playersDoc = this.firestore.collection<PlayerInfo>(collection);
+    playersDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        selectedDocAll.doc(doc.data().id).delete();
+        playersDoc.doc(doc.data().id).delete();
       });
     })
   }

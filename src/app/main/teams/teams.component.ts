@@ -30,7 +30,9 @@ export class TeamsComponent implements OnInit {
   public fourthTeamLevel: number;
 
   public teams: TeamInfo[];
-  public relocatedPlayer: PlayerInfo;
+  public relocatedPlayerMax: PlayerInfo;
+  public relocatedPlayerMin: PlayerInfo;
+  
 
   constructor(
     private playersService: PlayersService,
@@ -43,9 +45,11 @@ export class TeamsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.selectedPlayers.length); // problem!!!!
+    
     this.playersService.ganereteTeams.subscribe(() => {
+      this.countTeams();
       if(this.selectedPlayers.length >= 8) {
-        this.countTeams();
         this.ganereteTeams();
       }
     });
@@ -60,6 +64,10 @@ export class TeamsComponent implements OnInit {
     this.addPlayersToTeamsByLevel(this.attackingPlayers);
 
     this.correctedTeamsByNumberOf();
+    this.correctedTeamsByNumberOf();
+
+    this.correctedTeamsByLevel();
+    this.correctedTeamsByLevel();
 
     switch (this.numberOfTeams) {
       case 2:
@@ -84,7 +92,10 @@ export class TeamsComponent implements OnInit {
         ];
         break;
     }
-    this.teamsService.setTeams(this.teams);
+    this.teamsService.setTeam(this.firstTeam, 'firstTeam');
+    this.teamsService.setTeam(this.secondTeam, 'secondTeam');
+    this.teamsService.setTeam(this.thirdTeam, 'thirdTeam');
+    this.teamsService.setTeam(this.fourthTeam, 'fourthTeam');
   }
 
   public countTeams(): void {
@@ -121,11 +132,7 @@ export class TeamsComponent implements OnInit {
 
   public addPlayersToTeamsByLevel(players): void {
     players.forEach(player => {
-      this.firstTeamLevel = this.countLevelTeam(this.firstTeam);
-      this.secondTeamLevel = this.countLevelTeam(this.secondTeam);
-      this.thirdTeamLevel = this.countLevelTeam(this.thirdTeam);
-      this.fourthTeamLevel = this.countLevelTeam(this.fourthTeam);
-
+      this.countLevelTeams();
       if(this.numberOfTeams === 2) {
         switch (true) {
           case this.firstTeamLevel <= this.secondTeamLevel:
@@ -185,6 +192,13 @@ export class TeamsComponent implements OnInit {
     });
   }
 
+  public countLevelTeams(): void {
+    this.firstTeamLevel = this.countLevelTeam(this.firstTeam);
+    this.secondTeamLevel = this.countLevelTeam(this.secondTeam);
+    this.thirdTeamLevel = this.countLevelTeam(this.thirdTeam);
+    this.fourthTeamLevel = this.countLevelTeam(this.fourthTeam);
+  }
+
   public correctedTeamsByNumberOf(): void {
     let lengthArr = [];
     let lengthMin:number;
@@ -209,44 +223,134 @@ export class TeamsComponent implements OnInit {
     if(lengthMax - lengthMin >= 2) {
       switch (lengthMax) {
         case this.firstTeam.length:
-          this.getRelocatePlayer(this.firstTeam);
-          this.firstTeam.splice(this.firstTeam.indexOf(this.relocatedPlayer),1);
+          this.getRelocatePlayerMin(this.firstTeam);
+          this.firstTeam.splice(this.firstTeam.indexOf(this.relocatedPlayerMin),1);
           break;
         case this.secondTeam.length:
-          this.getRelocatePlayer(this.secondTeam);
-          this.secondTeam.splice(this.secondTeam.indexOf(this.relocatedPlayer),1);
+          this.getRelocatePlayerMin(this.secondTeam);
+          this.secondTeam.splice(this.secondTeam.indexOf(this.relocatedPlayerMin),1);
           break;
         case this.thirdTeam.length:
-          this.getRelocatePlayer(this.thirdTeam);
-          this.thirdTeam.splice(this.thirdTeam.indexOf(this.relocatedPlayer),1);
+          this.getRelocatePlayerMin(this.thirdTeam);
+          this.thirdTeam.splice(this.thirdTeam.indexOf(this.relocatedPlayerMin),1);
           break;
         case this.thirdTeam.length:
-          this.getRelocatePlayer(this.thirdTeam);
-          this.fourthTeam.splice(this.fourthTeam.indexOf(this.relocatedPlayer),1);
+          this.getRelocatePlayerMin(this.thirdTeam);
+          this.fourthTeam.splice(this.fourthTeam.indexOf(this.relocatedPlayerMin),1);
           break;
       }
 
       switch (lengthMin) {
         case this.firstTeam.length:
-          this.firstTeam.push(this.relocatedPlayer);
+          this.firstTeam.push(this.relocatedPlayerMin);
           break;
         case this.secondTeam.length:
-          this.secondTeam.push(this.relocatedPlayer);
+          this.secondTeam.push(this.relocatedPlayerMin);
           break;
         case this.thirdTeam.length:
-          this.thirdTeam.push(this.relocatedPlayer);
+          this.thirdTeam.push(this.relocatedPlayerMin);
           break;
         case this.fourthTeam.length:
-          this.fourthTeam.push(this.relocatedPlayer);
+          this.fourthTeam.push(this.relocatedPlayerMin);
           break;
       }
     }
   }
 
-  public getRelocatePlayer(team): void {
-    this.relocatedPlayer = team.reduce(function(res, player) {
-      return (player.level < res.level) ? player : res;
-    });
+  public correctedTeamsByLevel(): void {
+    let levelTeamsArr = [];
+    let levelTeamMax:number;
+    let levelTeamMin:number;
+    let indexTeamMax:number;
+    let indexTeamMin:number;
+    
+    this.countLevelTeams();
+
+    if (this.firstTeamLevel > 0) {
+      levelTeamsArr.push(this.firstTeamLevel);
+    }
+    if (this.secondTeamLevel > 0) {
+      levelTeamsArr.push(this.secondTeamLevel);
+    }
+    if (this.thirdTeamLevel > 0) {
+      levelTeamsArr.push(this.thirdTeamLevel);
+    }
+    if (this.fourthTeamLevel > 0) {
+      levelTeamsArr.push(this.fourthTeamLevel);
+    }
+
+    levelTeamMax = Math.max(...levelTeamsArr);
+    levelTeamMin = Math.min(...levelTeamsArr);
+    
+    indexTeamMax = levelTeamsArr.indexOf(Math.max(...levelTeamsArr));
+    indexTeamMin = levelTeamsArr.indexOf(Math.min(...levelTeamsArr));
+
+    if(levelTeamMax - levelTeamMin >= 150 ) {
+      switch (indexTeamMax) {
+        case 0:
+          this.getRelocatePlayerMax(this.firstTeam);
+          this.firstTeam.splice(this.firstTeam.indexOf(this.relocatedPlayerMax),1);
+          break;
+        case 1:
+          this.getRelocatePlayerMax(this.secondTeam);
+          this.secondTeam.splice(this.secondTeam.indexOf(this.relocatedPlayerMax),1);
+          break;
+        case 2:
+          this.getRelocatePlayerMax(this.thirdTeam);
+          this.thirdTeam.splice(this.thirdTeam.indexOf(this.relocatedPlayerMax),1);
+          break;
+        case 3:
+          this.getRelocatePlayerMax(this.fourthTeam);
+          this.fourthTeam.splice(this.fourthTeam.indexOf(this.relocatedPlayerMax),1);
+          break;
+      }
+
+      switch (indexTeamMin) {
+        case 0:
+          this.getRelocatePlayerMin(this.firstTeam);
+          this.firstTeam.splice(this.firstTeam.indexOf(this.relocatedPlayerMin),1);
+          this.firstTeam.push(this.relocatedPlayerMax);
+          break;
+        case 1:
+          this.getRelocatePlayerMin(this.secondTeam);
+          this.secondTeam.splice(this.secondTeam.indexOf(this.relocatedPlayerMin),1);
+          this.secondTeam.push(this.relocatedPlayerMax);
+          break;
+        case 2:
+          this.getRelocatePlayerMin(this.thirdTeam);
+          this.thirdTeam.splice(this.thirdTeam.indexOf(this.relocatedPlayerMin),1);
+          this.thirdTeam.push(this.relocatedPlayerMax);
+          break;
+        case 3:
+          this.getRelocatePlayerMin(this.fourthTeam);
+          this.fourthTeam.splice(this.fourthTeam.indexOf(this.relocatedPlayerMin),1);
+          this.fourthTeam.push(this.relocatedPlayerMax);
+          break;
+      }
+
+      switch (indexTeamMax) {
+        case 0:
+          this.firstTeam.push(this.relocatedPlayerMin);
+          break;
+        case 1:
+          this.secondTeam.push(this.relocatedPlayerMin);
+          break;
+        case 2:
+          this.thirdTeam.push(this.relocatedPlayerMin);
+          break;
+        case 3:
+          this.fourthTeam.push(this.relocatedPlayerMin);
+          break;
+      }
+    }
+  }
+
+  public getRelocatePlayerMax(team): void {
+    this.relocatedPlayerMax = team.reduce((res, player) => res.level > player.level ? res : player);
+  }
+
+  public getRelocatePlayerMin(team): void {
+    this.relocatedPlayerMin = team.reduce((res, player) => player.level < res.level ? player : res);
   }
 
   public countLevelTeam(team): number {
@@ -284,6 +388,6 @@ export class TeamsComponent implements OnInit {
     this.numberOfTeams = 0;
     this.nameClassTeams = '';
     this.clearOldTeams();
-    this.playersService.deleteAllSelectedPlayersService();
+    this.playersService.deleteSeveralPlayersService('selected');
   }
 }
