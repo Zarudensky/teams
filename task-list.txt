@@ -20,7 +20,6 @@ Add main function:
 3) Design main page
 
 Add teams function:
-1) Sorting players in position
 2) if teams were generate, add new players in teams and display massage about it
 
 To split modules:

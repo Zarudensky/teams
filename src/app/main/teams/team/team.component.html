@@ -6,6 +6,9 @@
     {{ teamLevel }}
   </p>
   <app-card *ngFor="let player of team.teamInfo"
+    class="card {{player.position}} 
+           defense-{{player.defense}} 
+           attack-{{player.attack}}"
     [player]="player">
   </app-card>
 </div>
