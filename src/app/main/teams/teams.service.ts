@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { PlayerInfo } from '../../entities';
 import { PlayersService } from '../../players.service'
@@ -7,30 +7,52 @@ import { PlayersService } from '../../players.service'
 @Injectable()
 
 export class TeamsService {
-  public selectedPlayersData: Observable<any[]>;
+  public firstTeam: PlayerInfo[] = [];
+  public secondTeam: PlayerInfo[] = [];
+  public thirdTeam: PlayerInfo[] = [];
+  public fourthTeam: PlayerInfo[] = [];
+
+  public ganereteTeams = new Subject();
 
   constructor(
     private firestore: AngularFirestore,
-    private playersService: PlayersService) {
-    this.selectedPlayersData = firestore.collection('selected').valueChanges();
+    private playersService: PlayersService) {}
 
+  public getPlayersTeam(collection) {
+    const playersDoc = this.firestore.collection<PlayerInfo>(collection);
+    playersDoc.get().toPromise().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        switch (collection) {
+          case 'firstTeam':
+            this.firstTeam.push(<PlayerInfo>doc.data());
+            break;
+          case 'secondTeam':
+            this.secondTeam.push(<PlayerInfo>doc.data());
+            break;
+          case 'thirdTeam':
+            this.thirdTeam.push(<PlayerInfo>doc.data());
+            break;
+          case 'fourthTeam':
+            this.fourthTeam.push(<PlayerInfo>doc.data());
+            break;
+        } 
+      });
+    });
   }
 
-  public setTeam(team, collection) {
-    console.log('setTeam');
-    // this.deleteOldTeam(collection);
-    // console.log('end Delete');
-    // team.forEach(player => {
-    //   console.log('forEach');
-    //   this.playersService.saveDataPlayerService(player, collection);
-    // });
-    // console.log('end forEach');
+  public setTeamService(team, collection) {
+    const playersDoc = this.firestore.collection<PlayerInfo>(collection);
+    playersDoc.get().toPromise().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        playersDoc.doc(doc.data().id).delete();
+      });
+      team.forEach(player => {
+        this.playersService.saveDataPlayerService(player, collection);
+      });
+    });
   }
 
-  public deleteOldTeam(collection) {
-    console.log('deleteOldTeam');
-    // this.playersService.deleteSeveralPlayersService(collection);
+  public generateTeemsService() {
+    this.ganereteTeams.next();
   }
-  
-
 }

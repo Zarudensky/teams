@@ -1,5 +1,5 @@
 export interface TeamInfo {
-  teamInfo?: Array<PlayerInfo>;
+  index: PlayerInfo;
 }
 
 export interface PlayerInfo {

@@ -1,13 +1,29 @@
 <div class="teams">
   <div class="teams__actions">
     <button
+      mat-button
+      color="primary" 
+      class="btn btn__state"
+      (click)="onEditTeams()"
+      *ngIf="selectedPlayers && selectedPlayers.length >= 8 && editState">
+      {{ 'teams.edit' | translate }}
+    </button>
+    <button
+      mat-button
+      color="primary" 
+      class="btn btn__state"
+      (click)="onSaveTeams()"
+      *ngIf="selectedPlayers && selectedPlayers.length >= 8 && !editState">
+      {{ 'teams.save' | translate }}
+    </button>
+    <button
       mat-mini-fab 
       color="primary" 
       class="btn btn__divide"
       (click)="onDivideTeams(2)"
-      title="{{ 'teams.divide.two' | translate}}"
-      *ngIf="selectedPlayers.length >= 12 && 
-        numberOfTeams === 3">
+      title="{{ 'teams.divide.two' | translate }}"
+      *ngIf="!editState && selectedPlayers.length >= 12 && numberOfTeams === 3 ||
+             !editState && selectedPlayers.length >= 12 && numberOfTeams === 4">
       II
     </button>
     <button
@@ -15,10 +31,9 @@
       color="primary" 
       class="btn btn__divide"
       (click)="onDivideTeams(3)"
-      title="{{ 'teams.divide.three' | translate}}"
-      *ngIf="selectedPlayers.length >= 12 && 
-        numberOfTeams === 2 || 
-        numberOfTeams === 4">
+      title="{{ 'teams.divide.three' | translate }}"
+      *ngIf="!editState && selectedPlayers.length >= 12 && numberOfTeams === 2 || 
+             !editState && selectedPlayers.length >= 12 && numberOfTeams === 4">
       III
     </button>
     <button
@@ -26,10 +41,9 @@
       color="primary" 
       class="btn btn__divide"
       (click)="onDivideTeams(4)"
-      title="{{ 'teams.divide.four' | translate}}"
-      *ngIf="selectedPlayers.length >= 16 &&
-        numberOfTeams === 2 ||
-        numberOfTeams === 3">
+      title="{{ 'teams.divide.four' | translate }}"
+      *ngIf="!editState && selectedPlayers.length >= 12 && numberOfTeams === 2 || 
+             !editState && selectedPlayers.length >= 12 && numberOfTeams === 3">
       IV
     </button>
 
@@ -39,29 +53,35 @@
       class="btn btn__clear"
       (click)="deleteAllSelectedPlayers()"
       *ngIf="selectedPlayers && selectedPlayers.length > 0">
-      {{ 'teams.clear' | translate}}
+      {{ 'teams.clear' | translate }}
     </button>
   </div>
+
   <div class="message__block">
     <p class="massage massage__first" 
       *ngIf="selectedPlayers.length === 0">
-      {{ 'teams.message.first' | translate}}
+      {{ 'teams.message.first' | translate }}
     </p>
     <p class="massage massage__second" 
       *ngIf="selectedPlayers.length >= 1 && selectedPlayers.length <= 7">
-      {{ 'teams.message.second' | translate}}
+      {{ 'teams.message.second' | translate }}
+    </p>
+    <p class="massage massage__third"
+      *ngIf="selectedPlayers.length >= 8">
+      {{ 'teams.message.third' | translate }}
     </p>
   </div>
 
-  <div class="teams__block {{nameClassTeams}}"
+  <div class="teams__block"
     *ngIf="selectedPlayers.length >= 8">
-    <p class="title title__teams">{{ 'teams.title' | translate}}</p>
 
-    <!-- *ngFor="let team of teams | async; let i = index" -->
-    <app-team class="team"
-      *ngFor="let team of teams; let i = index"
-      [team]="team"
-      [index]="i">
-    </app-team>
+    <ng-container  *ngFor="let team of teams; index as i">
+      <app-team class="team"
+        *ngIf="team.length >= 1"
+        [team]="team"
+        [index]="i">
+      </app-team>
+    </ng-container>
+    
   </div>
 </div>

@@ -11,7 +11,6 @@ import { TeamInfo, PlayerInfo } from '../../entities';
 export class TeamsComponent implements OnInit {
   public selectedPlayersData = this.playersService.selectedPlayersData;
   public selectedPlayers: PlayerInfo[] = [];
-  public nameClassTeams: string;
   public numberOfPlayers: number;
   public numberOfTeams: number;
 
@@ -29,33 +28,57 @@ export class TeamsComponent implements OnInit {
   public thirdTeamLevel: number;
   public fourthTeamLevel: number;
 
-  public teams: TeamInfo[];
+  public teams;
   public relocatedPlayerMax: PlayerInfo;
   public relocatedPlayerMin: PlayerInfo;
-  
 
+  public editState: boolean = true;
+  
   constructor(
     private playersService: PlayersService,
-    private teamsService: TeamsService
+    public teamsService: TeamsService
     ) {
     this.playersService.selectedPlayersData.subscribe((players) => {
       this.selectedPlayers = players;
       this.numberOfPlayers = this.selectedPlayers.length;
-    })
+    });
+    this.visibleOldTeams();
   }
 
   ngOnInit(): void {
-    console.log(this.selectedPlayers.length); // problem!!!!
-    
-    this.playersService.ganereteTeams.subscribe(() => {
-      this.countTeams();
-      if(this.selectedPlayers.length >= 8) {
-        this.ganereteTeams();
-      }
+    console.log('ngOnInit');
+    this.teamsService.ganereteTeams.subscribe(() => {
+      this.countNewTeams();
+      this.ganereteTeams();
     });
+  }
+  public visibleOldTeams(): void {
+    console.log('visibleOldTeams');
+    this.teamsService.getPlayersTeam('firstTeam');
+    this.teamsService.getPlayersTeam('secondTeam');
+    this.teamsService.getPlayersTeam('thirdTeam');
+    this.teamsService.getPlayersTeam('fourthTeam');
+    
+    this.teams = [
+      this.teamsService.firstTeam,
+      this.teamsService.secondTeam,
+      this.teamsService.thirdTeam,
+      this.teamsService.fourthTeam
+    ];
+  }
+
+  public visibleNewTeams(): void {
+    console.log('visibleNewTeams');
+    this.teams = [
+      this.firstTeam,
+      this.secondTeam,
+      this.thirdTeam,
+      this.fourthTeam
+    ];
   }
 
   public ganereteTeams(): void {
+    console.log('ganereteTeams');
     this.clearOldTeams();
     this.filteredPlayersPosition();
     
@@ -69,51 +92,32 @@ export class TeamsComponent implements OnInit {
     this.correctedTeamsByLevel();
     this.correctedTeamsByLevel();
 
-    switch (this.numberOfTeams) {
-      case 2:
-        this.teams = [
-          { teamInfo: this.firstTeam },
-          { teamInfo: this.secondTeam }
-        ];
-        break;
-      case 3:
-        this.teams = [
-          { teamInfo: this.firstTeam },
-          { teamInfo: this.secondTeam },
-          { teamInfo: this.thirdTeam },
-        ];
-        break;
-      case 4:
-        this.teams = [
-          { teamInfo: this.firstTeam },
-          { teamInfo: this.secondTeam },
-          { teamInfo: this.thirdTeam },
-          { teamInfo: this.fourthTeam }
-        ];
-        break;
-    }
-    this.teamsService.setTeam(this.firstTeam, 'firstTeam');
-    this.teamsService.setTeam(this.secondTeam, 'secondTeam');
-    this.teamsService.setTeam(this.thirdTeam, 'thirdTeam');
-    this.teamsService.setTeam(this.fourthTeam, 'fourthTeam');
+    // this.setTeams();
+    this.visibleNewTeams();
+    this.editState = false;
   }
 
-  public countTeams(): void {
+  public setTeams(): void {
+    console.log('setTeams');
+    this.teamsService.setTeamService(this.firstTeam, 'firstTeam');
+    this.teamsService.setTeamService(this.secondTeam, 'secondTeam');
+    this.teamsService.setTeamService(this.thirdTeam, 'thirdTeam');
+    this.teamsService.setTeamService(this.fourthTeam, 'fourthTeam');
+  }
+
+  public countNewTeams(): void {
+    console.log('countNewTeams');
     switch (true) {
       case this.numberOfPlayers >= 8 && this.numberOfPlayers <= 11:
-        this.nameClassTeams = 'two__teams';
         this.numberOfTeams = 2;
         break;
       case this.numberOfPlayers >= 12 && this.numberOfPlayers <= 15:
-        this.nameClassTeams = 'three__teams';
         this.numberOfTeams = 3;
         break;
       case this.numberOfPlayers >= 16:
-        this.nameClassTeams = 'four__teams';
         this.numberOfTeams = 4;
         break;
       default:
-        this.nameClassTeams = '';
         this.numberOfTeams = 0;
     }
   }
@@ -359,17 +363,6 @@ export class TeamsComponent implements OnInit {
 
   public onDivideTeams(dividedInto): void {
     this.numberOfTeams = dividedInto;
-    switch (this.numberOfTeams) {
-      case 2:
-        this.nameClassTeams = 'two__teams';
-        break;
-      case 3:
-        this.nameClassTeams = 'three__teams';
-        break;
-      case 4:
-        this.nameClassTeams = 'four__teams';
-        break;
-    }
     this.ganereteTeams();
   }
 
@@ -386,8 +379,47 @@ export class TeamsComponent implements OnInit {
 
   public deleteAllSelectedPlayers(): void {
     this.numberOfTeams = 0;
-    this.nameClassTeams = '';
     this.clearOldTeams();
     this.playersService.deleteSeveralPlayersService('selected');
+    this.setTeams();
+  }
+
+  public onEditTeams(): void {
+    this.editState = false;
+    this.addOldTeams();
+    this.countOldTeams();
+  }
+
+  public addOldTeams(): void {
+    this.firstTeam = this.teamsService.firstTeam;
+    this.secondTeam = this.teamsService.secondTeam;
+    this.thirdTeam = this.teamsService.thirdTeam;
+    this.fourthTeam = this.teamsService.fourthTeam;
+  }
+
+  public countOldTeams(): void {
+    switch (true) {
+      case this.secondTeam.length >= 1 &&
+           this.thirdTeam.length >= 1 &&
+           this.fourthTeam.length >= 1:
+        this.numberOfTeams = 4;
+        break;
+      case this.secondTeam.length >= 1 &&
+           this.thirdTeam.length >= 1:
+        this.numberOfTeams = 3;
+        break;
+      case this.secondTeam.length >= 1:
+        this.numberOfTeams = 2;
+        break;
+      default:
+        this.numberOfTeams = 0;
+    }
+  }
+
+  public onSaveTeams(): void {
+    console.log('onSaveTeams');
+    this.editState = true;
+    this.setTeams();
+    console.log(this.numberOfTeams);
   }
 }

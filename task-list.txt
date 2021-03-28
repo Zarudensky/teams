@@ -20,7 +20,8 @@ Add main function:
 3) Design main page
 
 Add teams function:
-2) if teams were generate, add new players in teams and display massage about it
+1) if teams were generate, add new players in teams and display massage about it
+2) Add logic for five team
 
 To split modules:
 1) Components and servises module

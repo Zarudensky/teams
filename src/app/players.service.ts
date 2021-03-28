@@ -12,8 +12,6 @@ export class PlayersService {
   public selectedPlayersData: Observable<any[]>;
   public allPlayers: PlayerInfo[] = [];
   public player: PlayerInfo[];
-  
-  public ganereteTeams = new Subject();
 
   constructor(private firestore: AngularFirestore) {
     this.allPlayersData = firestore.collection('players').valueChanges();
@@ -48,8 +46,8 @@ export class PlayersService {
 
   public onSelectedPlayerService(player) {
     const playerDoc = this.firestore.collection('selected').doc(player.id);
-    playerDoc.get().toPromise().then((doc) => {
-      if (doc.exists) {
+    playerDoc.get().toPromise().then((querySnapshot) => {
+      if (querySnapshot.exists) {
         playerDoc.delete();
       } else {
         playerDoc.set(player);
@@ -73,9 +71,5 @@ export class PlayersService {
         playersDoc.doc(doc.data().id).delete();
       });
     })
-  }
-
-  public generateTeemsService() {
-    this.ganereteTeams.next();
   }
 }

@@ -4,6 +4,7 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil} from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
 import { PlayersService } from '../../players.service';
+import { TeamsService } from '../../main/teams/teams.service';
 import { PlayerInfo } from '../../entities';
 
 @Component({
@@ -23,7 +24,9 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   protected _onDestroy = new Subject<void>();
 
-  constructor(private playersService: PlayersService) {}
+  constructor(
+    private playersService: PlayersService,
+    private teamsService: TeamsService) {}
 
   ngOnInit():void {
     this.setInitialSelection();
@@ -93,20 +96,13 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public openedChangeSelect(value): void {
     this.openedOrClosedSelect = value;
-    this.disabledScrollBody();
-
-    if (!value && this.playersCtrl.value) {
-      if (this.playersCtrl.value.length > 0) {
-        this.playersService.generateTeemsService();
-      }
-    }
-  }
-
-  public disabledScrollBody(): void {
-    if(this.openedOrClosedSelect) {
+    if(value) {
       document.body.classList.add('disabled__scroll');
     } else {
       document.body.classList.remove('disabled__scroll');
+      if (this.playersCtrl.value.length >= 8) {
+        this.teamsService.generateTeemsService();
+      }
     }
   }
 }

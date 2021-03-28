@@ -2,14 +2,18 @@
 
   .teams__actions {
     display: flex;
-    align-items: flex-start;
-    height: 45px;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .btn__state {
+      margin-right: auto;
+    }
 
     .btn__divide {
       width: 30px;
       height: 30px;
       line-height: 30px;
-      margin-right: 15px;
+      margin: 0 10px;
     }
     ::ng-deep .mat-mini-fab .mat-button-wrapper {
       padding: 0;
@@ -22,6 +26,7 @@
 
   .message__block {
     text-align: center;
+    margin-bottom: 30px;
 
     .massage {
 
@@ -30,29 +35,18 @@
   
   .teams__block {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: center;
 
-    .title__teams {
-      width: 100%;
-      text-align: center;
-      margin-bottom: 30px;
-    }
     .team {
       display: flex;
       justify-content: center;
-      width: 50%;
       box-sizing: border-box;
-    }
-  }
-  .teams__block.three__teams {
-    .team {
-      width: calc(33.33% - 20px);
-    }
-  }
-  .teams__block.four__teams {
-    .team {
-      width: calc(25% - 20px);
+      max-width: 150px;
+      margin-right: 20px;
+
+      &:last-child {
+        margin-right: 0;
+      }
     }
   }
 }
