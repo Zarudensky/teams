@@ -53,17 +53,18 @@ export class TeamsComponent implements OnInit {
       this.ganereteTeams();
     });
   }
+  
   public visibleOldTeams(): void {
     this.playersService.selectedPlayersData.subscribe((players) => {
       this.selectedPlayers = players;
       this.numberOfPlayers = this.selectedPlayers.length;
     });
-
+    
     this.teamsService.getPlayersTeamService('firstTeam');
     this.teamsService.getPlayersTeamService('secondTeam');
     this.teamsService.getPlayersTeamService('thirdTeam');
     this.teamsService.getPlayersTeamService('fourthTeam');
-    
+
     this.teams = [
       this.teamsService.firstTeam,
       this.teamsService.secondTeam,
@@ -395,7 +396,6 @@ export class TeamsComponent implements OnInit {
   public onEditTeams(): void {
     this.editState = false;
     this.addOldTeams();
-    this.countOldTeams();
   }
 
   public addOldTeams(): void {
@@ -403,17 +403,15 @@ export class TeamsComponent implements OnInit {
     this.secondTeam = this.teamsService.secondTeam;
     this.thirdTeam = this.teamsService.thirdTeam;
     this.fourthTeam = this.teamsService.fourthTeam;
+    this.countOldTeams();
   }
 
   public countOldTeams(): void {
     switch (true) {
-      case this.secondTeam.length >= 1 &&
-           this.thirdTeam.length >= 1 &&
-           this.fourthTeam.length >= 1:
+      case this.fourthTeam.length >= 1:
         this.numberOfTeams = 4;
         break;
-      case this.secondTeam.length >= 1 &&
-           this.thirdTeam.length >= 1:
+      case this.thirdTeam.length >= 1:
         this.numberOfTeams = 3;
         break;
       case this.secondTeam.length >= 1:

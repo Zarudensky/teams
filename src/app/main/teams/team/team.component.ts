@@ -15,7 +15,6 @@ export class TeamComponent implements OnInit {
   constructor(public teamsService: TeamsService) {}
 
   ngOnInit(): void {
-    console.log('app-team');
     this.teamLevel = this.team.reduce((sum, player) => sum + player.level,0);
   }
 }

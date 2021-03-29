@@ -20,6 +20,7 @@ export class PlayersService {
   constructor(private firestore: AngularFirestore) {
     this.allPlayersData = firestore.collection('players').valueChanges();
     this.selectedPlayersData = firestore.collection('selected').valueChanges();
+    this.getAllPlayersService();
   }
 
   public saveDataPlayerService(player, collection) {

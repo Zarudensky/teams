@@ -45,3 +45,96 @@ mat-option .mat-option-text {
 .disabled__scroll {
   overflow: hidden;
 }
+
+.team:first-child:nth-last-child(2),
+.team:first-child:nth-last-child(2) ~ .team {
+  width: calc(50% - 10px);
+  margin-right: 20px;
+}
+
+.team:first-child:nth-last-child(3),
+.team:first-child:nth-last-child(3) ~ .team {
+  width: calc(33.3333% - 13px);
+  margin-right: 20px;
+}
+
+.team:first-child:nth-last-child(4),
+.team:first-child:nth-last-child(4) ~ .team {
+  width: calc(25% - 15px);
+  margin-right: 20px;
+}
+
+@media screen and (max-width: 760px) {
+  .team:first-child:nth-last-child(4),
+  .team:first-child:nth-last-child(4) ~ .team {
+    .avatar__max .avatar {
+      width: 50px;
+      height: 50px;
+    }
+    .player__info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      white-space: normal;
+    }
+    .title.title__team {
+      left: calc(50% - 15px);
+      width: 30px;
+    }
+    .title__team span:first-child {
+      display: none;
+    }
+  }
+}
+@media screen and (max-width: 530px) {
+  .team:first-child:nth-last-child(2),
+  .team:first-child:nth-last-child(2) ~ .team {
+    width: calc(50% - 5px);
+    margin-right: 10px;
+  }
+
+  .team:first-child:nth-last-child(3),
+  .team:first-child:nth-last-child(3) ~ .team {
+    width: calc(33.3333% - 7px);
+    margin-right: 10px;
+    .avatar__max .avatar {
+      width: 50px;
+      height: 50px;
+    }
+    .player__info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      white-space: normal;
+    }
+    .title.title__team {
+      left: calc(50% - 15px);
+      width: 30px;
+    }
+    .title__team span:first-child {
+      display: none;
+    }
+  }
+
+  .team:first-child:nth-last-child(4),
+  .team:first-child:nth-last-child(4) ~ .team {
+    width: calc(25% - 8px);
+    margin-right: 10px;
+  }
+}
+@media screen and (max-width: 440px) {
+  .teams .teams__block {
+    flex-wrap: wrap;
+  }
+  .teams .teams__block app-team.team:nth-child(odd) {
+    margin-right: 10px;
+  }
+
+  .team:first-child:nth-last-child(4),
+  .team:first-child:nth-last-child(4) ~ .team {
+    width: calc(50% - 15px);
+    margin-bottom: 20px;
+    margin-right: 0;
+  }
+  
+}

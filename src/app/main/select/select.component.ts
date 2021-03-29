@@ -88,7 +88,6 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       search = search.trim().toLowerCase();
     }
-
     this.filteredPlayers.next(
       this.players.filter(player => player.name.toLowerCase().indexOf(search) > -1)
     );

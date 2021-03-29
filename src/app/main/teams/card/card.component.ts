@@ -14,7 +14,6 @@ export class CardComponent implements OnInit {
   constructor(private playersService: PlayersService) {}
 
   ngOnInit(): void {
-    console.log('app-card');
   }
 
   public onDeletePlayer(player) {
