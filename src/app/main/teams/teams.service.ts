@@ -18,7 +18,7 @@ export class TeamsService {
     private firestore: AngularFirestore,
     private playersService: PlayersService) {}
 
-  public getPlayersTeam(collection) {
+  public getPlayersTeamService(collection) {
     const playersDoc = this.firestore.collection<PlayerInfo>(collection);
     playersDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -52,6 +52,15 @@ export class TeamsService {
     });
   }
 
+  public deleteTeamService(collection) {
+    const playersDoc = this.firestore.collection<PlayerInfo>(collection);
+    playersDoc.get().toPromise().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        playersDoc.doc(doc.data().id).delete();
+      });
+    });
+  }
+  
   public generateTeemsService() {
     this.ganereteTeams.next();
   }

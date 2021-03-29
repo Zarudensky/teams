@@ -19,6 +19,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   public playersFilterCtrl: FormControl = new FormControl();
   public filteredPlayers: ReplaySubject<PlayerInfo[]> = new ReplaySubject<PlayerInfo[]>(1);
   public openedOrClosedSelect: boolean;
+  public selectedPlayers: PlayerInfo[] = [];
 
   @ViewChild('multiSelect') multiSelect: MatSelect;
 
@@ -29,6 +30,9 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     private teamsService: TeamsService) {}
 
   ngOnInit():void {
+    this.playersService.deleteSelectedPlayers.subscribe(() => {
+      this.playersCtrl.setValue([]);
+    });
     this.setInitialSelection();
     this.loadInitialPlayerList();
 
@@ -59,7 +63,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   public setInitialSelection(): void {
     this.playersService.selectedPlayersData.subscribe((players) => {
       this.playersCtrl.setValue(players);
-    })
+    });
   }
 
   public loadInitialPlayerList(): void {
@@ -68,8 +72,8 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  public onSelectedPlayer(player): void {
-    this.playersService.onSelectedPlayerService(player);
+  public onSelectedPlayers(players): void {
+    this.playersService.selectedPlayers = players;
   }
 
   public filterOptions(): void {
@@ -100,9 +104,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
       document.body.classList.add('disabled__scroll');
     } else {
       document.body.classList.remove('disabled__scroll');
-      if (this.playersCtrl.value.length >= 8) {
-        this.teamsService.generateTeemsService();
-      }
+      this.teamsService.generateTeemsService();
     }
   }
 }

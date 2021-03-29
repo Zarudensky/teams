@@ -18,6 +18,6 @@ export class CardComponent implements OnInit {
   }
 
   public onDeletePlayer(player) {
-    this.playersService.onSelectedPlayerService(player);
+    // this.playersService.onSelectedPlayerService(player);
   }
 }

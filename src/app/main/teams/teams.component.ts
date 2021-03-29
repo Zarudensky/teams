@@ -32,32 +32,37 @@ export class TeamsComponent implements OnInit {
   public relocatedPlayerMax: PlayerInfo;
   public relocatedPlayerMin: PlayerInfo;
 
-  public editState: boolean = true;
+  public editState: boolean;
   
   constructor(
     private playersService: PlayersService,
     public teamsService: TeamsService
     ) {
-    this.playersService.selectedPlayersData.subscribe((players) => {
-      this.selectedPlayers = players;
-      this.numberOfPlayers = this.selectedPlayers.length;
-    });
     this.visibleOldTeams();
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit');
+    this.editState = true;
     this.teamsService.ganereteTeams.subscribe(() => {
+      if(this.playersService.selectedPlayers.length >= 1) {
+        this.selectedPlayers = this.playersService.selectedPlayers;
+        this.numberOfPlayers = this.playersService.selectedPlayers.length;
+      }
+      this.editState = false;
       this.countNewTeams();
       this.ganereteTeams();
     });
   }
   public visibleOldTeams(): void {
-    console.log('visibleOldTeams');
-    this.teamsService.getPlayersTeam('firstTeam');
-    this.teamsService.getPlayersTeam('secondTeam');
-    this.teamsService.getPlayersTeam('thirdTeam');
-    this.teamsService.getPlayersTeam('fourthTeam');
+    this.playersService.selectedPlayersData.subscribe((players) => {
+      this.selectedPlayers = players;
+      this.numberOfPlayers = this.selectedPlayers.length;
+    });
+
+    this.teamsService.getPlayersTeamService('firstTeam');
+    this.teamsService.getPlayersTeamService('secondTeam');
+    this.teamsService.getPlayersTeamService('thirdTeam');
+    this.teamsService.getPlayersTeamService('fourthTeam');
     
     this.teams = [
       this.teamsService.firstTeam,
@@ -68,7 +73,6 @@ export class TeamsComponent implements OnInit {
   }
 
   public visibleNewTeams(): void {
-    console.log('visibleNewTeams');
     this.teams = [
       this.firstTeam,
       this.secondTeam,
@@ -78,7 +82,6 @@ export class TeamsComponent implements OnInit {
   }
 
   public ganereteTeams(): void {
-    console.log('ganereteTeams');
     this.clearOldTeams();
     this.filteredPlayersPosition();
     
@@ -92,13 +95,11 @@ export class TeamsComponent implements OnInit {
     this.correctedTeamsByLevel();
     this.correctedTeamsByLevel();
 
-    // this.setTeams();
     this.visibleNewTeams();
     this.editState = false;
   }
 
   public setTeams(): void {
-    console.log('setTeams');
     this.teamsService.setTeamService(this.firstTeam, 'firstTeam');
     this.teamsService.setTeamService(this.secondTeam, 'secondTeam');
     this.teamsService.setTeamService(this.thirdTeam, 'thirdTeam');
@@ -106,7 +107,6 @@ export class TeamsComponent implements OnInit {
   }
 
   public countNewTeams(): void {
-    console.log('countNewTeams');
     switch (true) {
       case this.numberOfPlayers >= 8 && this.numberOfPlayers <= 11:
         this.numberOfTeams = 2;
@@ -379,9 +379,17 @@ export class TeamsComponent implements OnInit {
 
   public deleteAllSelectedPlayers(): void {
     this.numberOfTeams = 0;
+    this.selectedPlayers = [];
     this.clearOldTeams();
-    this.playersService.deleteSeveralPlayersService('selected');
-    this.setTeams();
+    this.playersService.deleteSelectedPlayersService();
+    this.deleteAllTeamsService();
+  }
+
+  public deleteAllTeamsService() {
+    this.teamsService.deleteTeamService('firstTeam');
+    this.teamsService.deleteTeamService('secondTeam');
+    this.teamsService.deleteTeamService('thirdTeam');
+    this.teamsService.deleteTeamService('fourthTeam');
   }
 
   public onEditTeams(): void {
@@ -417,9 +425,8 @@ export class TeamsComponent implements OnInit {
   }
 
   public onSaveTeams(): void {
-    console.log('onSaveTeams');
+    this.playersService.updateSelectedPlayersService();
     this.editState = true;
     this.setTeams();
-    console.log(this.numberOfTeams);
   }
 }
