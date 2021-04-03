@@ -1,4 +1,4 @@
 <div class="main">
-  <app-select></app-select>
+  <app-select *ngIf="authService.userData"></app-select>
   <app-teams></app-teams>
 </div>

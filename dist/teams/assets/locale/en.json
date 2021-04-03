@@ -70,17 +70,19 @@
 		}
 	},
 	"teams": {
+		"edit": "Edit",
 		"divide": {
 			"two": "Divide into two teams",
 			"three": "Divide into three teams",
 			"four": "Divide into four teams"
 		},
+		"save": "Save",
 		"clear": "Clear",
 		"message": {
 			"first": "To form teams, choose players",
-			"second": "Need more players to form teams"
-		},
-		"title": "Recommended teams"
+			"second": "Need more players to form teams",
+			"third": "Recommended teams"
+		}
 	},
 	"team": {
 		"title": "Team"

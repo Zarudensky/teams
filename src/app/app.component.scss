@@ -11,19 +11,51 @@
   padding: 0 50px 50px;
 
   .header {
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 50px;
     margin-bottom: 20px;
+
+    .logo {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 30px;
+        height: 30px;
+        margin-right: 5px;
+      }
+      div {
+        display: flex;
+        flex-direction: column;
+        p {
+          font-size: 14px;
+          font-weight: 500;
+          letter-spacing: 2.2px;
+          color: #3d2119;
+          margin: 0;
+        }
+        span {
+          font-size: 8px;
+          line-height: 10px;
+          letter-spacing: 3px;
+          font-weight: 400;
+          margin-left: 2px;
+          text-transform: uppercase;
+        }
+      }
+    }
     .nav {
       .tab.mat-tab-label-active {
         color: #3f51b5;
       }
     }
-    app-languages {
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 1;
-    }
+  }
+  app-languages {
+    z-index: 1;
+    position: fixed;
+    bottom: 20px;
   }
 }
 ::ng-deep {
@@ -41,4 +73,3 @@
     padding: 0 20px 40px;
   }
 }
-

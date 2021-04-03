@@ -1,5 +1,6 @@
 <div class="teams">
-  <div class="teams__actions">
+  <div class="teams__actions"
+    *ngIf="authService.userData">
     <button
       mat-button
       type="button"
@@ -63,7 +64,8 @@
     </button>
   </div>
 
-  <div class="message__block">
+  <div class="message__block"
+    *ngIf="authService.userData">
     <p class="massage massage__first" 
       *ngIf="selectedPlayers?.length === 0">
       {{ 'teams.message.first' | translate }}

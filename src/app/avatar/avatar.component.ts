@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-avatar',
@@ -10,13 +11,16 @@ import { Observable } from 'rxjs';
 export class AvatarComponent implements OnInit {
 
   @Input() player: any;
+  public avatarUrl: Observable<any>;
 
-  public avatarUrl: Observable<string | null>;
+  constructor(
+    private storage: AngularFireStorage,
+    public authService: AuthService) {
 
-  constructor(private storage: AngularFireStorage) { }
+    }
 
   ngOnInit(): void {
-    if(this.player.avatar) {
+    if(this.player?.avatar) {
       const filePath = 'avatars/' + this.player.id + '/' + this.player.avatar;
       const ref = this.storage.ref(filePath);
       this.avatarUrl = ref.getDownloadURL();

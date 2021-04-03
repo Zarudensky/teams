@@ -1,12 +1,17 @@
 {
+	"auth": {
+		"login": "Log in",
+		"logout": "Log out",
+		"login.with": "Login with"
+	},
+	"tab": {
+		"main": "Main",
+		"table": "Table"
+	},
 	"languages": {
     "ua": "Ukrainian",
 		"en": "English",
 		"ru": "Russian"
-	},
-	"header": {
-		"tab.main": "Main",
-		"tab.table": "Table"
 	},
 	"select": {
 		"lable": "Players:",

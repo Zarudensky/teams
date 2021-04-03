@@ -41,10 +41,14 @@ export class LanguagesComponent implements OnInit {
   }
 
   private setParamUrl(language): void {
-    const queryParams = {
-      language: language
-    };
-   this.router.navigate([], { queryParams });
+    this.activatedRoute.queryParams.subscribe(param => {
+      this.router.navigate([], { 
+        queryParams: {
+          uid: param.uid,
+          language: language
+        },
+       });
+    });
   }
 
   public changeLocale(language): void {

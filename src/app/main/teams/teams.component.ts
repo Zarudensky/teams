@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PlayersService } from '../../players.service';
 import { TeamsService } from './teams.service';
 import { TeamInfo, PlayerInfo } from '../../entities';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-teams',
@@ -28,7 +29,7 @@ export class TeamsComponent implements OnInit {
   public thirdTeamLevel: number;
   public fourthTeamLevel: number;
 
-  public teams;
+  public teams: any;
   public relocatedPlayerMax: PlayerInfo;
   public relocatedPlayerMin: PlayerInfo;
 
@@ -36,13 +37,13 @@ export class TeamsComponent implements OnInit {
   
   constructor(
     private playersService: PlayersService,
-    public teamsService: TeamsService
-    ) {
-    this.visibleOldTeams();
-  }
+    public teamsService: TeamsService,
+    public authService: AuthService
+    ) {}
 
   ngOnInit(): void {
     this.editState = true;
+    this.visibleOldTeams();
     this.teamsService.ganereteTeams.subscribe(() => {
       if(this.playersService.selectedPlayers.length >= 1) {
         this.selectedPlayers = this.playersService.selectedPlayers;
@@ -53,17 +54,19 @@ export class TeamsComponent implements OnInit {
       this.ganereteTeams();
     });
   }
-  
+
   public visibleOldTeams(): void {
     this.playersService.selectedPlayersData.subscribe((players) => {
       this.selectedPlayers = players;
       this.numberOfPlayers = this.selectedPlayers.length;
     });
-    
-    this.teamsService.getPlayersTeamService('firstTeam');
-    this.teamsService.getPlayersTeamService('secondTeam');
-    this.teamsService.getPlayersTeamService('thirdTeam');
-    this.teamsService.getPlayersTeamService('fourthTeam');
+
+    if(this.teamsService.firstTeam.length <=1) {
+      this.teamsService.getPlayersTeamService('firstTeam');
+      this.teamsService.getPlayersTeamService('secondTeam');
+      this.teamsService.getPlayersTeamService('thirdTeam');
+      this.teamsService.getPlayersTeamService('fourthTeam');
+    }
 
     this.teams = [
       this.teamsService.firstTeam,

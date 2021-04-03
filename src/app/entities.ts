@@ -1,3 +1,15 @@
+export interface User {
+  uid: string;
+  email: string;
+  name: string;
+  roles: Roles;
+}
+
+export interface Roles {
+  admin?: boolean;
+  editor?: boolean; 
+}
+
 export interface TeamInfo {
   index: PlayerInfo;
 }

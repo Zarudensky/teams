@@ -1,0 +1,31 @@
+<div class="auth">
+  <div class="login"
+    *ngIf="!authService.userData">
+    <button mat-button
+      class="btn btn__login"
+      [matMenuTriggerFor]="menu"
+      title="{{ 'auth.login' | translate }}">
+      <img src="{{'/assets/images/default_avatar.svg'}}" alt="user">
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item
+      (click)="loginWithGoogle()">{{ 'auth.login.with' | translate }} Google</button>
+      <button mat-menu-item
+      (click)="loginWithFacebook()">{{ 'auth.login.with' | translate }} Facebook</button>
+    </mat-menu>
+  </div>
+  <div class="account"
+    *ngIf="authService.userData">
+    <button mat-button
+      class="btn btn__logout"
+      [matMenuTriggerFor]="menu">
+      <img src="{{authService.userData?.photoURL}}" alt="user">
+    </button>
+    <mat-menu #menu="matMenu">
+      <p class="user__name">{{authService.userData?.displayName}}</p>
+      <button mat-menu-item
+      (click)="logOut()">{{ 'auth.logout' | translate }}</button>
+    </mat-menu>
+  </div>
+</div>
+

@@ -1,0 +1,46 @@
+.auth {
+  display: flex;
+  align-items: center;
+
+  div {
+    position: relative;
+    padding: 0px 15px;
+    margin-right: 3px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      right: 0;
+      display: inline-block;
+      border: 5px solid transparent;
+      border-top: 5px solid #757575;
+      border-bottom: 0 none;
+    }
+  }
+  .btn {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #d5d5d5;
+    overflow: hidden;
+    min-width: 35px;
+    line-height: 35px;
+    padding: 0;
+  }
+
+  img {
+    width: 100%;
+  }
+}
+p.user__name {
+  padding: 15px 10px;
+  margin: 0;
+}
+button.mat-menu-item {
+  text-align: center;
+}

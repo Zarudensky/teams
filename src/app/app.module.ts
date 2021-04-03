@@ -7,6 +7,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { PlayersService } from './players.service';
 import { TeamsService } from './main/teams/teams.service';
+import { AuthService } from './auth/auth.service';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -35,6 +36,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { environment } from '../environments/environment';
 import { TeamComponent } from './main/teams/team/team.component';
@@ -43,6 +45,7 @@ import { TeamComponent } from './main/teams/team/team.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguagesComponent } from './languages/languages.component';
+import { AuthComponent } from './auth/auth.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
   return new TranslateHttpLoader(http, './assets/locale/', '.json');
@@ -61,7 +64,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
     PopupComponent,
     AvatarComponent,
     TeamComponent,
-    LanguagesComponent
+    LanguagesComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
@@ -84,6 +88,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
     AngularFireAnalyticsModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
+    AngularFireAuthModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -93,7 +98,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
       useDefaultLang: false,
     })
   ],
-  providers: [PlayersService, TeamsService],
+  providers: [PlayersService, TeamsService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
