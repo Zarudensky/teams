@@ -12,6 +12,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+  public admin: boolean;
   public userData: any;
   public user: Observable<User>;
 
@@ -29,6 +30,7 @@ export class AuthService {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
       }
+      this.isAdminServise();
     });
 
     this.user = this.fireAuth.authState
@@ -41,15 +43,15 @@ export class AuthService {
       }));
   }
 
-  loginWithGoogleService() {
+  public loginWithGoogleService() {
     return this.authLogin(new firebase.auth.GoogleAuthProvider());
   }
 
-  loginWithFacebookService() {
+  public loginWithFacebookService() {
     return this.authLogin(new firebase.auth.FacebookAuthProvider());
   }
 
-  authLogin(provider) {
+  public authLogin(provider) {
     return this.fireAuth.signInWithPopup(provider)
     .then((result) => {
       console.log('login successful');
@@ -60,7 +62,7 @@ export class AuthService {
     })
   }
 
-  setParamUrlService(uid) {
+  public setParamUrlService(uid) {
     this.activatedRoute.queryParams.subscribe(param => {
       this.router.navigate([], {
         queryParams: {
@@ -84,7 +86,7 @@ export class AuthService {
       }, { merge: true });
   }
 
-  logOutService() {
+  public logOutService() {
     return this.fireAuth.signOut().then(() => {
       localStorage.removeItem('user');
       console.log('logout successful');
@@ -92,4 +94,19 @@ export class AuthService {
     })
   }
 
+  private isAdminServise() {
+    this.user.subscribe(user => {
+      if (!user) { 
+        this.admin = false
+        return
+      }
+      if (user.roles?.admin === true) {
+        this.admin = true;
+        return
+      } else { 
+        this.admin = false
+        return
+      }
+    });
+  }
 }

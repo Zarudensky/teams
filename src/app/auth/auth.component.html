@@ -5,7 +5,9 @@
       class="btn btn__login"
       [matMenuTriggerFor]="menu"
       title="{{ 'auth.login' | translate }}">
-      <img src="{{'/assets/images/default_avatar.svg'}}" alt="user">
+      <div class="avatar">
+        <img src="{{'/assets/images/default_avatar.svg'}}" alt="user">
+      </div>
     </button>
     <mat-menu #menu="matMenu">
       <button mat-menu-item
@@ -19,7 +21,9 @@
     <button mat-button
       class="btn btn__logout"
       [matMenuTriggerFor]="menu">
-      <img src="{{authService.userData?.photoURL}}" alt="user">
+      <div class="avatar">
+        <img src="{{authService.userData?.photoURL}}" alt="user">
+      </div>
     </button>
     <mat-menu #menu="matMenu">
       <p class="user__name">{{authService.userData?.displayName}}</p>

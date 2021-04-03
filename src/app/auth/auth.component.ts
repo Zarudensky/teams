@@ -20,7 +20,6 @@ export class AuthComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     console.log('ngOnInit - auth');
-
   }
 
   ngAfterViewInit():void {

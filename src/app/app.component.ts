@@ -32,4 +32,8 @@ export class AppComponent implements OnInit {
       this.activeLinkIndex = this.navLinks.indexOf(this.navLinks.find(tab => tab.link === this.router.url));
     });
   }
+  
+  public navigateMainPage(): void {
+    this.router.navigate([''], { queryParamsHandling: 'preserve' });
+  }
 }

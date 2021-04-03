@@ -2,37 +2,42 @@
   display: flex;
   align-items: center;
 
-  div {
-    position: relative;
-    padding: 0px 15px;
-    margin-right: 3px;
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 15px;
-      right: 0;
-      display: inline-block;
-      border: 5px solid transparent;
-      border-top: 5px solid #757575;
-      border-bottom: 0 none;
-    }
-  }
-  .btn {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+  .avatar {
     width: 35px;
     height: 35px;
     border-radius: 50%;
     background-color: #d5d5d5;
     overflow: hidden;
-    min-width: 35px;
-    line-height: 35px;
-    padding: 0;
   }
+  .btn {
+    position: relative;
+    padding: 0 18px 0 15px;
+    min-width: auto;
 
+    &::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      right: 3px;
+      display: inline-block;
+      border: 5px solid transparent;
+      border-top: 5px solid #757575;
+      border-bottom: 0 none;
+    }
+    &:hover::before {
+      border-top: 5px solid #3f51b5;
+    } 
+    ::ng-deep .mat-button-focus-overlay {
+      opacity: 0;
+      background: none;
+    }
+    ::ng-deep .mat-button-ripple.mat-ripple {
+      border-radius: 50%;
+      left: 15px;
+      right: 18px;
+    }
+  }
+  
   img {
     width: 100%;
   }

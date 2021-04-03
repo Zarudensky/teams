@@ -20,6 +20,7 @@
     .logo {
       display: flex;
       align-items: center;
+      cursor: pointer;
 
       img {
         width: 30px;
@@ -33,7 +34,7 @@
           font-size: 14px;
           font-weight: 500;
           letter-spacing: 2.2px;
-          color: #3d2119;
+          color: #5a3510;
           margin: 0;
         }
         span {
@@ -42,6 +43,7 @@
           letter-spacing: 3px;
           font-weight: 400;
           margin-left: 2px;
+          color: #3f51b5;
           text-transform: uppercase;
         }
       }
