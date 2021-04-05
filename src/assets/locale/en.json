@@ -75,6 +75,10 @@
 		}
 	},
 	"teams": {
+		"info": {
+			"title": "No players have been selected yet. Therefore, there are no formed teams yet.",
+			"description": "To create a list of players and teams, you need to log in."
+		},
 		"edit": "Edit",
 		"divide": {
 			"two": "Divide into two teams",

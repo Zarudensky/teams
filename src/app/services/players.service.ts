@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { PlayerInfo } from './entities';
+import { PlayerInfo } from '../entities';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,12 @@ export class PlayersService {
   public allPlayers: PlayerInfo[] = [];
   public selectedPlayers: PlayerInfo[] = [];
   public player: PlayerInfo[];
-  public playersDocSelected = this.firestore.collection<PlayerInfo>('selected');
 
   public deleteSelectedPlayers = new Subject();
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(
+    private firestore: AngularFirestore,
+    private authService: AuthService) {
     this.allPlayersData = firestore.collection('players').valueChanges();
     this.selectedPlayersData = firestore.collection('selected').valueChanges();
     this.getAllPlayersService();
@@ -57,8 +59,25 @@ export class PlayersService {
     });
   }
 
-  public getSelectedPlayersService() {
-    this.playersDocSelected.get().toPromise().then((querySnapshot) => {
+  private getUserSelectedCollection():string {
+    let userId: string;
+    if(this.authService.admin) {
+      return 'selected';
+    } else {
+      userId = this.authService.userData.uid;
+      return `users/${userId}/selected`;
+    }
+  }
+  
+  public getSelectedPlayersService(userId) {
+    let collection: string;
+    if (userId) {
+      collection = `users/${userId}/selected`;
+    } else {
+      collection = `selected`;
+    }
+    const selectedDoc = this.firestore.collection(collection);
+    selectedDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         this.selectedPlayers.push(<PlayerInfo>doc.data());
       });
@@ -66,27 +85,33 @@ export class PlayersService {
   }
 
   public setSelectedPlayerService(player) {
-    const playerDoc = this.playersDocSelected.doc(player.id);
-    playerDoc.get().toPromise().then((querySnapshot) => {
+    const collection = this.getUserSelectedCollection();
+    const playerDoc = this.firestore.collection(collection).doc(player.id);
+    playerDoc.get().toPromise().then(() => {
       playerDoc.set(player);
     });
   }
 
   public deleteSelectedPlayersService() {
-    this.playersDocSelected.get().toPromise().then((querySnapshot) => {
+    const collection = this.getUserSelectedCollection();
+    const playerDoc = this.firestore.collection<PlayerInfo>(collection);
+    playerDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        this.playersDocSelected.doc(doc.data().id).delete();
+        playerDoc.doc(doc.data().id).delete();
       });
     });
-    this.deleteSelectedPlayers.next();
   }
 
   public updateSelectedPlayersService() {
-    if(this.selectedPlayers.length >= 1) {
-      this.deleteSelectedPlayersService();
-      this.selectedPlayers.forEach((player) => {
-        this.setSelectedPlayerService(player);
-      });
-    }
+    this.deleteSelectedPlayersService();
+    this.selectedPlayers.forEach((player) => {
+      this.setSelectedPlayerService(player);
+    });
+
+  }
+
+  public deleteAllSelectedPlayersService() {
+    this.deleteSelectedPlayers.next();
+    this.selectedPlayers = []
   }
 }

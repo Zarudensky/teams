@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PlayersService } from '../players.service';
+import { PlayersService } from '../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component'
 import { Observable } from 'rxjs';

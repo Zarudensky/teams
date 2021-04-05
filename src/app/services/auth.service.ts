@@ -4,8 +4,7 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import { User } from '../entities';
 import { switchMap } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
@@ -18,9 +17,7 @@ export class AuthService {
 
   constructor(
     public fireAuth: AngularFireAuth,
-    private firestore: AngularFirestore,
-    private activatedRoute: ActivatedRoute,
-    public router: Router) {
+    private firestore: AngularFirestore) {
     this.fireAuth.authState.subscribe(user => {
       if (user) {
         this.userData = user;
@@ -30,7 +27,6 @@ export class AuthService {
         localStorage.setItem('user', null);
         JSON.parse(localStorage.getItem('user'));
       }
-      this.isAdminServise();
     });
 
     this.user = this.fireAuth.authState
@@ -41,6 +37,8 @@ export class AuthService {
           return of(null)
         }
       }));
+
+    this.isAdminServise();
   }
 
   public loginWithGoogleService() {
@@ -54,23 +52,10 @@ export class AuthService {
   public authLogin(provider) {
     return this.fireAuth.signInWithPopup(provider)
     .then((result) => {
-      console.log('login successful');
-      // this.setParamUrlService(result.user.uid);
       this.updeteUserData(result.user);
     }).catch((error) => {
       console.log(error);
     })
-  }
-
-  public setParamUrlService(uid) {
-    this.activatedRoute.queryParams.subscribe(param => {
-      this.router.navigate([], {
-        queryParams: {
-          uid: uid,
-          language: param.language
-        },
-      });
-    });
   }
 
   private updeteUserData(user) {
@@ -89,7 +74,6 @@ export class AuthService {
   public logOutService() {
     return this.fireAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      console.log('logout successful');
       this.userData = null;
     })
   }
@@ -97,15 +81,12 @@ export class AuthService {
   private isAdminServise() {
     this.user.subscribe(user => {
       if (!user) { 
-        this.admin = false
-        return
+        return this.admin = false
       }
       if (user.roles?.admin === true) {
-        this.admin = true;
-        return
+        return this.admin = true;
       } else { 
-        this.admin = false
-        return
+        return this.admin = false
       }
     });
   }

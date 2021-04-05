@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { PlayersService } from '../../players.service';
-import { TeamsService } from './teams.service';
-import { TeamInfo, PlayerInfo } from '../../entities';
-import { AuthService } from '../../auth/auth.service';
+import { PlayersService } from '../../services/players.service';
+import { TeamsService } from '../../services/teams.service';
+import { PlayerInfo } from '../../entities';
+import { AuthService } from '../../services/auth.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-teams',
@@ -10,7 +11,6 @@ import { AuthService } from '../../auth/auth.service';
   styleUrls: ['./teams.component.scss']
 })
 export class TeamsComponent implements OnInit {
-  public selectedPlayersData = this.playersService.selectedPlayersData;
   public selectedPlayers: PlayerInfo[] = [];
   public numberOfPlayers: number;
   public numberOfTeams: number;
@@ -38,7 +38,9 @@ export class TeamsComponent implements OnInit {
   constructor(
     private playersService: PlayersService,
     public teamsService: TeamsService,
-    public authService: AuthService
+    public authService: AuthService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
@@ -56,24 +58,26 @@ export class TeamsComponent implements OnInit {
   }
 
   public visibleOldTeams(): void {
-    this.playersService.selectedPlayersData.subscribe((players) => {
-      this.selectedPlayers = players;
+    this.activatedRoute.queryParams.subscribe(param => {
+      this.playersService.selectedPlayers = [];
+      this.playersService.getSelectedPlayersService(param.uid);
+      this.selectedPlayers = this.playersService.selectedPlayers;
       this.numberOfPlayers = this.selectedPlayers.length;
+
+      this.teamsService.clearAllTeemsService();
+
+      this.teamsService.getPlayersTeamService('firstTeam', param.uid);
+      this.teamsService.getPlayersTeamService('secondTeam', param.uid);
+      this.teamsService.getPlayersTeamService('thirdTeam', param.uid);
+      this.teamsService.getPlayersTeamService('fourthTeam', param.uid);
+
+      this.teams = [
+        this.teamsService.firstTeam,
+        this.teamsService.secondTeam,
+        this.teamsService.thirdTeam,
+        this.teamsService.fourthTeam
+      ];
     });
-
-    if(this.teamsService.firstTeam.length <=1) {
-      this.teamsService.getPlayersTeamService('firstTeam');
-      this.teamsService.getPlayersTeamService('secondTeam');
-      this.teamsService.getPlayersTeamService('thirdTeam');
-      this.teamsService.getPlayersTeamService('fourthTeam');
-    }
-
-    this.teams = [
-      this.teamsService.firstTeam,
-      this.teamsService.secondTeam,
-      this.teamsService.thirdTeam,
-      this.teamsService.fourthTeam
-    ];
   }
 
   public visibleNewTeams(): void {
@@ -386,10 +390,12 @@ export class TeamsComponent implements OnInit {
     this.selectedPlayers = [];
     this.clearOldTeams();
     this.playersService.deleteSelectedPlayersService();
+    this.playersService.deleteAllSelectedPlayersService();
     this.deleteAllTeamsService();
+    this.setParamUrl();
   }
 
-  public deleteAllTeamsService() {
+  public deleteAllTeamsService(): void {
     this.teamsService.deleteTeamService('firstTeam');
     this.teamsService.deleteTeamService('secondTeam');
     this.teamsService.deleteTeamService('thirdTeam');
@@ -428,6 +434,22 @@ export class TeamsComponent implements OnInit {
   public onSaveTeams(): void {
     this.playersService.updateSelectedPlayersService();
     this.editState = true;
+    this.setParamUrl();
     this.setTeams();
+  }
+  
+  public setParamUrl() {
+    let userId: string;
+    if(this.authService.admin) {
+      userId = null;
+    } else {
+      userId = this.authService.userData.uid;
+    }
+    this.router.navigate([], {
+      queryParams: {
+        uid: userId
+      },
+      queryParamsHandling: 'merge'
+    });  
   }
 }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { PlayerInfo } from '../../entities';
-import { PlayersService } from '../../players.service'
+import { PlayerInfo } from '../entities';
+import { PlayersService } from './players.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 
@@ -16,13 +17,20 @@ export class TeamsService {
 
   constructor(
     private firestore: AngularFirestore,
-    private playersService: PlayersService) {}
+    private playersService: PlayersService,
+    private authService: AuthService) {}
 
-  public getPlayersTeamService(collection) {
+  public getPlayersTeamService(nameTeam, userId) {
+    let collection: string;
+    if (userId) {
+      collection = `users/${userId}/${nameTeam}`;
+    } else {
+      collection = nameTeam;
+    }
     const playersDoc = this.firestore.collection<PlayerInfo>(collection);
     playersDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        switch (collection) {
+        switch (nameTeam) {
           case 'firstTeam':
             this.firstTeam.push(<PlayerInfo>doc.data());
             break;
@@ -40,7 +48,18 @@ export class TeamsService {
     });
   }
 
-  public setTeamService(team, collection) {
+  private getUserCollection(nameTeam):string {
+    let userId: string;
+    if(this.authService.admin) {
+      return nameTeam;
+    } else {
+      userId = this.authService.userData.uid;
+      return `users/${userId}/${nameTeam}`;
+    }
+  }
+
+  public setTeamService(team, nameTeam) {
+    const collection = this.getUserCollection(nameTeam);
     const playersDoc = this.firestore.collection<PlayerInfo>(collection);
     playersDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -52,13 +71,21 @@ export class TeamsService {
     });
   }
 
-  public deleteTeamService(collection) {
+  public deleteTeamService(nameTeam) {
+    const collection = this.getUserCollection(nameTeam);
     const playersDoc = this.firestore.collection<PlayerInfo>(collection);
     playersDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         playersDoc.doc(doc.data().id).delete();
       });
     });
+  }
+
+  public clearAllTeemsService() {
+    this.firstTeam = [];
+    this.secondTeam = [];
+    this.thirdTeam = [];
+    this.fourthTeam = [];
   }
   
   public generateTeemsService() {

@@ -44,9 +44,9 @@ export class LanguagesComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(param => {
       this.router.navigate([], { 
         queryParams: {
-          uid: param.uid,
           language: language
         },
+        queryParamsHandling: 'merge'
        });
     });
   }

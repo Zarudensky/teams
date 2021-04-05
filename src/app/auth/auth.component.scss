@@ -1,7 +1,10 @@
 .auth {
   display: flex;
   align-items: center;
-
+  
+  .login {
+    display: flex;
+  }
   .avatar {
     width: 35px;
     height: 35px;
@@ -48,4 +51,12 @@ p.user__name {
 }
 button.mat-menu-item {
   text-align: center;
+}
+.btn__block {
+  display: flex;
+  .btn__icon {
+    width: 20px;
+    height: auto;
+    margin-left: 10px;
+  }
 }

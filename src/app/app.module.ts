@@ -5,9 +5,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
-import { PlayersService } from './players.service';
-import { TeamsService } from './main/teams/teams.service';
-import { AuthService } from './auth/auth.service';
+import { PlayersService } from './services/players.service';
+import { TeamsService } from './services/teams.service';
+import { AuthService } from './services/auth.service';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';

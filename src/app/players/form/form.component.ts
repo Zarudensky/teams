@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { PlayersService } from '../../players.service';
+import { PlayersService } from '../../services/players.service';
 import { UUID } from 'angular2-uuid';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-avatar',

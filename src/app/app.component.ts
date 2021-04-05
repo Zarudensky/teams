@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -34,6 +34,6 @@ export class AppComponent implements OnInit {
   }
   
   public navigateMainPage(): void {
-    this.router.navigate([''], { queryParamsHandling: 'preserve' });
+    this.router.navigate([''], { queryParamsHandling: 'merge' });
   }
 }

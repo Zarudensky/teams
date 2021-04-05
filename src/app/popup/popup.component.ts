@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PlayersService } from '../players.service';
+import { PlayersService } from '../services/players.service';
 
 export interface DialogData {
   title: string;

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input} from '@angular/core';
-import { PlayersService } from '../../../players.service';
+import { PlayersService } from '../../../services/players.service';
 import { PlayerInfo } from '../../../entities';
 
 @Component({

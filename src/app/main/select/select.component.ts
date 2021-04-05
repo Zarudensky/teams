@@ -3,9 +3,10 @@ import { FormControl } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil} from 'rxjs/operators';
 import { MatSelect } from '@angular/material/select';
-import { PlayersService } from '../../players.service';
-import { TeamsService } from '../../main/teams/teams.service';
+import { PlayersService } from '../../services/players.service';
+import { TeamsService } from '../../services/teams.service';
 import { PlayerInfo } from '../../entities';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-select',
@@ -19,7 +20,6 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   public playersFilterCtrl: FormControl = new FormControl();
   public filteredPlayers: ReplaySubject<PlayerInfo[]> = new ReplaySubject<PlayerInfo[]>(1);
   public openedOrClosedSelect: boolean;
-  public selectedPlayers: PlayerInfo[] = [];
 
   @ViewChild('multiSelect') multiSelect: MatSelect;
 
@@ -32,6 +32,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit():void {
     this.playersService.deleteSelectedPlayers.subscribe(() => {
       this.playersCtrl.setValue([]);
+      this.playersService.selectedPlayers = [];
     });
     this.setInitialSelection();
     this.loadInitialPlayerList();
@@ -61,8 +62,8 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public setInitialSelection(): void {
-    this.playersService.selectedPlayersData.subscribe((players) => {
-      this.playersCtrl.setValue(players);
+    this.playersService.selectedPlayersData.subscribe(()=>{
+      this.playersCtrl.setValue(this.playersService.selectedPlayers);
     });
   }
 

@@ -1,4 +1,12 @@
+
 <div class="teams">
+
+  <div class="info"
+    *ngIf="!authService.userData && selectedPlayers.length <= 7">
+    <p>{{ 'teams.info.title' | translate }}</p>
+    <p>{{ 'teams.info.description' | translate }}</p>
+  </div>
+
   <div class="teams__actions"
     *ngIf="authService.userData">
     <button

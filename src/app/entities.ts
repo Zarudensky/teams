@@ -10,10 +10,6 @@ export interface Roles {
   editor?: boolean; 
 }
 
-export interface TeamInfo {
-  index: PlayerInfo;
-}
-
 export interface PlayerInfo {
   id: string;
   avatar: string;
