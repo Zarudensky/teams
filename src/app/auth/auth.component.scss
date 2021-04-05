@@ -55,7 +55,7 @@ button.mat-menu-item {
 .btn__block {
   display: flex;
   .btn__icon {
-    width: 20px;
+    max-width: 20px;
     height: auto;
     margin-left: 10px;
   }

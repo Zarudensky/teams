@@ -100,9 +100,9 @@
     </ng-container>
     
   </div>
-  <div class="shared__block"
+  <div class="share__block"
     *ngIf="selectedPlayers.length >= 8 && editState">
-    <p>{{ 'teams.shared' | translate }}</p>
+    <p>{{ 'teams.share' | translate }}</p>
     <share-buttons [theme]="'circles-dark'"
       [include]="['viber','telegram','facebook','twitter','linkedin','messenger','whatsapp','sms','email','copy','print']"
       [show]="2"
