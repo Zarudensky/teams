@@ -24,7 +24,6 @@ export class LanguagesComponent implements OnInit {
     this.getParamUrl();
 
     this.languageCtrl.valueChanges.subscribe((value) => {
-      console.log(value);
       this.translateService.use(value);
       this.setParamUrl(value);
     });

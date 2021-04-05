@@ -63,7 +63,6 @@ export class TeamsComponent implements OnInit {
   }
 
   public visibleOldTeams(): void {
-    console.log('visibleOldTeams');
     this.activatedRoute.queryParams.subscribe(param => {
       this.playersService.selectedPlayers = [];
       this.playersService.getSelectedPlayersService(param.uid);
@@ -87,7 +86,6 @@ export class TeamsComponent implements OnInit {
   }
 
   public visibleNewTeams(): void {
-    console.log('visibleNewTeams');
     this.teams = [
       this.firstTeam,
       this.secondTeam,
