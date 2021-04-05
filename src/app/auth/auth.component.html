@@ -37,8 +37,12 @@
     </button>
     <mat-menu #menu="matMenu">
       <p class="user__name">{{authService.userData?.displayName}}</p>
-      <button mat-menu-item
-      (click)="logOut()">{{ 'auth.logout' | translate }}</button>
+      <button mat-menu-item (click)="logOut()">
+        <div class="btn__block">
+          <mat-icon color="primary">logout</mat-icon>
+          <span class="btn__text">{{ 'auth.logout' | translate }}</span>
+        </div>
+      </button>
     </mat-menu>
   </div>
 </div>
