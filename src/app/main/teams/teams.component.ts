@@ -4,6 +4,7 @@ import { TeamsService } from '../../services/teams.service';
 import { PlayerInfo } from '../../entities';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-teams',
@@ -42,7 +43,8 @@ export class TeamsComponent implements OnInit {
     public teamsService: TeamsService,
     public authService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
     ) {}
 
   ngOnInit(): void {
@@ -61,6 +63,7 @@ export class TeamsComponent implements OnInit {
   }
 
   public visibleOldTeams(): void {
+    console.log('visibleOldTeams');
     this.activatedRoute.queryParams.subscribe(param => {
       this.playersService.selectedPlayers = [];
       this.playersService.getSelectedPlayersService(param.uid);
@@ -84,6 +87,7 @@ export class TeamsComponent implements OnInit {
   }
 
   public visibleNewTeams(): void {
+    console.log('visibleNewTeams');
     this.teams = [
       this.firstTeam,
       this.secondTeam,
@@ -437,9 +441,9 @@ export class TeamsComponent implements OnInit {
   public onSaveTeams(): void {
     this.playersService.updateSelectedPlayersService();
     this.editState = true;
-    this.setTeams();
     this.setParamUrl();
     this.getParamUrl();
+    this.setTeams();
   }
   
   public setParamUrl(): void {
@@ -449,12 +453,11 @@ export class TeamsComponent implements OnInit {
     } else {
       userId = this.authService.userData.uid;
     }
-    this.router.navigate([], {
-      queryParams: {
-        uid: userId
-      },
+    const url = this.router.createUrlTree([], { 
+      queryParams: {uid: userId},
       queryParamsHandling: 'merge'
-    });  
+    }).toString()
+    this.location.go(url);
   }
   public getParamUrl(): void {
     this.currentUrl = this.router.url;
