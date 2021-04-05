@@ -14,18 +14,18 @@ export class AuthService {
   public admin: boolean;
   public userData: any;
   public user: Observable<User>;
+  public userPhoto: any;
 
   constructor(
     public fireAuth: AngularFireAuth,
     private firestore: AngularFirestore) {
     this.fireAuth.authState.subscribe(user => {
       if (user) {
-        this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user'));
+        this.userData = JSON.parse(localStorage.getItem('user'));
+        this.userPhoto = JSON.parse(localStorage.getItem('userPhoto'));
       } else {
         localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('userPhoto', null);
       }
     });
 
@@ -52,10 +52,25 @@ export class AuthService {
   public authLogin(provider) {
     return this.fireAuth.signInWithPopup(provider)
     .then((result) => {
+      this.getUrlUserPhoto(
+        result.user.providerData[0].providerId, 
+        result.user, 
+        result.credential);
       this.updeteUserData(result.user);
+      localStorage.setItem('user', JSON.stringify(result.user));
+      localStorage.setItem('userPhoto', JSON.stringify(this.userPhoto));
     }).catch((error) => {
       console.log(error);
     })
+  }
+  
+  private getUrlUserPhoto(providerId, user, credential) {
+    if(providerId === 'google.com') {
+      this.userPhoto = user.photoURL;
+    }
+    if(providerId === 'facebook.com') {
+      this.userPhoto = `${user.photoURL}/?access_token=${credential.accessToken}`;
+    }
   }
 
   private updeteUserData(user) {
