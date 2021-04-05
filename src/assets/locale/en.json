@@ -91,7 +91,8 @@
 			"first": "To form teams, choose players",
 			"second": "Need more players to form teams",
 			"third": "Recommended teams"
-		}
+		},
+		"shared": "Shared"
 	},
 	"team": {
 		"title": "Team"

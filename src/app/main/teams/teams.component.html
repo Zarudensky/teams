@@ -100,4 +100,16 @@
     </ng-container>
     
   </div>
+  <div class="shared__block"
+    *ngIf="selectedPlayers.length >= 8 && editState">
+    <p>{{ 'teams.shared' | translate }}</p>
+    <share-buttons [theme]="'circles-dark'"
+      [include]="['viber','telegram','facebook','linkedin','messenger','whatsapp','sms','email','copy']"
+      [show]="2"
+      [size]="1"
+      [url]="currentUrl"
+      [image] ="'https://zarudensky.github.io/teams/src/assets/images/logo.svg'"
+      [autoSetMeta]="false"
+    ></share-buttons>
+  </div>
 </div>

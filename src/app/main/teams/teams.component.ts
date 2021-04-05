@@ -34,6 +34,8 @@ export class TeamsComponent implements OnInit {
   public relocatedPlayerMin: PlayerInfo;
 
   public editState: boolean;
+
+  public currentUrl: string;
   
   constructor(
     private playersService: PlayersService,
@@ -55,6 +57,7 @@ export class TeamsComponent implements OnInit {
       this.countNewTeams();
       this.ganereteTeams();
     });
+    this.getParamUrl();
   }
 
   public visibleOldTeams(): void {
@@ -434,11 +437,12 @@ export class TeamsComponent implements OnInit {
   public onSaveTeams(): void {
     this.playersService.updateSelectedPlayersService();
     this.editState = true;
-    this.setParamUrl();
     this.setTeams();
+    this.setParamUrl();
+    this.getParamUrl();
   }
   
-  public setParamUrl() {
+  public setParamUrl(): void {
     let userId: string;
     if(this.authService.admin) {
       userId = null;
@@ -451,5 +455,8 @@ export class TeamsComponent implements OnInit {
       },
       queryParamsHandling: 'merge'
     });  
+  }
+  public getParamUrl(): void {
+    this.currentUrl = this.router.url;
   }
 }

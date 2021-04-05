@@ -55,6 +55,7 @@
   .teams__block {
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
 
     .team {
       display: flex;
@@ -66,5 +67,9 @@
         margin-right: 0;
       }
     }
+  }
+
+  .shared__block {
+    text-align: center;
   }
 }
