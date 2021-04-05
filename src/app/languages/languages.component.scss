@@ -17,15 +17,42 @@ button {
     height: 100%;
   }
 }
-button.languages__button {
-  min-width: 22px;
-  min-height: 22px;
-  line-height: 22px;
-  border-radius: 50%;
-  padding: 0;
+.languages__menu {
+  .languages__button {
+    position: relative;
+    min-width: 22px;
+    min-height: 22px;
+    line-height: 22px;
+    border-radius: 50%;
+    padding: 0 13px 0 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      right: 0;
+      display: inline-block;
+      border: 5px solid transparent;
+      border-bottom: 5px solid #757575;
+      border-top: 0 none;
+    }
   
-  .button__img-wrapp {
-    margin: 0;
+    &:hover::before {
+      border-bottom: 5px solid #3f51b5;
+    }
+    ::ng-deep .mat-button-focus-overlay {
+      opacity: 0;
+      background: none;
+    }
+    ::ng-deep .mat-button-ripple.mat-ripple {
+      border-radius: 50%;
+      left: 0;
+      right: 13px;
+    }
+
+    .button__img-wrapp {
+      margin: 0;
+    }
   }
 }
 .language__select {
