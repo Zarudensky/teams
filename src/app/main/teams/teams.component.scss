@@ -1,4 +1,7 @@
 .teams {
+  display: flex;
+  flex-direction: column;
+
   .info {
     display: flex;
     flex-direction: column;
@@ -67,6 +70,10 @@
         margin-right: 0;
       }
     }
+  }
+
+  .btn__generete {
+    align-self: center;
   }
 
   .share__block {

@@ -35,8 +35,8 @@ export class TeamsComponent implements OnInit {
   public relocatedPlayerMin: PlayerInfo;
 
   public editState: boolean;
-
   public currentUrl: string;
+  public genereteBtnState: boolean;
   
   constructor(
     private playersService: PlayersService,
@@ -48,16 +48,13 @@ export class TeamsComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
-    this.editState = true;
+    this.editState = false;
+    this.genereteBtnState = false;
     this.visibleOldTeams();
-    this.teamsService.ganereteTeams.subscribe(() => {
-      if(this.playersService.selectedPlayers.length >= 1) {
-        this.selectedPlayers = this.playersService.selectedPlayers;
-        this.numberOfPlayers = this.playersService.selectedPlayers.length;
-      }
-      this.editState = false;
+    this.teamsService.genereteTeams.subscribe(() => {
+      this.editState = true;
       this.countNewTeams();
-      this.ganereteTeams();
+      this.genereteTeams();
     });
     this.getParamUrl();
     this.teamsService.deletePlayerTeams.subscribe((player) => {
@@ -97,7 +94,7 @@ export class TeamsComponent implements OnInit {
     ];
   }
 
-  public ganereteTeams(): void {
+  public genereteTeams(): void {
     this.clearOldTeams();
     this.filteredPlayersPosition();
     
@@ -112,7 +109,7 @@ export class TeamsComponent implements OnInit {
     this.correctedTeamsByLevel();
 
     this.visibleNewTeams();
-    this.editState = false;
+    this.editState = true;
   }
 
   public setTeams(): void {
@@ -123,6 +120,10 @@ export class TeamsComponent implements OnInit {
   }
 
   public countNewTeams(): void {
+    if(this.playersService.selectedPlayers.length >= 1) {
+      this.selectedPlayers = this.playersService.selectedPlayers;
+      this.numberOfPlayers = this.playersService.selectedPlayers.length;
+    }
     switch (true) {
       case this.numberOfPlayers >= 8 && this.numberOfPlayers <= 11:
         this.numberOfTeams = 2;
@@ -379,7 +380,7 @@ export class TeamsComponent implements OnInit {
 
   public onDivideTeams(dividedInto): void {
     this.numberOfTeams = dividedInto;
-    this.ganereteTeams();
+    this.genereteTeams();
   }
 
   public clearOldTeams(): void {
@@ -411,7 +412,7 @@ export class TeamsComponent implements OnInit {
   }
 
   public onEditTeams(): void {
-    this.editState = false;
+    this.editState = true;
     this.addOldTeams();
   }
 
@@ -441,7 +442,7 @@ export class TeamsComponent implements OnInit {
 
   public onSaveTeams(): void {
     this.playersService.updateSelectedPlayersService();
-    this.editState = true;
+    this.editState = false;
     this.setParamUrl();
     this.getParamUrl();
     this.setTeams();
@@ -470,7 +471,14 @@ export class TeamsComponent implements OnInit {
       const indexPlayer = team.findIndex(item => item.id === player.id);
       if(indexPlayer !== -1) {
         team.splice(indexPlayer,1);
+        this.genereteBtnState = true;
       }
     });
+  }
+
+  public onGenereteTeams():void {
+    this.countNewTeams();
+    this.genereteTeams();
+    this.genereteBtnState = false;
   }
 }

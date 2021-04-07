@@ -15,7 +15,7 @@
       color="primary" 
       class="btn btn__state"
       (click)="onEditTeams()"
-      *ngIf="selectedPlayers?.length >= 1 && editState">
+      *ngIf="selectedPlayers?.length >= 1 && !editState">
       {{ 'teams.edit' | translate }}
     </button>
     <button
@@ -24,7 +24,7 @@
       color="primary"
       class="btn btn__state"
       (click)="onSaveTeams()"
-      *ngIf="selectedPlayers?.length >= 1 && !editState">
+      *ngIf="selectedPlayers?.length >= 1 && editState">
       {{ 'teams.save' | translate }}
     </button>
     <button
@@ -34,8 +34,8 @@
       class="btn btn__divide"
       (click)="onDivideTeams(2)"
       title="{{ 'teams.divide.two' | translate }}"
-      *ngIf="!editState && numberOfTeams === 3 ||
-             !editState && numberOfTeams === 4">
+      *ngIf="editState && numberOfTeams === 3 ||
+             editState && numberOfTeams === 4">
       II
     </button>
     <button
@@ -45,8 +45,8 @@
       class="btn btn__divide"
       (click)="onDivideTeams(3)"
       title="{{ 'teams.divide.three' | translate }}"
-      *ngIf="!editState && selectedPlayers?.length >= 12 && numberOfTeams === 2 || 
-             !editState && selectedPlayers?.length >= 12 && numberOfTeams === 4">
+      *ngIf="editState && selectedPlayers?.length >= 12 && numberOfTeams === 2 || 
+             editState && selectedPlayers?.length >= 12 && numberOfTeams === 4">
       III
     </button>
     <button
@@ -56,8 +56,8 @@
       class="btn btn__divide"
       (click)="onDivideTeams(4)"
       title="{{ 'teams.divide.four' | translate }}"
-      *ngIf="!editState && selectedPlayers.length >= 12 && numberOfTeams === 2 || 
-             !editState && selectedPlayers.length >= 12 && numberOfTeams === 3">
+      *ngIf="editState && selectedPlayers.length >= 12 && numberOfTeams === 2 || 
+             editState && selectedPlayers.length >= 12 && numberOfTeams === 3">
       IV
     </button>
 
@@ -101,8 +101,19 @@
     </ng-container>
     
   </div>
+
+  <button
+    mat-raised-button
+    type="button"
+    color="primary" 
+    class="btn btn__generete"
+    (click)="onGenereteTeams()"
+    *ngIf="genereteBtnState">
+    {{ 'teams.generete' | translate }}
+  </button>
+
   <div class="share__block"
-    *ngIf="selectedPlayers.length >= 8 && editState">
+    *ngIf="selectedPlayers.length >= 8 && !editState">
     <p>{{ 'teams.share' | translate }}</p>
     <share-buttons [theme]="'circles-dark'"
       [include]="['viber','telegram','facebook','twitter','linkedin','messenger','whatsapp','sms','email','copy','print']"

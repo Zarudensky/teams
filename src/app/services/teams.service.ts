@@ -13,7 +13,7 @@ export class TeamsService {
   public thirdTeam: PlayerInfo[] = [];
   public fourthTeam: PlayerInfo[] = [];
 
-  public ganereteTeams = new Subject();
+  public genereteTeams = new Subject();
   public deletePlayerTeams = new Subject();
 
   constructor(
@@ -90,7 +90,7 @@ export class TeamsService {
   }
   
   public generateTeemsService() {
-    this.ganereteTeams.next();
+    this.genereteTeams.next();
   }
   public deletePlayerTeamsService(player) {
     this.deletePlayerTeams.next(player);
