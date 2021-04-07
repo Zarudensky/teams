@@ -60,6 +60,9 @@ export class TeamsComponent implements OnInit {
       this.ganereteTeams();
     });
     this.getParamUrl();
+    this.teamsService.deletePlayerTeams.subscribe((player) => {
+      this.deletePlayerTeams(player);
+    });
   }
 
   public visibleOldTeams(): void {
@@ -457,7 +460,17 @@ export class TeamsComponent implements OnInit {
     }).toString()
     this.location.go(url);
   }
+
   public getParamUrl(): void {
     this.currentUrl = this.router.url;
+  }
+
+  public deletePlayerTeams(player): void {
+    this.teams.forEach(team => {
+      const indexPlayer = team.findIndex(item => item.id === player.id);
+      if(indexPlayer !== -1) {
+        team.splice(indexPlayer,1);
+      }
+    });
   }
 }

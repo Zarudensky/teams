@@ -14,6 +14,7 @@ export class TeamsService {
   public fourthTeam: PlayerInfo[] = [];
 
   public ganereteTeams = new Subject();
+  public deletePlayerTeams = new Subject();
 
   constructor(
     private firestore: AngularFirestore,
@@ -90,5 +91,8 @@ export class TeamsService {
   
   public generateTeemsService() {
     this.ganereteTeams.next();
+  }
+  public deletePlayerTeamsService(player) {
+    this.deletePlayerTeams.next(player);
   }
 }

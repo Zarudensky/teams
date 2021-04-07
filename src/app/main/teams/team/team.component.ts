@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TeamsService } from '../../../services/teams.service';
 
 @Component({
   selector: 'app-team',
@@ -10,9 +9,10 @@ export class TeamComponent implements OnInit {
   public teamLevel: number;
   
   @Input() team: any;
-  @Input() index: any;
+  @Input() indexTeam: number;
+  @Input() editState: boolean;
 
-  constructor(public teamsService: TeamsService) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.teamLevel = this.team.reduce((sum, player) => sum + player.level,0);

@@ -34,6 +34,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
       this.playersCtrl.setValue([]);
       this.playersService.selectedPlayers = [];
     });
+
     this.setInitialSelection();
     this.loadInitialPlayerList();
 
@@ -102,6 +103,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     this.openedOrClosedSelect = value;
     if(value) {
       document.body.classList.add('disabled__scroll');
+      this.setInitialValue();
     } else {
       document.body.classList.remove('disabled__scroll');
       this.teamsService.generateTeemsService();

@@ -1,6 +1,6 @@
 <div class="team__container">
   <p class="title title__team">
-    <span>{{ 'team.title' | translate}}</span> <span> {{ this.index+1 }}</span>
+    <span>{{ 'team.title' | translate}}</span> <span> {{ indexTeam+1 }}</span>
   </p>
   <p class="title title__level">
     {{ teamLevel }}
@@ -9,6 +9,8 @@
     class="card {{player.position}} 
            defense-{{player.defense}} 
            attack-{{player.attack}}"
-    [player]="player">
+    [player]="player"
+    [indexTeam]="indexTeam"
+    [editState]="editState">
   </app-card>
 </div>

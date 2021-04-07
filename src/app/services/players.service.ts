@@ -12,7 +12,7 @@ export class PlayersService {
   public allPlayersData: Observable<any[]>;
   public selectedPlayersData: Observable<any[]>;
   public allPlayers: PlayerInfo[] = [];
-  public selectedPlayers: PlayerInfo[] = [];
+  public selectedPlayers: any;
   public player: PlayerInfo[];
 
   public deleteSelectedPlayers = new Subject();
@@ -112,6 +112,6 @@ export class PlayersService {
 
   public deleteAllSelectedPlayersService() {
     this.deleteSelectedPlayers.next();
-    this.selectedPlayers = []
+    this.selectedPlayers = [];
   }
 }
