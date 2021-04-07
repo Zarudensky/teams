@@ -34,8 +34,8 @@
       class="btn btn__divide"
       (click)="onDivideTeams(2)"
       title="{{ 'teams.divide.two' | translate }}"
-      *ngIf="!editState && selectedPlayers?.length >= 12 && numberOfTeams === 3 ||
-             !editState && selectedPlayers?.length >= 12 && numberOfTeams === 4">
+      *ngIf="!editState && numberOfTeams === 3 ||
+             !editState && numberOfTeams === 4">
       II
     </button>
     <button

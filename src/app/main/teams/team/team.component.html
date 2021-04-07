@@ -3,7 +3,7 @@
     <span>{{ 'team.title' | translate}}</span> <span> {{ indexTeam+1 }}</span>
   </p>
   <p class="title title__level">
-    {{ teamLevel }}
+    {{ countLevelTeam() }}
   </p>
   <app-card *ngFor="let player of team"
     class="card {{player.position}} 
