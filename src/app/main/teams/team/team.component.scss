@@ -63,5 +63,36 @@
         order: 11;
       }
     }
+    &.universal {
+      &.status-newcomer {
+        order: 12;
+      }
+    }
+  }
+  .btn__menu {
+    position: absolute;
+    bottom: -12px;
+    left: calc(50% - 25px);
+    width: 50px;
+    text-align: center;
+    background: #fff;
+
+    .mat-button {
+      min-width: 24px;
+      line-height: 24px;
+      padding: 0;
+      border-radius: 50%;
+    }
+    ::ng-deep .mat-button-focus-overlay {
+      opacity: 0;
+      background: none;
+    }
+    ::ng-deep .mat-button-ripple.mat-ripple {
+      border-radius: 50%;
+      top: 4px;
+      right: 2px;
+      bottom: 2px;
+      left: 2px;
+    }
   }
 }

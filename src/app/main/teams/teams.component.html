@@ -34,8 +34,8 @@
       class="btn btn__divide"
       (click)="onDivideTeams(2)"
       title="{{ 'teams.divide.two' | translate }}"
-      *ngIf="editState && numberOfTeams === 3 ||
-             editState && numberOfTeams === 4">
+      *ngIf="editState && selectedPlayers?.length >= 6 && numberOfTeams === 3 ||
+             editState && selectedPlayers?.length >= 6 && numberOfTeams === 4">
       II
     </button>
     <button
@@ -79,24 +79,26 @@
       {{ 'teams.message.first' | translate }}
     </p>
     <p class="massage massage__second" 
-      *ngIf="selectedPlayers?.length >= 1 && selectedPlayers?.length <= 7">
+      *ngIf="selectedPlayers?.length >= 1 && selectedPlayers?.length <= 5">
       {{ 'teams.message.second' | translate }}
     </p>
     <p class="massage massage__third"
-      *ngIf="selectedPlayers?.length >= 8">
+      *ngIf="selectedPlayers?.length >= 6">
       {{ 'teams.message.third' | translate }}
     </p>
   </div>
 
   <div class="teams__block"
-    *ngIf="selectedPlayers.length >= 8">
+    *ngIf="selectedPlayers.length >= 6">
 
     <ng-container  *ngFor="let team of teams; index as i">
       <app-team class="team"
         *ngIf="team.length >= 1"
         [team]="team"
         [editState]="editState"
-        [indexTeam]="i">
+        [indexTeam]="i"
+        (addNewPlayer)="addNewPlayerTeam($event)"
+        (selectListPlayer)="selectListPlayerTeam($event)">
       </app-team>
     </ng-container>
     
@@ -108,12 +110,12 @@
     color="primary" 
     class="btn btn__generete"
     (click)="onGenereteTeams()"
-    *ngIf="genereteBtnState">
+    *ngIf="manualEditState && selectedPlayers.length >= 6">
     {{ 'teams.generete' | translate }}
   </button>
 
   <div class="share__block"
-    *ngIf="selectedPlayers.length >= 8 && !editState">
+    *ngIf="selectedPlayers.length >= 6 && !editState">
     <p>{{ 'teams.share' | translate }}</p>
     <share-buttons [theme]="'circles-dark'"
       [include]="['viber','telegram','facebook','twitter','linkedin','messenger','whatsapp','sms','email','copy','print']"

@@ -214,7 +214,7 @@ export class FormComponent implements OnInit {
       this.deleteOldAvatar();
       const filePath = 'avatars/'+ this.playerGroup.value.id +'/' + this.selectedFile.name;
       const ref = this.storage.ref(filePath);
-      ref.put(this.selectedFile).then((snapshot) => {
+      ref.put(this.selectedFile).then(() => {
         this.dowloadPreviewFile(ref);
       });
       this.playerGroup.value.avatar = this.selectedFile.name;

@@ -1,10 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PlayersService } from '../../services/players.service';
 import { TeamsService } from '../../services/teams.service';
 import { PlayerInfo } from '../../entities';
 import { AuthService } from '../../services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { UUID } from 'angular2-uuid';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teams',
@@ -33,10 +35,13 @@ export class TeamsComponent implements OnInit {
   public teams: any;
   public relocatedPlayerMax: PlayerInfo;
   public relocatedPlayerMin: PlayerInfo;
+  public newPlayer: PlayerInfo;
+  public numberNewPlayer: number;
+  public uuidValue:string;
 
-  public editState: boolean;
   public currentUrl: string;
-  public genereteBtnState: boolean;
+  public editState: boolean;
+  public manualEditState: boolean;
   
   constructor(
     private playersService: PlayersService,
@@ -44,17 +49,18 @@ export class TeamsComponent implements OnInit {
     public authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private translateService: TranslateService
     ) {}
 
   ngOnInit(): void {
     this.editState = false;
-    this.genereteBtnState = false;
+    this.manualEditState = false;
     this.visibleOldTeams();
     this.teamsService.genereteTeams.subscribe(() => {
-      this.editState = true;
       this.countNewTeams();
       this.genereteTeams();
+      this.editState = true;
     });
     this.getParamUrl();
     this.teamsService.deletePlayerTeams.subscribe((player) => {
@@ -125,7 +131,7 @@ export class TeamsComponent implements OnInit {
       this.numberOfPlayers = this.playersService.selectedPlayers.length;
     }
     switch (true) {
-      case this.numberOfPlayers >= 8 && this.numberOfPlayers <= 11:
+      case this.numberOfPlayers >= 6 && this.numberOfPlayers <= 11:
         this.numberOfTeams = 2;
         break;
       case this.numberOfPlayers >= 12 && this.numberOfPlayers <= 15:
@@ -443,6 +449,7 @@ export class TeamsComponent implements OnInit {
   public onSaveTeams(): void {
     this.playersService.updateSelectedPlayersService();
     this.editState = false;
+    this.manualEditState = false;
     this.setParamUrl();
     this.getParamUrl();
     this.setTeams();
@@ -471,7 +478,8 @@ export class TeamsComponent implements OnInit {
       const indexPlayer = team.findIndex(item => item.id === player.id);
       if(indexPlayer !== -1) {
         team.splice(indexPlayer,1);
-        this.genereteBtnState = true;
+        this.countNewTeams();
+        this.manualEditState = true;
       }
     });
   }
@@ -479,6 +487,64 @@ export class TeamsComponent implements OnInit {
   public onGenereteTeams():void {
     this.countNewTeams();
     this.genereteTeams();
-    this.genereteBtnState = false;
+    this.manualEditState = false;
+  }
+
+  public addNewPlayerTeam(teamIndex):void {
+    this.createNewPlayer();
+    this.playersService.selectedPlayers.push(this.newPlayer);
+    switch (teamIndex) {
+      case 0:
+        this.firstTeam.push(this.newPlayer);
+        break;
+      case 1:
+        this.secondTeam.push(this.newPlayer);
+        break;
+      case 2:
+        this.thirdTeam.push(this.newPlayer);
+        break;
+      case 3:
+        this.fourthTeam.push(this.newPlayer);
+        break;
+    }
+    this.manualEditState = true;
+  }
+
+  public createNewPlayer():void {
+    this.newPlayer = {
+      id: this.generateId(),
+      avatar: '',
+      name: this.countNumberNewPlayer() + "." + this.translateService.instant('teams.new.player.name'),
+      surname: this.translateService.instant('teams.new.player.surname'),
+      power: 'nо',
+      status: 'newcomer',
+      position: 'universal',
+      attack: 50,
+      defense: 50,
+      accuracy: 50,
+      cc: 0,
+      level: 150
+    }
+  }
+
+  public generateId():string {
+    return this.uuidValue=UUID.UUID();
+  }
+
+  public countNumberNewPlayer():number {
+    if(this.numberNewPlayer) {
+      this.numberNewPlayer++;
+    } else {
+      this.numberNewPlayer = 1;
+    }
+    return this.numberNewPlayer;
+  }
+
+
+
+
+  public selectListPlayerTeam(teamIndex):void {
+    console.log('selectListPlayerTeam');
+    console.log(teamIndex);
   }
 }

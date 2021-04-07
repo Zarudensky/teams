@@ -8,9 +8,27 @@
   <app-card *ngFor="let player of team"
     class="card {{player.position}} 
            defense-{{player.defense}} 
-           attack-{{player.attack}}"
+           attack-{{player.attack}}
+           status-{{player.status}}"
     [player]="player"
     [indexTeam]="indexTeam"
     [editState]="editState">
   </app-card>
+
+  <div class="btn__menu" *ngIf="editState">
+    <button mat-button
+      class="btn btn__add"
+      [matMenuTriggerFor]="menu"
+      title="{{ 'team.add.title' | translate}}">
+      <mat-icon color="primary">add_circle_outline</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="onAddNewPlayer()">
+        {{ 'team.add.new' | translate}}
+      </button>
+      <button mat-menu-item (click)="onSelectListPlayer()">
+        {{ 'team.add.list' | translate}}
+      </button>
+    </mat-menu>
+  </div>
 </div>
