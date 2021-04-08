@@ -130,6 +130,10 @@ export class TeamsComponent implements OnInit {
   }
 
   public setTeams(): void {
+    this.teamsService.firstTeam = this.firstTeam;
+    this.teamsService.secondTeam = this.secondTeam;
+    this.teamsService.thirdTeam = this.thirdTeam;
+    this.teamsService.fourthTeam = this.fourthTeam;
     this.teamsService.setTeamService(this.firstTeam, 'firstTeam');
     this.teamsService.setTeamService(this.secondTeam, 'secondTeam');
     this.teamsService.setTeamService(this.thirdTeam, 'thirdTeam');
