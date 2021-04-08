@@ -92,9 +92,20 @@
 			"second": "Need more players to form teams",
 			"third": "Recommended teams"
 		},
+		"new.player": {
+			"name": "New",
+			"surname": "Player"
+		},
+		"save.descr": "To share your teams, you need to save them",
+		"generete": "Generete new teams",
 		"share": "Share with"
 	},
 	"team": {
-		"title": "Team"
+		"title": "Team",
+		"add": {
+			"title": "Add a new player or select from the list",
+			"new": "New player",
+			"list": "Select from list"
+		}
 	}
 }
