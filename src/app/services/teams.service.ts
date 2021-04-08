@@ -12,9 +12,13 @@ export class TeamsService {
   public secondTeam: PlayerInfo[] = [];
   public thirdTeam: PlayerInfo[] = [];
   public fourthTeam: PlayerInfo[] = [];
+  public teamIndex: number;
 
   public genereteTeams = new Subject();
   public deletePlayerTeams = new Subject();
+  public openSelectForTeam = new Subject();
+  public scrollToTop = new Subject();
+  public setOnePlayerTeam = new Subject();
 
   constructor(
     private firestore: AngularFirestore,
@@ -82,17 +86,23 @@ export class TeamsService {
     });
   }
 
-  public clearAllTeemsService() {
-    this.firstTeam = [];
-    this.secondTeam = [];
-    this.thirdTeam = [];
-    this.fourthTeam = [];
-  }
-  
   public generateTeemsService() {
     this.genereteTeams.next();
   }
+
   public deletePlayerTeamsService(player) {
     this.deletePlayerTeams.next(player);
+  }
+
+  public openSelectForTeamService() {
+    this.openSelectForTeam.next();
+  }
+
+  public scrollToTopService() {
+    this.scrollToTop.next();
+  }
+
+  public setOnePlayerTeamService(player) {
+    this.setOnePlayerTeam.next(player);
   }
 }

@@ -3,7 +3,7 @@ import { PlayersService } from '../../services/players.service';
 import { TeamsService } from '../../services/teams.service';
 import { PlayerInfo } from '../../entities';
 import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
 import { UUID } from 'angular2-uuid';
 import { TranslateService } from '@ngx-translate/core';
@@ -42,7 +42,7 @@ export class TeamsComponent implements OnInit {
   public currentUrl: string;
   public editState: boolean;
   public manualEditState: boolean;
-  
+
   constructor(
     private playersService: PlayersService,
     public teamsService: TeamsService,
@@ -56,16 +56,27 @@ export class TeamsComponent implements OnInit {
   ngOnInit(): void {
     this.editState = false;
     this.manualEditState = false;
+
     this.visibleOldTeams();
+
     this.teamsService.genereteTeams.subscribe(() => {
       this.countNewTeams();
       this.genereteTeams();
       this.editState = true;
+      this.manualEditState = false;
     });
-    this.getParamUrl();
+
     this.teamsService.deletePlayerTeams.subscribe((player) => {
       this.deletePlayerTeams(player);
     });
+
+    this.teamsService.setOnePlayerTeam.subscribe((player) => {
+      this.setPlayerTeam(player);
+      this.manualEditState = true;
+      this.teamsService.teamIndex = null;
+    });
+
+    this.getParamUrl();
   }
 
   public visibleOldTeams(): void {
@@ -75,7 +86,7 @@ export class TeamsComponent implements OnInit {
       this.selectedPlayers = this.playersService.selectedPlayers;
       this.numberOfPlayers = this.selectedPlayers.length;
 
-      this.teamsService.clearAllTeemsService();
+      this.clearOldTeams();
 
       this.teamsService.getPlayersTeamService('firstTeam', param.uid);
       this.teamsService.getPlayersTeamService('secondTeam', param.uid);
@@ -394,6 +405,10 @@ export class TeamsComponent implements OnInit {
     this.secondTeam = [];
     this.thirdTeam = [];
     this.fourthTeam = [];
+    this.teamsService.firstTeam = [];
+    this.teamsService.secondTeam = [];
+    this.teamsService.thirdTeam = [];
+    this.teamsService.fourthTeam = [];
     this.firstTeamLevel = 0;
     this.secondTeamLevel = 0;
     this.thirdTeamLevel = 0;
@@ -419,10 +434,10 @@ export class TeamsComponent implements OnInit {
 
   public onEditTeams(): void {
     this.editState = true;
-    this.addOldTeams();
+    this.getOldTeams();
   }
 
-  public addOldTeams(): void {
+  public getOldTeams(): void {
     this.firstTeam = this.teamsService.firstTeam;
     this.secondTeam = this.teamsService.secondTeam;
     this.thirdTeam = this.teamsService.thirdTeam;
@@ -488,25 +503,13 @@ export class TeamsComponent implements OnInit {
     this.countNewTeams();
     this.genereteTeams();
     this.manualEditState = false;
+    this.teamsService.teamIndex = null;
   }
 
-  public addNewPlayerTeam(teamIndex):void {
+  public addNewPlayerTeam():void {
     this.createNewPlayer();
     this.playersService.selectedPlayers.push(this.newPlayer);
-    switch (teamIndex) {
-      case 0:
-        this.firstTeam.push(this.newPlayer);
-        break;
-      case 1:
-        this.secondTeam.push(this.newPlayer);
-        break;
-      case 2:
-        this.thirdTeam.push(this.newPlayer);
-        break;
-      case 3:
-        this.fourthTeam.push(this.newPlayer);
-        break;
-    }
+    this.setPlayerTeam(this.newPlayer);
     this.manualEditState = true;
   }
 
@@ -540,11 +543,25 @@ export class TeamsComponent implements OnInit {
     return this.numberNewPlayer;
   }
 
+  public setPlayerTeam(player):void {
+    switch (this.teamsService.teamIndex) {
+      case 0:
+        this.firstTeam.push(player);
+        break;
+      case 1:
+        this.secondTeam.push(player);
+        break;
+      case 2:
+        this.thirdTeam.push(player);
+        break;
+      case 3:
+        this.fourthTeam.push(player);
+        break;
+    }
+  }
 
-
-
-  public selectListPlayerTeam(teamIndex):void {
-    console.log('selectListPlayerTeam');
-    console.log(teamIndex);
+  public selectListPlayerTeam():void {
+    this.teamsService.scrollToTopService();
+    this.teamsService.openSelectForTeamService();
   }
 }

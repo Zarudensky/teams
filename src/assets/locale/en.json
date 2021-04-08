@@ -96,6 +96,7 @@
 			"name": "New",
 			"surname": "Player"
 		},
+		"save.descr": "To share your teams, you need to save them",
 		"generete": "Generete new teams",
 		"share": "Share with"
 	},

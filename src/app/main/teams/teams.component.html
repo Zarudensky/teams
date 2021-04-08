@@ -74,15 +74,15 @@
 
   <div class="message__block"
     *ngIf="authService.userData">
-    <p class="massage massage__first" 
+    <p class="message message__first" 
       *ngIf="selectedPlayers?.length === 0">
       {{ 'teams.message.first' | translate }}
     </p>
-    <p class="massage massage__second" 
+    <p class="message message__second" 
       *ngIf="selectedPlayers?.length >= 1 && selectedPlayers?.length <= 5">
       {{ 'teams.message.second' | translate }}
     </p>
-    <p class="massage massage__third"
+    <p class="message message__third"
       *ngIf="selectedPlayers?.length >= 6">
       {{ 'teams.message.third' | translate }}
     </p>
@@ -90,19 +90,21 @@
 
   <div class="teams__block"
     *ngIf="selectedPlayers.length >= 6">
-
     <ng-container  *ngFor="let team of teams; index as i">
       <app-team class="team"
         *ngIf="team.length >= 1"
         [team]="team"
         [editState]="editState"
         [indexTeam]="i"
-        (addNewPlayer)="addNewPlayerTeam($event)"
-        (selectListPlayer)="selectListPlayerTeam($event)">
+        (addNewPlayer)="addNewPlayerTeam()"
+        (selectListPlayer)="selectListPlayerTeam()">
       </app-team>
     </ng-container>
-    
   </div>
+
+  <p class="info__descr" *ngIf="selectedPlayers?.length >= 6 && editState">
+    {{ 'teams.save.descr' | translate }}
+  </p>
 
   <button
     mat-raised-button
@@ -122,7 +124,6 @@
       [show]="2"
       [size]="1"
       [url]="currentUrl"
-      [image] ="'https://zarudensky.github.io/teams/src/assets/images/preview_picture.jpeg'"
       [autoSetMeta]="false"
     ></share-buttons>
   </div>

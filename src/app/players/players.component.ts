@@ -5,6 +5,7 @@ import { PopupComponent } from '../popup/popup.component'
 import { Observable } from 'rxjs';
 import { PlayerInfo } from '../entities';
 import { TranslateService } from '@ngx-translate/core';
+import { TeamsService } from '../services/teams.service';
 
 @Component({
   selector: 'app-players',
@@ -29,7 +30,8 @@ export class PlayersComponent {
 
   constructor(
     private translateService: TranslateService,
-    private playersService: PlayersService, 
+    private playersService: PlayersService,
+    public teamsService: TeamsService,
     public dialog: MatDialog) {}
 
   public openForm() {
@@ -41,6 +43,7 @@ export class PlayersComponent {
   }
 
   public chengePlayerClic(player) {
+    this.teamsService.scrollToTopService();
     this.showForm();
     this.playersService.player = player;
   }

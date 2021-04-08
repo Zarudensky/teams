@@ -1,4 +1,8 @@
 <div class="main">
   <app-select *ngIf="authService.userData"></app-select>
   <app-teams></app-teams>
+  <button class="btn btn__top"
+    *ngIf="isShowBtnTop" 
+    (click)="scrollToTop()">
+  </button>
 </div>

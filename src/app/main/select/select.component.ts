@@ -6,7 +6,6 @@ import { MatSelect } from '@angular/material/select';
 import { PlayersService } from '../../services/players.service';
 import { TeamsService } from '../../services/teams.service';
 import { PlayerInfo } from '../../entities';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-select',
@@ -20,6 +19,8 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   public playersFilterCtrl: FormControl = new FormControl();
   public filteredPlayers: ReplaySubject<PlayerInfo[]> = new ReplaySubject<PlayerInfo[]>(1);
   public openedOrClosedSelect: boolean;
+  public selectForTeamState: boolean;
+  public uniquePlayers: PlayerInfo[] = [];
 
   @ViewChild('multiSelect') multiSelect: MatSelect;
 
@@ -33,6 +34,12 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     this.playersService.deleteSelectedPlayers.subscribe(() => {
       this.playersCtrl.setValue([]);
       this.playersService.selectedPlayers = [];
+    });
+
+    this.teamsService.openSelectForTeam.subscribe(() => {
+      this.selectForTeamState = true;
+      document.body.classList.add('disabled__checkbox');
+      this.multiSelect.open();
     });
 
     this.setInitialSelection();
@@ -52,6 +59,14 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this._onDestroy.next();
     this._onDestroy.complete();
+  }
+
+  public onSelectForTeam(player): void {
+    if (this.selectForTeamState) {
+      this.teamsService.setOnePlayerTeamService(player);
+      this.multiSelect.close();
+      this.multiSelect._onBlur();
+    }
   }
 
   protected setInitialValue(): void {
@@ -105,8 +120,12 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
       document.body.classList.add('disabled__scroll');
       this.setInitialValue();
     } else {
+      if(!this.selectForTeamState) {
+        this.teamsService.generateTeemsService();
+      }
+      this.selectForTeamState = false;
+      document.body.classList.remove('disabled__checkbox');
       document.body.classList.remove('disabled__scroll');
-      this.teamsService.generateTeemsService();
     }
   }
 }

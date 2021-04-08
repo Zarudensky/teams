@@ -49,8 +49,12 @@
     text-align: center;
     margin-bottom: 30px;
 
-    .massage__first,
-    .massage__second {
+    .message {
+      margin: 0;
+    }
+
+    .message__first,
+    .message__second {
       color: #3f51b5;
     }
   }
@@ -70,6 +74,11 @@
         margin-right: 0;
       }
     }
+  }
+
+  .info__descr {
+    text-align: center;
+    font-size: 12px;
   }
 
   .btn__generete {
