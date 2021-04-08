@@ -27,4 +27,8 @@
 
   <router-outlet></router-outlet>
   <app-languages></app-languages>
+  <button class="btn btn__top"
+    *ngIf="isShowBtnTop" 
+    (click)="scrollToTop()">
+  </button>
 </div>
