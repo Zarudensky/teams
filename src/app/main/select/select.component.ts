@@ -42,6 +42,11 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
       this.multiSelect.open();
     });
 
+    this.teamsService.setPlayerAllList.subscribe((player: PlayerInfo) => {
+      this.players.push(player);
+      this.filteredPlayers.next(this.players.slice());
+    });
+
     this.setInitialSelection();
     this.loadInitialPlayerList();
 
@@ -84,9 +89,13 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadInitialPlayerList(): void {
-    this.playersService.allPlayersData.subscribe((players) => {
-      this.filteredPlayers.next(players.slice());
-    })
+    if(this.players.length <=1) {
+      this.playersService.allPlayersData.subscribe((players) => {
+        this.filteredPlayers.next(players.slice());
+      });
+    } else {
+      this.filteredPlayers.next(this.players.slice());
+    }
   }
 
   public onSelectedPlayers(players): void {

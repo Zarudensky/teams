@@ -19,6 +19,7 @@ export class TeamsService {
   public openSelectForTeam = new Subject();
   public scrollToTop = new Subject();
   public setOnePlayerTeam = new Subject();
+  public setPlayerAllList = new Subject();
 
   constructor(
     private firestore: AngularFirestore,
@@ -104,5 +105,8 @@ export class TeamsService {
 
   public setOnePlayerTeamService(player) {
     this.setOnePlayerTeam.next(player);
+  }
+  public setPlayerAllListService(player) {
+    this.setPlayerAllList.next(player);
   }
 }

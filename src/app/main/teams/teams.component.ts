@@ -513,6 +513,7 @@ export class TeamsComponent implements OnInit {
   public addNewPlayerTeam():void {
     this.createNewPlayer();
     this.playersService.selectedPlayers.push(this.newPlayer);
+    this.teamsService.setPlayerAllListService(this.newPlayer);
     this.setPlayerTeam(this.newPlayer);
     this.manualEditState = true;
   }
