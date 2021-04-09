@@ -127,24 +127,34 @@ mat-option .mat-option-text {
   }
 }
 @media screen and (max-width: 445px) {
-  .teams .teams__block {
-    flex-wrap: wrap;
-  }
-  .teams .teams__block app-team.team:nth-child(odd) {
-    margin-right: 10px;
-  }
-
   .team:first-child:nth-last-child(4),
   .team:first-child:nth-last-child(4) ~ .team {
-    width: calc(50% - 15px);
-    margin-bottom: 20px;
-    margin-right: 0;
-  }
-  .app .mat-tab-link {
-    padding: 0 10px;
-  }
-  .app .mat-button {
-    padding: 0 10px;
+    .avatar__max .avatar {
+      width: 40px;
+      height: 40px;
+    }
+    .player__info {
+      font-size: 12px;
+      line-height: 16px;
+      & span:last-child {
+        display: none;
+      }
+    }
+    .btn__delete {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
+
+      mat-icon.mat-icon {
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        font-size: 14px;
+      }
+    }
   }
 }
 @media screen and (max-width: 385px) {

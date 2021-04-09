@@ -1,4 +1,5 @@
-!!!Complete the full tour of the application!!!!
+1) Add loader and search states - https://codepen.io/joshuarule/pen/yYXQRP
+2) Improve teams generation logic
 
 Add form function:
 1) Create storage servise
@@ -8,16 +9,11 @@ Add form function:
 5) Add name to storege folder name
 
 Add players function:
-1) Add sorting table
+1) Edit sorting table
 2) Autoscroll after click update player in table
 3) Autoscroll and focused queues new player
 4) Transfer options in form to entities.ts file or use enum
 5) Remake function show/hide popup
-
-Add main function:
-1) Autoscroll after chenge select to recommended teams
-2) Add button autoscroll up
-3) Design main page
 
 Add teams function:
 1) if teams were generate, add new players in teams and display massage about it
@@ -27,8 +23,6 @@ To split modules:
 1) Components and servises module
 2) Material module
 3) Firebase module
-
-Add loader and search states - https://codepen.io/joshuarule/pen/yYXQRP
 
 Styled 404 page
 
