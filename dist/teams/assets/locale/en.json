@@ -57,6 +57,11 @@
 			"lable": "C.C.",
 			"placeholder": "Enter number"
 		},
+		"sort": {
+			"lable": "Sorting",
+			"position": "Position",
+			"popularity": "Popularity"
+		},
 		"actions": {
 			"save": "Save",
 			"cancel": "Cancel"

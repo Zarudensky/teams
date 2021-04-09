@@ -6,10 +6,7 @@
     {{ countLevelTeam() }}
   </p>
   <app-card *ngFor="let player of team"
-    class="card {{player.position}} 
-           defense-{{player.defense}} 
-           attack-{{player.attack}}
-           status-{{player.status}}"
+    class="card {{player.position}}"
     [ngClass]="{'edit': editState}"       
     [player]="player"
     [indexTeam]="indexTeam"

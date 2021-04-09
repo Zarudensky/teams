@@ -92,6 +92,7 @@ export class TeamsComponent implements OnInit {
     this.correctedTeamsByNumberOf();
 
     this.correctedTeamsByLevel();
+    this.correctedTeamsByLevel();
 
     this.visibleTeams();
     this.editState = true;
