@@ -14,14 +14,17 @@ export class PlayersService {
   public allPlayers: PlayerInfo[] = [];
   public selectedPlayers: any;
   public player: PlayerInfo[];
+  public playersRef: any;
 
   public deleteSelectedPlayers = new Subject();
 
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthService) {
-    this.allPlayersData = firestore.collection('players').valueChanges();
+    this.allPlayersData = this.firestore.collection('players', 
+    ref => ref.orderBy('sortPopularity', 'asc')).valueChanges();
     this.selectedPlayersData = firestore.collection('selected').valueChanges();
+    this.playersRef = firestore.collection('players');
     this.getAllPlayersService();
   }
 
@@ -40,7 +43,9 @@ export class PlayersService {
         defense: player.defense,
         accuracy: player.accuracy,
         cc: player.cc, 
-        level: player.level
+        level: player.level,
+        sortPosition: player.sortPosition,
+        sortPopularity: player.sortPopularity
       }, { merge: true });
   }
 
@@ -113,5 +118,20 @@ export class PlayersService {
   public deleteAllSelectedPlayersService() {
     this.deleteSelectedPlayers.next();
     this.selectedPlayers = [];
+  }
+
+  public sortByLevelService(results):void {
+    this.allPlayersData = this.firestore.collection('players', 
+    ref => ref.orderBy('level', results)).valueChanges();
+  }
+
+  public sortByPositionService(results):void {
+    this.allPlayersData = this.firestore.collection('players', 
+    ref => ref.orderBy('sortPosition', results)).valueChanges();
+  }
+
+  public sortByPopularityService(results):void {
+    this.allPlayersData = this.firestore.collection('players', 
+    ref => ref.orderBy('sortPopularity', results)).valueChanges();
   }
 }

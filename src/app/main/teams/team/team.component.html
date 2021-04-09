@@ -10,9 +10,12 @@
            defense-{{player.defense}} 
            attack-{{player.attack}}
            status-{{player.status}}"
+    [ngClass]="{'edit': editState}"       
     [player]="player"
     [indexTeam]="indexTeam"
-    [editState]="editState">
+    [editState]="editState"
+    cdkDrag>
+    <div class="custom__placeholder" *cdkDragPlaceholder></div>
   </app-card>
 
   <div class="btn__menu" *ngIf="editState">

@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  padding-top: 15px;
 
   app-avatar {
     margin-bottom: 5px;
@@ -15,8 +17,8 @@
 
   .btn__delete {
     position: absolute;
-    top: -7px;
-    right: calc(50% - 56px);
+    top: 7px;
+    right: 7px;
     width: 24px;
     height: 24px;
     line-height: 24px;

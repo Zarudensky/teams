@@ -57,6 +57,11 @@
 			"lable": "К.К.",
 			"placeholder": "Введите номер"
 		},
+		"sort": {
+			"lable": "Сортировка",
+			"position": "Позиция",
+			"popularity": "Популярность"
+		},
 		"actions": {
 			"save": "Сохранить",
 			"cancel": "Отмена"

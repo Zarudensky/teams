@@ -88,10 +88,14 @@
     </p>
   </div>
 
-  <div class="teams__block"
+  <div class="teams__block" cdkDropListGroup 
+    [cdkDropListGroupDisabled]="!editState"
     *ngIf="selectedPlayers.length >= 6">
     <ng-container  *ngFor="let team of teams; index as i">
       <app-team class="team"
+        cdkDropList
+        [cdkDropListData]="team"
+        (cdkDropListDropped)="drop($event)"
         *ngIf="team.length >= 1"
         [team]="team"
         [editState]="editState"

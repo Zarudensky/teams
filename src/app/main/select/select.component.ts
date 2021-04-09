@@ -66,6 +66,14 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
     this._onDestroy.complete();
   }
 
+  public sortPlayersByPopularity(players):void {
+    players.sort((a, b) => {
+      if (a.sortPopularity < b.sortPopularity) return -1;
+      else if (a.sortPopularity > b.sortPopularity) return 1;
+      else return 0;
+    });
+  }
+
   public onSelectForTeam(player): void {
     if (this.selectForTeamState) {
       this.teamsService.setOnePlayerTeamService(player);
@@ -84,6 +92,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public setInitialSelection(): void {
     this.playersService.selectedPlayersData.subscribe(()=>{
+      this.sortPlayersByPopularity(this.playersService.selectedPlayers);
       this.playersCtrl.setValue(this.playersService.selectedPlayers);
     });
   }
@@ -94,6 +103,7 @@ export class SelectComponent implements OnInit, AfterViewInit, OnDestroy {
         this.filteredPlayers.next(players.slice());
       });
     } else {
+      this.sortPlayersByPopularity(this.players);
       this.filteredPlayers.next(this.players.slice());
     }
   }

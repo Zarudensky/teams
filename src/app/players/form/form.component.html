@@ -94,6 +94,17 @@
     </mat-form-field>
   </div>
 
+  <div class="form__block form__block_sort">
+    <mat-form-field class="field field__sort">
+      <mat-label>{{ 'form.sort.position' | translate}}</mat-label>
+      <input matInput type="number" placeholder="{{ 'form.cc.placeholder' | translate}}" formControlName="sortPosition" autocomplete="off">
+    </mat-form-field>
+    <mat-form-field class="field field__sort">
+      <mat-label>{{ 'form.sort.popularity' | translate}}</mat-label>
+      <input matInput type="number" placeholder="{{ 'form.cc.placeholder' | translate}}" formControlName="sortPopularity" autocomplete="off">
+    </mat-form-field>
+  </div>
+
   <div class="form__block form__block_actions">
     <button mat-raised-button class="btn btn__save" color="primary" type="submit" [disabled]="!filledFields">
       {{ 'form.actions.save' | translate}}

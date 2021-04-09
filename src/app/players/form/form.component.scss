@@ -110,10 +110,17 @@
     .form__block.form__block_actions {
       justify-content: space-between;
       order: 6;
+      margin-top: auto;
+      margin-bottom: -25px;
       .btn {
-        height: 26px;
-        line-height: 26px;
         width: calc(50% - 20px);
+      }
+    }
+    .form__block.form__block_sort {
+      justify-content: space-between;
+      order: 7;
+      .field {
+        width: calc(50% - 10px);
       }
     }
 
@@ -176,6 +183,13 @@
       }
       .form__block.form__block_ad {
         order: 4;
+      }
+      .form__block.form__block_sort {
+        order: 6;
+      }
+      .form__block.form__block_actions {
+        order: 7;
+        margin: 0;
       }
     }
   }

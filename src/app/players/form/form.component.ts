@@ -78,8 +78,10 @@ export class FormComponent implements OnInit {
       attack: new FormControl(this.points),
       defense: new FormControl(this.points),
       accuracy: new FormControl(this.points),   
-      cc: new FormControl(0),
-      level: new FormControl(0)
+      cc: new FormControl(),
+      level: new FormControl(),
+      sortPosition: new FormControl(),
+      sortPopularity: new FormControl(),
     });
   }
 
@@ -117,7 +119,9 @@ export class FormComponent implements OnInit {
       attack: player.attack,
       defense: player.defense,
       accuracy: player.accuracy,
-      cc: player.cc
+      cc: player.cc,
+      sortPosition: player.sortPosition,
+      sortPopularity: player.sortPopularity,
     });
     this.dowloadAvatarFile(player.id, player.avatar);
   }

@@ -23,4 +23,6 @@ export interface PlayerInfo {
   accuracy: number;
   cc: number;
   level: number;
+  sortPosition: number;
+  sortPopularity: number;
 }

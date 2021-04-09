@@ -51,10 +51,21 @@ export class TeamsService {
             break;
         } 
       });
+      this.sortPlayersByPositionService(this.firstTeam);
+      this.sortPlayersByPositionService(this.secondTeam);
+      this.sortPlayersByPositionService(this.thirdTeam);
+      this.sortPlayersByPositionService(this.fourthTeam);
+    });
+  }
+  public sortPlayersByPositionService(nameTeam):void {
+    nameTeam.sort((a, b) => {
+      if (a.sortPosition < b.sortPosition) return -1;
+      else if (a.sortPosition > b.sortPosition) return 1;
+      else return 0;
     });
   }
 
-  private getUserCollection(nameTeam):string {
+  private getUserCollectionService(nameTeam):string {
     let userId: string;
     if(this.authService.admin) {
       return nameTeam;
@@ -65,7 +76,7 @@ export class TeamsService {
   }
 
   public setTeamService(team, nameTeam) {
-    const collection = this.getUserCollection(nameTeam);
+    const collection = this.getUserCollectionService(nameTeam);
     const playersDoc = this.firestore.collection<PlayerInfo>(collection);
     playersDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
@@ -78,7 +89,7 @@ export class TeamsService {
   }
 
   public deleteTeamService(nameTeam) {
-    const collection = this.getUserCollection(nameTeam);
+    const collection = this.getUserCollectionService(nameTeam);
     const playersDoc = this.firestore.collection<PlayerInfo>(collection);
     playersDoc.get().toPromise().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {

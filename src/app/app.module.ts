@@ -19,6 +19,9 @@ import { CardComponent } from './main/teams/card/card.component';
 import { FormComponent } from './players/form/form.component';
 import { PopupComponent } from './popup/popup.component';
 import { AvatarComponent } from './avatar/avatar.component';
+import { TeamComponent } from './main/teams/team/team.component';
+import { LanguagesComponent } from './languages/languages.component';
+import { AuthComponent } from './auth/auth.component';
 
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -31,6 +34,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 
@@ -41,13 +46,10 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import { environment } from '../environments/environment';
-import { TeamComponent } from './main/teams/team/team.component';
-
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LanguagesComponent } from './languages/languages.component';
-import { AuthComponent } from './auth/auth.component';
+
 
 export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
   return new TranslateHttpLoader(http, './assets/locale/', '.json');
@@ -86,6 +88,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
     MatInputModule,
     MatDialogModule,
     MatMenuModule,
+    DragDropModule,
     ShareButtonsModule.withConfig({
       debug: true
     }),

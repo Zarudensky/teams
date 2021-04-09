@@ -3,10 +3,11 @@ import { PlayersService } from '../../services/players.service';
 import { TeamsService } from '../../services/teams.service';
 import { PlayerInfo } from '../../entities';
 import { AuthService } from '../../services/auth.service';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { UUID } from 'angular2-uuid';
 import { TranslateService } from '@ngx-translate/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-teams',
@@ -79,6 +80,23 @@ export class TeamsComponent implements OnInit {
     this.getParamUrl();
   }
 
+  public genereteTeams(): void {
+    this.clearOldTeams();
+    this.filteredPlayersPosition();
+    
+    this.addPlayersToTeamsByLevel(this.defensePlayers);
+    this.addPlayersToTeamsByLevel(this.universalPlayers);
+    this.addPlayersToTeamsByLevel(this.attackingPlayers);
+
+    this.correctedTeamsByNumberOf();
+    this.correctedTeamsByNumberOf();
+
+    this.correctedTeamsByLevel();
+
+    this.visibleTeams();
+    this.editState = true;
+  }
+
   public visibleOldTeams(): void {
     this.activatedRoute.queryParams.subscribe(param => {
       this.playersService.selectedPlayers = [];
@@ -93,40 +111,26 @@ export class TeamsComponent implements OnInit {
       this.teamsService.getPlayersTeamService('thirdTeam', param.uid);
       this.teamsService.getPlayersTeamService('fourthTeam', param.uid);
 
-      this.teams = [
-        this.teamsService.firstTeam,
-        this.teamsService.secondTeam,
-        this.teamsService.thirdTeam,
-        this.teamsService.fourthTeam
-      ];
+      this.firstTeam = this.teamsService.firstTeam;
+      this.secondTeam = this.teamsService.secondTeam;
+      this.thirdTeam = this.teamsService.thirdTeam;
+      this.fourthTeam = this.teamsService.fourthTeam;
+
+      this.visibleTeams();
     });
   }
 
-  public visibleNewTeams(): void {
+  public visibleTeams(): void {
+    this.sortPlayersByPosition(this.firstTeam);
+    this.sortPlayersByPosition(this.secondTeam);
+    this.sortPlayersByPosition(this.thirdTeam);
+    this.sortPlayersByPosition(this.fourthTeam);
     this.teams = [
       this.firstTeam,
       this.secondTeam,
       this.thirdTeam,
       this.fourthTeam
     ];
-  }
-
-  public genereteTeams(): void {
-    this.clearOldTeams();
-    this.filteredPlayersPosition();
-    
-    this.addPlayersToTeamsByLevel(this.defensePlayers);
-    this.addPlayersToTeamsByLevel(this.universalPlayers);
-    this.addPlayersToTeamsByLevel(this.attackingPlayers);
-
-    this.correctedTeamsByNumberOf();
-    this.correctedTeamsByNumberOf();
-
-    this.correctedTeamsByLevel();
-    this.correctedTeamsByLevel();
-
-    this.visibleNewTeams();
-    this.editState = true;
   }
 
   public setTeams(): void {
@@ -441,6 +445,14 @@ export class TeamsComponent implements OnInit {
     this.getOldTeams();
   }
 
+  public sortPlayersByPosition(team):void {
+    team.sort((a, b) => {
+      if (a.sortPosition < b.sortPosition) return -1;
+      else if (a.sortPosition > b.sortPosition) return 1;
+      else return 0;
+    });
+  }
+
   public getOldTeams(): void {
     this.firstTeam = this.teamsService.firstTeam;
     this.secondTeam = this.teamsService.secondTeam;
@@ -531,7 +543,9 @@ export class TeamsComponent implements OnInit {
       defense: 50,
       accuracy: 50,
       cc: 0,
-      level: 150
+      level: 150,
+      sortPosition: 999,
+      sortPopularity: 999
     }
   }
 
@@ -568,5 +582,17 @@ export class TeamsComponent implements OnInit {
   public selectListPlayerTeam():void {
     this.teamsService.scrollToTopService();
     this.teamsService.openSelectForTeamService();
+  }
+
+  public drop(event: CdkDragDrop<string[]>):void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+                        event.container.data,
+                        event.previousIndex,
+                        event.currentIndex);
+    }
+    this.manualEditState = true;
   }
 }

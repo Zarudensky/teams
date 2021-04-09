@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { PlayersService } from '../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupComponent } from '../popup/popup.component'
@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { PlayerInfo } from '../entities';
 import { TranslateService } from '@ngx-translate/core';
 import { TeamsService } from '../services/teams.service';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-players',
@@ -13,12 +15,12 @@ import { TeamsService } from '../services/teams.service';
   styleUrls: ['./players.component.scss']
 })
 
-export class PlayersComponent {
+export class PlayersComponent implements OnInit, AfterViewInit {
   public allPlayersData = this.playersService.allPlayersData;
   public showOrHideForm = false;
-  public displayedColumns: string[] = ['actions', 'avatar', 'name', 'surname', 'power', 'status', 'position', 'attack', 'defense', 'accuracy', 'cc', 'level'];
-
-  public player: PlayerInfo[];
+  public displayedColumns: string[] = ['actions', 'avatar', 'name', 'surname', 'power', 'status', 'position', 'attack', 'defense', 'accuracy', 'cc', 'level', 'sortPosition', 'sortPopularity'];
+  public dataSource = new MatTableDataSource([]);
+  public player: PlayerInfo;
 
   public title: string;
   public content: string;
@@ -28,11 +30,23 @@ export class PlayersComponent {
 
   public avatarUrl: Observable<string | null>;
 
+  @ViewChild(MatSort) sort: MatSort;
+
   constructor(
     private translateService: TranslateService,
     private playersService: PlayersService,
     public teamsService: TeamsService,
     public dialog: MatDialog) {}
+
+  ngOnInit():void {
+    // this.allPlayersData.subscribe((players) => {
+    //   this.allPlayersData = players;
+    // }) 
+  }
+
+  ngAfterViewInit():void {
+    // this.dataSource.sort = this.sort;
+  }
 
   public openForm() {
     this.showForm();
@@ -68,5 +82,20 @@ export class PlayersComponent {
         this.playersService.deleteOnePlayerService(player, 'players');
       }
     });
+  }
+
+  public onSortByLevel():void {
+    this.playersService.sortByLevelService('desc');
+    this.allPlayersData = this.playersService.allPlayersData;
+  }
+
+  public onSortByPosition():void {
+    this.playersService.sortByPositionService('asc');
+    this.allPlayersData = this.playersService.allPlayersData;
+  }
+
+  public onSortByPopularity():void {
+    this.playersService.sortByPopularityService('asc');
+    this.allPlayersData = this.playersService.allPlayersData;
   }
 }

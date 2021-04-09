@@ -19,7 +19,7 @@ th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:
   white-space: nowrap;
 }
 th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
-  padding-right: 0 !important;
+  padding-right: 10px !important;
 }
 .btn__delete {
   &:hover svg {
@@ -51,4 +51,12 @@ th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:la
 }
 .btn__chenge.mat-button-disabled .material-icons {
   color: #f5f5f5;
+}
+.mat-column-level {
+  border-left: 1px solid #ccc;
+  text-align: center;
+}
+.mat-column-sortPosition,
+.mat-column-sortPopularity {
+  text-align: center;
 }
