@@ -7,9 +7,11 @@
   padding-top: 15px;
 
   app-avatar {
+    pointer-events: none;
     margin-bottom: 5px;
   }
   .player__info {
+    pointer-events: none;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
