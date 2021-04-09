@@ -1,5 +1,6 @@
 1) Add loader and search states - https://codepen.io/joshuarule/pen/yYXQRP
 2) Improve teams generation logic
+3) Fix loading order massages
 
 Add form function:
 1) Create storage servise
