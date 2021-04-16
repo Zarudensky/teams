@@ -1,8 +1,9 @@
 
 <div class="teams">
+  <app-spinner *ngIf="searchState === 'SEARCH'"></app-spinner>
 
   <div class="info"
-    *ngIf="!authService.userData && selectedPlayers.length <= 7">
+    *ngIf="searchState === 'READY' && !authService.userData && selectedPlayers.length <= 7">
     <p>{{ 'teams.info.title' | translate }}</p>
     <p>{{ 'teams.info.description' | translate }}</p>
   </div>
@@ -73,7 +74,7 @@
   </div>
 
   <div class="message__block"
-    *ngIf="authService.userData">
+    *ngIf="searchState === 'READY' && authService.userData">
     <p class="message message__first" 
       *ngIf="selectedPlayers?.length === 0">
       {{ 'teams.message.first' | translate }}

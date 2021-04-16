@@ -9,6 +9,11 @@ import { UUID } from 'angular2-uuid';
 import { TranslateService } from '@ngx-translate/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
+enum SearchState {
+  Ready = 'READY',
+  Search = 'SEARCH'
+}
+
 @Component({
   selector: 'app-teams',
   templateUrl: './teams.component.html',
@@ -43,6 +48,7 @@ export class TeamsComponent implements OnInit {
   public currentUrl: string;
   public editState: boolean;
   public manualEditState: boolean;
+  public searchState: string;
 
   constructor(
     private playersService: PlayersService,
@@ -57,8 +63,13 @@ export class TeamsComponent implements OnInit {
   ngOnInit(): void {
     this.editState = false;
     this.manualEditState = false;
+    this.searchState = SearchState.Search;
 
     this.visibleOldTeams();
+
+    this.teamsService.changeSearchStateToReady.subscribe(() => {
+      this.searchState = SearchState.Ready;
+    });
 
     this.teamsService.genereteTeams.subscribe(() => {
       this.countNewTeams();
@@ -479,6 +490,8 @@ export class TeamsComponent implements OnInit {
   }
 
   public onSaveTeams(): void {
+    this.teamsService.countTeams = 0;
+    this.searchState = SearchState.Search;
     this.playersService.updateSelectedPlayersService();
     this.editState = false;
     this.manualEditState = false;

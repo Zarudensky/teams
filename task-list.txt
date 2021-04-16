@@ -1,6 +1,7 @@
-1) Add loader and search states - https://codepen.io/joshuarule/pen/yYXQRP
-2) Improve teams generation logic
-3) Fix loading order massages
+1*) Fix loading order massages
+2*) Add loader and search states - https://codepen.io/joshuarule/pen/yYXQRP
+3) Improve teams generation logic
+4) If reload or leave page show popap with massage about seving
 
 Add form function:
 1) Create storage servise

@@ -49,6 +49,7 @@ import { environment } from '../environments/environment';
 
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
@@ -69,7 +70,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateLoader {
     AvatarComponent,
     TeamComponent,
     LanguagesComponent,
-    AuthComponent
+    AuthComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

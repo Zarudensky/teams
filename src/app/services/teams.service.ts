@@ -13,6 +13,7 @@ export class TeamsService {
   public thirdTeam: PlayerInfo[] = [];
   public fourthTeam: PlayerInfo[] = [];
   public teamIndex: number;
+  public countTeams: number = 0;
 
   public genereteTeams = new Subject();
   public deletePlayerTeams = new Subject();
@@ -20,6 +21,7 @@ export class TeamsService {
   public scrollToTop = new Subject();
   public setOnePlayerTeam = new Subject();
   public setPlayerAllList = new Subject();
+  public changeSearchStateToReady = new Subject();
 
   constructor(
     private firestore: AngularFirestore,
@@ -55,8 +57,17 @@ export class TeamsService {
       this.sortPlayersByPositionService(this.secondTeam);
       this.sortPlayersByPositionService(this.thirdTeam);
       this.sortPlayersByPositionService(this.fourthTeam);
+      this.countTeamsService();
     });
   }
+
+  public countTeamsService():void {
+    this.countTeams++;
+    if(this.countTeams > 3) {
+      this.changeSearchStateToReady.next();
+    }
+  }
+
   public sortPlayersByPositionService(nameTeam):void {
     nameTeam.sort((a, b) => {
       if (a.sortPosition < b.sortPosition) return -1;
@@ -85,6 +96,7 @@ export class TeamsService {
       team.forEach(player => {
         this.playersService.saveDataPlayerService(player, collection);
       });
+      this.countTeamsService();
     });
   }
 
