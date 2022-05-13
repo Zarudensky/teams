@@ -1,0 +1,116 @@
+{
+	"auth": {
+		"login": "Log in",
+		"logout": "Log out",
+		"login.with": "Login with"
+	},
+	"tab": {
+		"main": "Main",
+		"table": "Table"
+	},
+	"languages": {
+    "ua": "Ukrainian",
+		"en": "English",
+		"ru": "Russian"
+	},
+	"select": {
+		"lable": "Players:",
+		"placeholder": "Find players...",
+		"no.found.label": "No matching player found"
+	},
+	"form": {
+		"avatar": {
+			"upload": "Upload profile photo",
+			"edit": "Change profile photo"
+		},
+		"name": {
+			"lable": "Name",
+			"placeholder": "Enter name"
+		},
+		"surname": {
+			"lable": "Surname",
+			"placeholder": "Enter surname"
+		},
+		"power": {
+			"lable": "Superpower",
+			"speed": "Speed",
+			"tank": "Tank",
+			"throw": "Throw",
+			"nо": "No"
+		},
+		"status": {
+			"lable": "Status",
+			"young": "Young",
+			"veteran": "Veteran",
+			"newcomer": "Newcomer"
+		},
+		"position": {
+			"lable": "Position",
+			"attack": "Attacking",
+			"defense": "Defender",
+			"universal": "Universal"
+		},
+		"attack": "Attack",
+		"defense": "Defense",
+		"accuracy": "Accuracy",
+		"cc": {
+			"lable": "C.C.",
+			"placeholder": "Enter number"
+		},
+		"sort": {
+			"lable": "Sorting",
+			"position": "Position",
+			"popularity": "Popularity"
+		},
+		"actions": {
+			"save": "Save",
+			"cancel": "Cancel"
+		}
+	},
+	"players": {
+		"add": "Add new player",
+		"delete": "Remove nonentity!",
+		"chenge": "Edit player parameters",
+		"level": "Level",
+		"dialog": {
+			"title": "Remove player",
+			"content": "This action will remove all information about the player from the database.",
+			"yes": "Remove",
+			"no": "Cancel"
+		}
+	},
+	"teams": {
+		"info": {
+			"title": "No players have been selected yet. Therefore, there are no formed teams yet.",
+			"description": "To create a list of players and teams, you need to log in."
+		},
+		"edit": "Edit",
+		"divide": {
+			"two": "Divide into two teams",
+			"three": "Divide into three teams",
+			"four": "Divide into four teams"
+		},
+		"save": "Save",
+		"clear": "Clear",
+		"message": {
+			"first": "To form teams, choose players",
+			"second": "Need more players to form teams",
+			"third": "Recommended teams"
+		},
+		"new.player": {
+			"name": "New",
+			"surname": "Player"
+		},
+		"save.descr": "To share your teams, you need to save them",
+		"generete": "Generete new teams",
+		"share": "Share with"
+	},
+	"team": {
+		"title": "Team",
+		"add": {
+			"title": "Add a new player or select from the list",
+			"new": "New player",
+			"list": "Select from list"
+		}
+	}
+}
