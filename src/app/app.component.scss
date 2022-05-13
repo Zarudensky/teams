@@ -17,6 +17,9 @@
     justify-content: space-between;
     height: 60px;
     margin-bottom: 20px;
+    background-image: url(../assets/images/240222.svg);
+    background-repeat: no-repeat;
+    background-position: calc(50% + 16px) center;
 
     .logo {
       display: flex;
@@ -103,11 +106,20 @@
   .mat-tab-nav-bar, .mat-tab-header {
     border: none;
     align-self: flex-start;
+    background: #fffffff0;
   }
 }
 
 @media screen and (max-width: 560px) {
   .app {
     width: calc(100% - 40px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .app {
+    .header {
+      background-size: calc(100% - 190px);
+    }
   }
 }
